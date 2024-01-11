@@ -1,0 +1,45 @@
+import React from "react";
+import styled from "styled-components";
+
+import MaterialFilters from "../components/MaterialFilters";
+import MaterialProvidersList from "../components/MaterialProviderList";
+import MaterialProviderSort from "../components/MaterialProviderSort";
+import { useNavigate } from "react-router-dom";
+
+const MaterialProvidersPage = () => {
+  const navigate = useNavigate();
+  return (
+    <main>
+      <Wrapper className="page ">
+        <button
+          onClick={() => navigate(-1)}
+          className="absolute border top-2 left-2 z-50 bg-white hover:bg-black hover:text-white text-black font-bold py-2 px-4 rounded"
+        >
+          بازگشت
+        </button>
+        <div className="section-center products">
+          <MaterialFilters />
+          <div>
+            <MaterialProviderSort />
+            <MaterialProvidersList />
+          </div>
+        </div>
+      </Wrapper>
+    </main>
+  );
+};
+
+const Wrapper = styled.div`
+  .products {
+    display: grid;
+    gap: 3rem 1.5rem;
+    margin: 4rem auto;
+  }
+  @media (min-width: 768px) {
+    .products {
+      grid-template-columns: 200px 1fr;
+    }
+  }
+`;
+
+export default MaterialProvidersPage;
