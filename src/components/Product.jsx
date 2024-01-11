@@ -28,17 +28,17 @@ const Product = ({ image, name, _id, email, link, description, phone }) => {
         <p className="py-2 text-xs text-right text-gray-700">{description}</p>
         <div className="flex items-start justify-between  mt-4 text-gray-700">
           {/* <Phone /> */}
-          Phone
+          تماس
           <h1 className="px-2 text-xs">{phone}</h1>
         </div>
         <div className="flex items-start justify-between  mt-4 text-gray-700">
           {/* <LinkSharp /> */}
-          Link
+          لینک
           <h1 className="px-2 text-xs">{link}</h1>
         </div>
         <div className="flex items-start justify-between  mt-4 text-gray-700">
           {/* <Email /> */}
-          Email
+          ایمیل
           <h1 className="px-2 text-xs">{email}</h1>
         </div>
       </div>
