@@ -3,7 +3,7 @@ import React from "react";
 // import { formatPrice } from "../utils/helpers";
 // import { FaSearch } from "react-icons/fa";
 // import { Link } from "react-router-dom";
-import { Email, LinkSharp, Phone } from "@material-ui/icons";
+// import { Email, LinkSharp, Phone } from "@material-ui/icons";
 
 const Product = ({ image, name, _id, email, link, description, phone }) => {
   return (
@@ -27,15 +27,18 @@ const Product = ({ image, name, _id, email, link, description, phone }) => {
         </h1> */}
         <p className="py-2 text-xs text-right text-gray-700">{description}</p>
         <div className="flex items-start justify-between  mt-4 text-gray-700">
-          <Phone />
+          {/* <Phone /> */}
+          Phone
           <h1 className="px-2 text-xs">{phone}</h1>
         </div>
         <div className="flex items-start justify-between  mt-4 text-gray-700">
-          <LinkSharp />
+          {/* <LinkSharp /> */}
+          Link
           <h1 className="px-2 text-xs">{link}</h1>
         </div>
         <div className="flex items-start justify-between  mt-4 text-gray-700">
-          <Email />
+          {/* <Email /> */}
+          Email
           <h1 className="px-2 text-xs">{email}</h1>
         </div>
       </div>
