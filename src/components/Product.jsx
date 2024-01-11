@@ -3,15 +3,7 @@ import React from "react";
 // import { formatPrice } from "../utils/helpers";
 // import { FaSearch } from "react-icons/fa";
 // import { Link } from "react-router-dom";
-import {
-  Email,
-  Link,
-  LinkOff,
-  LinkOffOutlined,
-  LinkRounded,
-  LinkSharp,
-  Phone,
-} from "@material-ui/icons";
+import { Email, LinkSharp, Phone } from "@material-ui/icons";
 
 const Product = ({ image, name, _id, email, link, description, phone }) => {
   return (
