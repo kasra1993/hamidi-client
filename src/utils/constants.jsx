@@ -39,7 +39,6 @@ export const services = [
   },
 ];
 
-export const products_url =
-  "https://hamidi-project-org.onrender.com/server/getAll";
+export const products_url = "http://mamdal.chiliscript.de/server/getAll";
 
 export const single_product_url = `https://hamidi-project-org.onrender.com/server/`;
