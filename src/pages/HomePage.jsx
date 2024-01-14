@@ -18,7 +18,7 @@ const HomePage = () => {
       bgId: about,
       path: "/about",
       img: aboutIcon,
-      classes: "rounded-2xl",
+      classes: "rounded-2xl h-[185px] w-full row-span-2",
     },
     {
       id: 1,
@@ -26,41 +26,41 @@ const HomePage = () => {
       bgId: exhibition,
       path: "/exhibition",
       img: exhibitionIcon,
-      classes: "rounded-2xl",
+      classes: "rounded-2xl  row-span-1",
     },
     {
       id: 2,
-      title: "vendor",
-      bgId: vendor,
-      path: "/vendors",
-      img: vendorIcon,
-      classes: "rounded-2xl",
-    },
-    {
-      id: 3,
       title: "offers",
       bgId: offers,
       path: "/offers",
       img: offerIcon,
-      classes: "rounded-2xl",
+      classes: "rounded-2xl row-span-1",
+    },
+    {
+      id: 3,
+      title: "vendor",
+      bgId: vendor,
+      path: "/vendors",
+      img: vendorIcon,
+      classes: "rounded-2xl  col-span-2 row-span-1",
     },
   ];
 
   return (
     <section
-      className="flex  gap-5 items-end justify-end h-screen transition-all ease-in-out bg-blend-overlay w-full rounded-3xl"
+      className="flex  gap-5 items-center justify-end h-screen transition-all ease-in-out bg-blend-overlay w-full pr-5 "
       style={{
         backgroundImage: `url(${bg})`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="w-1/5 flex flex-col gap-2 justify-end items-center pb-10 h-1/2">
+      <div className="w-[300px] h-1/2   grid grid-cols-2 grid-rows-3 pb-10 gap-x-3 gap-y-10 ">
         {boxArrays.map(({ id, title, bgId, path, img, classes }) => (
           <Link
             to={path}
             key={title}
-            className="w-[200px] h-[200px] border rounded-2xl "
+            className={classes}
             onMouseOver={() => setBg(bgId)}
           >
             <img src={img} alt={title} className={classes} />
