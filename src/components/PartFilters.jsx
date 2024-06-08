@@ -18,8 +18,8 @@ const PartFilters = () => {
 
   return (
     <Wrapper>
-      <div className="content border p-4 rounded-2xl">
-        <form onSubmit={(e) => e.preventDefault()}>
+      <div className="content border p-4 rounded-2xl w-full">
+        {/* <form onSubmit={(e) => e.preventDefault()}>
           <div className="form-control">
             <input
               type="text"
@@ -92,7 +92,7 @@ const PartFilters = () => {
           >
             پاک کردن فیلتر ها
           </button>
-        </form>
+        </form> */}
       </div>
     </Wrapper>
   );

@@ -1,22 +1,22 @@
 import React from "react";
 
-const Contact = () => {
+const Contact = ({ provider }) => {
   return (
     <div className="bg-gray-800 h-auto w-full">
       <div className="md:px-20 px-4 py-8">
         <div className="flex items-center justify-between text-white">
-          Helloo
+          {provider.name}
         </div>
       </div>
       <div className="w-full flex items-start justify-center ">
         <div className="absolute top-45  bg-white shadow rounded py-12 lg:px-28 px-8 border border-slate-400">
           <p className="md:text-3xl text-xl font-bold leading-7 text-center text-gray-700">
-            Let’s chat and get a quote!
+            تماس با ما
           </p>
           <div className="md:flex items-center mt-12">
             <div className="md:w-72 flex flex-col">
               <label className="text-base font-semibold leading-none text-gray-800">
-                Name
+                نام
               </label>
               <input
                 tabIndex={0}
@@ -28,7 +28,7 @@ const Contact = () => {
             </div>
             <div className="md:w-72 flex flex-col md:ml-6 md:mt-0 mt-4">
               <label className="text-base font-semibold leading-none text-gray-800">
-                Email Address
+                ایمیل
               </label>
               <input
                 tabIndex={0}
@@ -42,7 +42,7 @@ const Contact = () => {
           <div className="md:flex items-center mt-8">
             <div className="md:w-72 flex flex-col">
               <label className="text-base font-semibold leading-none text-gray-800">
-                Company name
+                نام شرکت
               </label>
               <input
                 tabIndex={0}
@@ -55,7 +55,7 @@ const Contact = () => {
             </div>
             <div className="md:w-72 flex flex-col md:ml-6 md:mt-0 mt-4">
               <label className="text-base font-semibold leading-none text-gray-800">
-                Country
+                شماره تماس
               </label>
               <input
                 tabIndex={0}
@@ -69,7 +69,7 @@ const Contact = () => {
           <div>
             <div className="w-full flex flex-col mt-8">
               <label className="text-base font-semibold leading-none text-gray-800">
-                Message
+                پیام
               </label>
               <textarea
                 tabIndex={0}
@@ -87,7 +87,7 @@ const Contact = () => {
           </p>
           <div className="flex items-center justify-center w-full">
             <button className="mt-9 text-base font-semibold leading-none text-white py-4 px-10 bg-gray-800 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 focus:outline-none">
-              SUBMIT
+              ثبت
             </button>
           </div>
         </div>

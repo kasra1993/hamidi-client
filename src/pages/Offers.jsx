@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import emailjs from "@emailjs/browser";
+import { main_url } from "../utils/constants";
 
 const Offers = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     Name: "",
+    Email: "",
+    phone: undefined,
   });
   const navigate = useNavigate();
 
@@ -20,20 +23,22 @@ const Offers = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(formData);
-    emailjs
-      .sendForm("service_0qw21po", "template_xwwixu8", formData, {
-        publicKey: "JCPCML5UAzIWvAk3e",
-      })
-      .then(
-        () => {
-          console.log("SUCCESS!");
-          alert("ایمیلی برای شما ارسال خواهد شد");
+
+    try {
+      const response = await fetch(`${main_url}/createMessage`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        (error) => {
-          console.log("FAILED...", error.text);
-        }
-      );
+        body: JSON.stringify(changedData),
+      });
+      const result = await response.json();
+      console.log(result); // handle response data
+      // Reset form state or navigate user to a success page
+    } catch (error) {
+      console.error("Failed to submit form:", error);
+      // Handle errors
+    }
   };
 
   return (

@@ -1,49 +1,49 @@
 import React from "react";
 
-const Products = () => {
+const Products = ({ provider }) => {
   return (
     <article className="rounded-xl border border-gray-700 bg-gray-800 p-4">
       <div className="flex items-center gap-4">
         <img
           alt=""
-          src="https://images.unsplash.com/photo-1614644147724-2d4785d69962?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80"
+          src={provider.image.url}
           className="size-16 rounded-full object-cover"
         />
 
         <div>
-          <h3 className="text-lg font-medium text-white">Claire Mac</h3>
+          <h3 className="text-lg font-medium text-white">{provider.name}</h3>
         </div>
       </div>
-
-      <ul className="mt-4 space-y-2">
-        <li>
-          <a
-            href="#"
-            className="block h-full rounded-lg border border-gray-700 p-4 hover:border-pink-600"
+      <table className="w-full">
+        <thead>
+          <tr
+            style={{
+              textAlign: "left",
+              color: "white",
+              justifyContent: "space-evenly",
+              display: "flex",
+              width: "100%",
+            }}
           >
-            <strong className="font-medium text-white">Project A</strong>
+            <th>گروه مواد</th>
+            <th>اسم مواد </th>
+            <th>گرید مواد </th>
+          </tr>
+        </thead>
 
-            <p className="mt-1 text-xs font-medium text-gray-300">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-              consequuntur deleniti, unde ab ut in!
-            </p>
-          </a>
-        </li>
-
-        <li>
-          <a
-            href="#"
-            className="block h-full rounded-lg border border-gray-700 p-4 hover:border-pink-600"
-          >
-            <strong className="font-medium text-white">Project B</strong>
-
-            <p className="mt-1 text-xs font-medium text-gray-300">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
-              cumque saepe sit.
-            </p>
-          </a>
-        </li>
-      </ul>
+        <tbody className="w-full">
+          {provider.records.map((record, index) => (
+            <tr
+              key={index}
+              className="flex w-full h-full justify-evenly rounded-lg border border-gray-700 p-4 hover:border-pink-600 text-white my-5 "
+            >
+              <td className=" text-justify">{record.materialgroup.title}</td>
+              <td>{record.materialname.title}</td>
+              <td>{record.materialgrade.title}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </article>
   );
 };

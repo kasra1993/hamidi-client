@@ -7,15 +7,15 @@ import Contact from "../components/providerComponents/Contact";
 import { useNavigate } from "react-router-dom";
 
 const SingleProvider = () => {
-  const [provider, setProvider] = useState(null);
+  const [provider, setProvider] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [activeComponent, setActiveComponent] = useState("Home");
   const navigate = useNavigate();
 
   const components = {
-    Home: <About />,
-    Contact: <Contact />,
+    Home: <About provider={provider} />,
+    Contact: <Contact provider={provider} />,
     Products: <Products provider={provider} />,
   };
   let { id } = useParams();
@@ -60,7 +60,7 @@ const SingleProvider = () => {
                   }`}
                   onClick={() => setActiveComponent("Home")}
                 >
-                  About
+                  درباره
                 </button>
               </li>
               <li className="border border-black rounded">
@@ -70,7 +70,7 @@ const SingleProvider = () => {
                   }`}
                   onClick={() => setActiveComponent("Contact")}
                 >
-                  Contact
+                  تماس
                 </button>
               </li>
               <li className="border border-black rounded">
@@ -80,7 +80,7 @@ const SingleProvider = () => {
                   }`}
                   onClick={() => setActiveComponent("Products")}
                 >
-                  Providers
+                  محصولات
                 </button>
               </li>
             </ul>

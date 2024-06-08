@@ -2,7 +2,7 @@ import React from "react";
 // import styled from "styled-components";
 // import { formatPrice } from "../utils/helpers";
 // import { FaSearch } from "react-icons/fa";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 // import { Email, LinkSharp, Phone } from "@material-ui/icons";
 
 const Product = ({ image, name, _id, email, link, description, phone }) => {
@@ -40,6 +40,15 @@ const Product = ({ image, name, _id, email, link, description, phone }) => {
           {/* <Email /> */}
           ایمیل
           <h1 className="px-2 text-xs">{email}</h1>
+        </div>
+        <div>
+          <Link
+            to={`/provider/${_id}`}
+            className="btn my-7"
+            style={{ backgroundColor: "#333" }}
+          >
+            بیشتر
+          </Link>
         </div>
       </div>
     </div>

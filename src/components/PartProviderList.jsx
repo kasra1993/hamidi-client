@@ -14,10 +14,10 @@ const PartProvidersList = () => {
     );
   }
 
-  if (grid_view === false) {
-    return <ListView products={products} />;
-  }
-  return <GridView products={products} />;
+  // if (grid_view === false) {
+  //   return <ListView products={products} />;
+  // }
+  // return <GridView products={products} />;
 };
 
 export default PartProvidersList;
