@@ -3,10 +3,19 @@ import { useMaterialFilterContext } from "../context/material_filter_context";
 import GridView from "./GridView";
 import ListView from "./ListView";
 
+const uniqueByProperty = (arr, prop) => {
+  const seen = new Set();
+  return arr.filter((item) => {
+    const duplicate = seen.has(item[prop]);
+    seen.add(item[prop]);
+    return !duplicate;
+  });
+};
+
 const MaterialProvidersList = () => {
   const { filtered_providers: products, grid_view } =
     useMaterialFilterContext();
-  console.log(products, "filtered products");
+  const filteredProviders = uniqueByProperty(products, "name");
 
   if (products.length < 1) {
     return (
@@ -17,9 +26,9 @@ const MaterialProvidersList = () => {
   }
 
   if (grid_view === false) {
-    return <ListView products={products} />;
+    return <ListView products={filteredProviders} />;
   }
-  return <GridView products={products} />;
+  return <GridView products={filteredProviders} />;
 };
 
 export default MaterialProvidersList;

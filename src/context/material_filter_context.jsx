@@ -51,7 +51,6 @@ export const MaterialFilterProvider = ({ children }) => {
 
   const updateSort = (e) => {
     const value = e.target.value;
-    console.log(value, "this is value of sort");
     dispatch({ type: UPDATE_MATERIAL_SORT, payload: value });
   };
 
@@ -61,11 +60,6 @@ export const MaterialFilterProvider = ({ children }) => {
     if (name === "materialgroups") {
       value = e.target.textContent;
     }
-    // console.log(
-    //   name,
-    //   value,
-    //   "these are names and values from material filter context"
-    // );
 
     dispatch({ type: UPDATE_MATERIAL_FILTERS, payload: { name, value } });
   };

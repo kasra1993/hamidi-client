@@ -1,8 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import emailjs from "@emailjs/browser";
 
 const Offers = () => {
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    Name: "",
+  });
   const navigate = useNavigate();
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log(formData);
+    emailjs
+      .sendForm("service_0qw21po", "template_xwwixu8", formData, {
+        publicKey: "JCPCML5UAzIWvAk3e",
+      })
+      .then(
+        () => {
+          console.log("SUCCESS!");
+          alert("ایمیلی برای شما ارسال خواهد شد");
+        },
+        (error) => {
+          console.log("FAILED...", error.text);
+        }
+      );
+  };
 
   return (
     <>
@@ -17,7 +49,10 @@ const Offers = () => {
           نمایشگاه بین المللی قطعات و مواد بومی سازی شده
         </h1>
       </div>
-      <form className="w-full flex flex-wrap justify-between border rounded-xl p-10">
+      <form
+        className="w-full flex flex-wrap justify-between border rounded-xl p-10"
+        onSubmit={handleSubmit}
+      >
         <div className="flex w-1/2 flex-wrap -mx-3 mb-6">
           <div className="w-full flex justify-between">
             <div className="w-full md:w-1/2 px-3">
@@ -32,37 +67,40 @@ const Offers = () => {
                 id="grid-last-name"
                 type="text"
                 placeholder="تناژ"
+                onChange={handleChange}
               />
             </div>
             <div className="flex flex-col gap-2">
-              <div class="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
+              <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
                 <label
-                  class="inline-block pl-[0.15rem] hover:cursor-pointer"
+                  className="inline-block pl-[0.15rem] hover:cursor-pointer"
                   for="checkboxDefault"
                 >
                   مواد
                 </label>
                 <input
-                  class="relative float-left -ml-[1.5rem] mr-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-neutral-300 outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
+                  className="relative float-left -ml-[1.5rem] mr-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-neutral-300 outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                   type="checkbox"
                   value=""
                   id="checkboxDefault"
+                  onChange={handleChange}
                 />
               </div>
 
-              <div class="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
+              <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
                 <label
-                  class="inline-block pl-[0.15rem] hover:cursor-pointer"
+                  className="inline-block pl-[0.15rem] hover:cursor-pointer"
                   for="checkboxChecked"
                 >
                   قطعات
                 </label>
                 <input
-                  class="relative float-left -ml-[1.5rem] mr-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-neutral-300 outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
+                  className="relative float-left -ml-[1.5rem] mr-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-neutral-300 outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                   type="checkbox"
                   value=""
                   id="checkboxChecked"
                   checked
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -72,6 +110,8 @@ const Offers = () => {
             <textarea
               className="w-full bg-slate-100 h-[200px] text-right p-5"
               placeholder="توضیحات"
+              onChange={handleChange}
+              name="message"
             ></textarea>
           </div>
         </div>
@@ -83,6 +123,7 @@ const Offers = () => {
               id="grid-city"
               type="text"
               placeholder="نام"
+              onChange={handleChange}
             />
           </div>
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
@@ -91,6 +132,8 @@ const Offers = () => {
               id="grid-city"
               type="text"
               placeholder="نام خانوادگی"
+              onChange={handleChange}
+              name="name"
             />
           </div>
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
@@ -99,6 +142,7 @@ const Offers = () => {
               id="grid-city"
               type="text"
               placeholder="سمت در شرکت "
+              onChange={handleChange}
             />
           </div>
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
@@ -107,6 +151,7 @@ const Offers = () => {
               id="grid-city"
               type="text"
               placeholder="نام شرکت"
+              onChange={handleChange}
             />
           </div>
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
@@ -115,6 +160,7 @@ const Offers = () => {
               id="grid-city"
               type="text"
               placeholder="شهر "
+              onChange={handleChange}
             />
           </div>
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
@@ -123,6 +169,7 @@ const Offers = () => {
               id="grid-city"
               type="text"
               placeholder="استان "
+              onChange={handleChange}
             />
           </div>
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
@@ -131,6 +178,8 @@ const Offers = () => {
               id="grid-city"
               type="email"
               placeholder="ایمیل"
+              onChange={handleChange}
+              name="email"
             />
           </div>
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
@@ -139,50 +188,18 @@ const Offers = () => {
               id="grid-city"
               type="number"
               placeholder="شماره تماس"
+              onChange={handleChange}
+              name="phone"
             />
           </div>
         </div>
-        <button class="bg-green-500 w-full block hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+        <button
+          className="bg-green-500 w-full block hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          type="submit"
+        >
           ثبت
         </button>
       </form>
-      <div className="bg-gray-100 p-6">
-        <div className="flex flex-col space-y-4">
-          <div className="bg-white p-4 rounded-lg shadow-md">
-            <h3 className="text-lg font-bold">John Doe</h3>
-            <p className="text-gray-700 text-sm mb-2">
-              Posted on April 17, 2023
-            </p>
-            <p className="text-gray-700">
-              This is a sample comment. Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua.
-            </p>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow-md">
-            <h3 className="text-lg font-bold">Jane Smith</h3>
-            <p className="text-gray-700 text-sm mb-2">
-              Posted on April 16, 2023
-            </p>
-            <p className="text-gray-700">
-              I agree with John. Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua.
-            </p>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow-md">
-            <h3 className="text-lg font-bold">Bob Johnson</h3>
-            <p className="text-gray-700 text-sm mb-2">
-              Posted on April 15, 2023
-            </p>
-            <p className="text-gray-700">
-              I have a different opinion. Lorem ipsum dolor sit amet,
-              consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-              labore et dolore magna aliqua.
-            </p>
-          </div>
-        </div>
-      </div>
     </>
   );
 };

@@ -11,7 +11,6 @@ const PartFilters = () => {
     clearFilters,
     all_providers,
   } = usePartFilterContext();
-  // console.log(all_providers, "all providers");
 
   const partGroups = getUniqueValues(all_providers, "partgroups");
   const partNames = getUniqueValues(all_providers, "partnames");

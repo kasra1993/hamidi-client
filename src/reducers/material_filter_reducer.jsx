@@ -70,31 +70,33 @@ const material_filter_reducer = (state, action) => {
       state.filters;
 
     if (text) {
-      tempProviders = tempProviders.filter((product) => {
-        return product.name.toLowerCase().includes(text);
+      tempProviders = tempProviders.filter((provider) => {
+        return provider.name.toLowerCase().includes(text.toLowerCase());
       });
     }
 
     if (materialgroups !== "all") {
-      tempProviders = tempProviders.filter(
-        // (providers) => providers.materialgroups.title === materialgroups
-        (providers) => providers.materialgroups[0].title === materialgroups
+      tempProviders = tempProviders.filter((provider) =>
+        provider.records.some(
+          (record) => record.materialgroup.title === materialgroups
+        )
       );
     }
 
     if (materialnames !== "all") {
-      tempProviders = tempProviders.filter(
-        (providers) => providers.materialnames[0].title === materialnames
+      tempProviders = tempProviders.filter((provider) =>
+        provider.records.some(
+          (record) => record.materialname.title === materialnames
+        )
       );
     }
     if (materialgrades !== "all") {
-      tempProviders = tempProviders.filter(
-        (providers) => providers.materialgrades[0].title === materialgrades
-        // (providers) => providers.materialgrades.title === materialgrades
+      tempProviders = tempProviders.filter((provider) =>
+        provider.records.some(
+          (record) => record.materialgrade.title === materialgrades
+        )
       );
     }
-
-    // tempProviders = tempProviders.filter((product) => product.price <= price);
 
     return { ...state, filtered_providers: tempProviders };
   }

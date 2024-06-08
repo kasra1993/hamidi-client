@@ -39,6 +39,6 @@ export const services = [
   },
 ];
 
-export const products_url = "https://mamdal.chiliscript.de/server/getAll";
+export const products_url = "http://localhost:3003/server/getAll";
 
-export const single_product_url = `https://hamidi-project-org.onrender.com/server/`;
+export const single_product_url = `http://localhost:3003/server/`;

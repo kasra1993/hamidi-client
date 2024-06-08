@@ -15,8 +15,9 @@ const providers_reducer = (state, action) => {
       providers_loading: false,
       part_providers: action.payload.partProviders,
       material_providers: action.payload.materialProviders,
-      // products: action.payload,
-      // featured_providers,
+      material_groups: action.payload.materialGroups,
+      material_grades: action.payload.materialGrades,
+      material_names: action.payload.materialNames,
     };
   }
 

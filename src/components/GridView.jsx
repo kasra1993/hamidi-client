@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Product from "./Product";
 
 const GridView = ({ products }) => {
-  console.log(products, "this is products");
   return (
     <Wrapper>
       <div className="products-container">
@@ -17,7 +16,7 @@ const GridView = ({ products }) => {
 
 const Wrapper = styled.section`
   img {
-    height: 150px;
+    object-fit: contain;
   }
 
   .products-container {

@@ -3,19 +3,21 @@ import styled from "styled-components";
 import { useMaterialFilterContext } from "../context/material_filter_context";
 import { getUniqueValues, formatPrice } from "../utils/helpers";
 import { FaCheck } from "react-icons/fa";
+import { useProductsContext } from "../context/products_context";
 
 const MaterialFilters = () => {
   const {
     filters: { text, materialnames, materialgroups, materialgrades },
     updateFilters,
     clearFilters,
-    all_providers,
   } = useMaterialFilterContext();
-  // console.log(all_providers, "all providers");
 
-  const materialGroups = getUniqueValues(all_providers, "materialgroups");
-  const materialNames = getUniqueValues(all_providers, "materialnames");
-  const materialGrades = getUniqueValues(all_providers, "materialgrades");
+  const { material_groups, material_names, material_grades } =
+    useProductsContext();
+
+  const materialGroups = getUniqueValues(material_groups);
+  const materialNames = getUniqueValues(material_names);
+  const materialGrades = getUniqueValues(material_grades);
 
   return (
     <Wrapper>

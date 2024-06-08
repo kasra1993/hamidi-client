@@ -5,7 +5,6 @@ import ListView from "./ListView";
 
 const PartProvidersList = () => {
   const { filtered_providers: products, grid_view } = usePartFilterContext();
-  console.log(products, "filtered products");
 
   if (products.length < 1) {
     return (

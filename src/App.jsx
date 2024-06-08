@@ -11,6 +11,7 @@ import {
   Exhibition,
   Offers,
 } from "./pages";
+import SingleProvider from "./pages/SingleProvider";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/exhibition" element={<Exhibition />} />
         <Route path="/offers" element={<Offers />} />
+        <Route path="/provider/:id" element={<SingleProvider />} />
 
         {/* <Route path="products" element={<ProductsPage />} /> */}
         {/* <Route path="materials" element={<MaterialProvidersPage />} /> */}
