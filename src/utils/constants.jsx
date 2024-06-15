@@ -39,6 +39,11 @@ export const services = [
   },
 ];
 
+// export const main_url = "http://localhost:3003/server/";
+
+// export const products_url = "http://localhost:3003/server/getAll";
+
+// export const single_product_url = `http://localhost:3003/server/`;
 export const main_url = "https://server.securitycameravendor.com/server/";
 
 export const products_url =

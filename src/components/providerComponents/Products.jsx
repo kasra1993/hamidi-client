@@ -6,7 +6,7 @@ const Products = ({ provider }) => {
       <div className="flex items-center gap-4">
         <img
           alt=""
-          src={provider.image.url}
+          src={provider?.image?.url}
           className="size-16 rounded-full object-cover"
         />
 

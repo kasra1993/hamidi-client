@@ -2,15 +2,16 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const ProductImages = ({ images = [] }) => {
+  const defaultImage = "/default-provider-image.png";
   const [main, setMain] = useState(images[0]);
   return (
     <Wrapper>
-      <img src={main?.url} alt="product" className="main" />
+      <img src={main?.url || defaultImage} alt="product" className="main" />
       <div className="gallery">
         {images.map((image, index) => {
           return (
             <img
-              src={image.url}
+              src={image?.url}
               alt={image.filename}
               key={index}
               onClick={() => setMain(images[index])}

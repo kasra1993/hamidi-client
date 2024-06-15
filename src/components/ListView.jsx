@@ -3,13 +3,14 @@ import styled from "styled-components";
 import { formatPrice } from "../utils/helpers";
 import { Link } from "react-router-dom";
 const ListView = ({ products }) => {
+  const defaultImage = "/default-provider-image.png";
   return (
     <Wrapper>
       {products.map((product) => {
         const { _id, image, name, phone, description } = product;
         return (
           <article key={_id}>
-            <img src={image.url} alt={name} />
+            <img src={image?.url || defaultImage} alt={name} />
             <div>
               <h4>{name}</h4>
               <h5 className="price">{phone}</h5>

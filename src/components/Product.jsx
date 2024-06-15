@@ -1,22 +1,15 @@
 import React from "react";
-// import styled from "styled-components";
-// import { formatPrice } from "../utils/helpers";
-// import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
-// import { Email, LinkSharp, Phone } from "@material-ui/icons";
-
+const defaultImage = "/default-provider-image.png";
 const Product = ({ image, name, _id, email, link, description, phone }) => {
   return (
     <div className="max-w-sm bg-white shadow-xl rounded-lg border overflow-hidden my-2">
       <img
         className="w-full h-56 object-cover object-center"
-        src={image.url}
+        src={image?.url || defaultImage}
         alt={name}
       />
       <div className="flex items-center px-6 py-3 bg-gray-900">
-        {/* <svg className="h-6 w-6 text-white fill-current" viewBox="0 0 512 512">
-          <path d="M256 48C150 48 64 136.2 64 245.1v153.3c0 36.3 28.6 65.7 64 65.7h64V288h-85.3v-42.9c0-84.7 66.8-153.3 149.3-153.3s149.3 68.5 149.3 153.3V288H320v176h64c35.4 0 64-29.3 64-65.7V245.1C448 136.2 362 48 256 48z" />
-        </svg> */}
         <h1 className="mx-3 text-white text-center w-full font-semibold text-sm">
           {name}
         </h1>

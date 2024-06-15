@@ -1,6 +1,7 @@
 import React from "react";
 
 const About = ({ provider }) => {
+  const defaultImage = "../../../public/default-provider-image.png";
   return (
     <div className="2xl:container 2xl:mx-auto lg:py-16 lg:px-10 md:py-12 md:px-6 py-9 px-4">
       <div className="flex flex-col lg:flex-row justify-between gap-8">
@@ -15,7 +16,8 @@ const About = ({ provider }) => {
         <div className="w-full lg:w-8/12 ">
           <img
             className="w-full h-full"
-            src="https://i.ibb.co/FhgPJt8/Rectangle-116.png"
+            // src="https://i.ibb.co/FhgPJt8/Rectangle-116.png"
+            src={provider?.image?.url || defaultImage}
             alt="A group of People"
           />
         </div>

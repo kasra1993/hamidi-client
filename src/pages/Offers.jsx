@@ -23,22 +23,25 @@ const Offers = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    alert(
+      "اطلاعات شما به دست ما رسیده است و در اولین فرصت کارشناسان ما با شما ازتباط برقرار خواهند کرد"
+    );
 
-    try {
-      const response = await fetch(`${main_url}/createMessage`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(changedData),
-      });
-      const result = await response.json();
-      console.log(result); // handle response data
-      // Reset form state or navigate user to a success page
-    } catch (error) {
-      console.error("Failed to submit form:", error);
-      // Handle errors
-    }
+    // try {
+    //   const response = await fetch(`${main_url}/createMessage`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(changedData),
+    //   });
+    //   const result = await response.json();
+    //   console.log(result); // handle response data
+    //   // Reset form state or navigate user to a success page
+    // } catch (error) {
+    //   console.error("Failed to submit form:", error);
+    //   // Handle errors
+    // }
   };
 
   return (
@@ -51,7 +54,7 @@ const Offers = () => {
           بازگشت
         </button>
         <h1 className="text-4xl font-bold py-10 bg-slate-700 text-white">
-          نمایشگاه بین المللی قطعات و مواد بومی سازی شده
+          پیشنهادات ویژه خود را وارد کنید
         </h1>
       </div>
       <form

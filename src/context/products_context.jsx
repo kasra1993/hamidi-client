@@ -22,19 +22,34 @@ const initialState = {
 const ProductsContext = React.createContext();
 
 export const ProductsProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const initialStateWithStorage = () => {
+    const localData = localStorage.getItem("productsState");
+    return localData ? JSON.parse(localData) : initialState;
+  };
+  const [state, dispatch] = useReducer(
+    reducer,
+    initialState,
+    initialStateWithStorage
+  );
 
   const fetchProviders = async (url) => {
-    dispatch({ type: GET_PROVIDERS_BEGIN });
+    if (state.material_providers) {
+      dispatch({ type: GET_PROVIDERS_BEGIN });
 
-    try {
-      const response = await axios.get(url);
-      const providers = response.data;
-      dispatch({ type: GET_PROVIDERS_SUCCESS, payload: providers });
-    } catch (error) {
-      dispatch({ type: GET_PROVIDERS_ERROR });
+      try {
+        const response = await axios.get(url);
+        const providers = response.data;
+        console.log(providers, "Providers");
+        dispatch({ type: GET_PROVIDERS_SUCCESS, payload: providers });
+      } catch (error) {
+        dispatch({ type: GET_PROVIDERS_ERROR });
+      }
     }
   };
+
+  useEffect(() => {
+    localStorage.setItem("productsState", JSON.stringify(state));
+  }, [state]);
 
   // const fetchSingleProvider = async (id) => {
   //   dispatch({ type: GET_SINGLE_PRODUCT_BEGIN });
