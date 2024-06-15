@@ -16,8 +16,6 @@ const MaterialProvidersList = () => {
   const { filtered_providers: products, grid_view } =
     useMaterialFilterContext();
   const filteredProviders = uniqueByProperty(products, "name");
-  console.log(products, "products");
-  console.log(filteredProviders, "filteredProviders");
 
   if (products.length < 1) {
     return (

@@ -6,26 +6,27 @@ const ListView = ({ products }) => {
   const defaultImage = "/default-provider-image.png";
   return (
     <Wrapper>
-      {products.map((product) => {
-        const { _id, image, name, phone, description } = product;
-        return (
-          <article key={_id}>
-            <img src={image?.url || defaultImage} alt={name} />
-            <div>
-              <h4>{name}</h4>
-              <h5 className="price">{phone}</h5>
-              <p>{description.substring(0, 150)}...</p>
-              <Link
-                to={`/provider/${_id}`}
-                className="btn"
-                style={{ backgroundColor: "#333" }}
-              >
-                بیشتر
-              </Link>
-            </div>
-          </article>
-        );
-      })}
+      {products &&
+        products.map((product) => {
+          const { _id, image, name, phone, description } = product;
+          return (
+            <article key={_id}>
+              <img src={image?.url || defaultImage} alt={name} />
+              <div>
+                <h4>{name}</h4>
+                <h5 className="price">{phone}</h5>
+                <p>{description.substring(0, 150)}...</p>
+                <Link
+                  to={`/provider/${_id}`}
+                  className="btn"
+                  style={{ backgroundColor: "#333" }}
+                >
+                  بیشتر
+                </Link>
+              </div>
+            </article>
+          );
+        })}
     </Wrapper>
   );
 };
