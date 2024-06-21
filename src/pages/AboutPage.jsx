@@ -1,21 +1,29 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-
 import aboutImg from "../assets/hero-bcg.jpeg";
+import aboutUsBackground from "/about-us-background.png";
 
 const AboutPage = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="mb-32  mt-10">
+    <section
+      className="pb-32  pt-10"
+      style={{
+        backgroundImage: `url(${aboutUsBackground})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: "100vh",
+      }}
+    >
       <button
         onClick={() => navigate(-1)}
         className="absolute border top-2 left-2 z-50 bg-white hover:bg-black hover:text-white text-black font-bold py-2 px-4 rounded"
       >
         بازگشت
       </button>
-      <div
+      {/* <div
         id="map"
         className="relative h-[300px] overflow-hidden bg-cover bg-[50%] bg-no-repeat"
       >
@@ -27,8 +35,8 @@ const AboutPage = () => {
           allowFullScreen=""
           loading="lazy"
         ></iframe>
-      </div>
-      <div className="container px-6 md:px-12">
+      </div> */}
+      <div className="container px-6 md:px-12 md:pt-40 mx-auto ">
         <div className="block rounded-lg bg-[hsla(0,0%,100%,0.8)] px-6 py-12 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]  md:py-16 md:px-12 -mt-[100px] backdrop-blur-[30px] border border-gray-300">
           <div className="flex flex-wrap">
             <div className="mb-12 w-full shrink-0 grow-0 basis-auto md:px-3 lg:mb-0 lg:w-5/12 lg:px-6">

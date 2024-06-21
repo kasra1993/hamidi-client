@@ -266,7 +266,7 @@ p {
   color: black !important;
   z-index: 9999 !important;
   right: 40% !important;
-  top: auto !important;
+  top: 90% !important;
   bottom: 0 !important;
 }
 .swiper-button-prev {
@@ -274,7 +274,7 @@ p {
   height: 50px !important;
   z-index: 9999 !important;
   left: 40% !important;
-  top: auto !important;
+  top: 90% !important;
   color: black !important;
   bottom: 0 !important;
 }
@@ -284,6 +284,7 @@ p {
 }
 .swiper-pagination-bullets {
   margin-bottom: 5px;
+  top: 88% !important;
 }
 .swiper-pagination-bullet-active {
   background: #000 !important;

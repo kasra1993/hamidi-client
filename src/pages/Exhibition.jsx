@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import { main_url as url } from "../utils/constants";
+import exhibitionBackground from "/exhibition-bg.png";
 
 // Import Swiper styles
 import "swiper/css";
@@ -11,30 +12,6 @@ import "swiper/css/navigation";
 // import required modules
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { useNavigate } from "react-router-dom";
-
-const slides = [
-  {
-    id: 1,
-    image: "/exhibition1.jpeg",
-    title: "نمایشگاه قطعات و مواد",
-    description:
-      "در این صفحه می توانید اخبار مربوط به هجدهمین نمایشگاه بین المللی قطعات و مواد ۱۴۰۲، اطلاعات برگزار کننده ،معرفی برندهای برتر و گفت و گو با مدیران این صنعت ، لیست مشارکت کنندگان به همراه راهنمای جامع خدمات نمایشگاهی، غرفه سازی و تاریخچه نمایشگاه بین المللی قطعات و مواد را مشاهده کنید.",
-  },
-  {
-    id: 2,
-    image: "/exhibition2.jpeg",
-    title: "نمایشگاه قطعات و مواد",
-    description:
-      "در این صفحه می توانید اخبار مربوط به هجدهمین نمایشگاه بین المللی قطعات و مواد ۱۴۰۲، اطلاعات برگزار کننده ،معرفی برندهای برتر و گفت و گو با مدیران این صنعت ، لیست مشارکت کنندگان به همراه راهنمای جامع خدمات نمایشگاهی، غرفه سازی و تاریخچه نمایشگاه بین المللی قطعات و مواد را مشاهده کنید.",
-  },
-  {
-    id: 3,
-    image: "/exhibition3.jpeg",
-    title: "نمایشگاه قطعات و مواد",
-    description:
-      "در این صفحه می توانید اخبار مربوط به هجدهمین نمایشگاه بین المللی قطعات و مواد ۱۴۰۲، اطلاعات برگزار کننده ،معرفی برندهای برتر و گفت و گو با مدیران این صنعت ، لیست مشارکت کنندگان به همراه راهنمای جامع خدمات نمایشگاهی، غرفه سازی و تاریخچه نمایشگاه بین المللی قطعات و مواد را مشاهده کنید.",
-  },
-];
 
 export default function Exhibition() {
   const [exhibitions, setExhibitions] = useState(undefined);
@@ -61,29 +38,35 @@ export default function Exhibition() {
     fetchExhibitions();
   }, []); // Dependency array
   return (
-    <div className="relative">
+    <div
+      className="relative pt-52 px-10"
+      style={{
+        backgroundImage: `url(${exhibitionBackground})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: "100vh",
+      }}
+    >
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
       {exhibitions && (
-        <div>
+        <div className="">
           <button
             onClick={() => navigate(-1)}
-            className="absolute top-2 left-2 z-50 bg-white hover:bg-black hover:text-white text-black font-bold py-2 px-4 rounded border"
+            className="absolute top-28 left-10 z-50 hover:bg-black hover:text-white text-black font-bold py-2 px-4 rounded border"
           >
             بازگشت
           </button>
-          <div className="w-full text-center pt-20 ">
-            <h1 className="text-4xl font-bold py-10 bg-slate-700 text-white">
-              نمایشگاه بین المللی قطعات و مواد بومی سازی شده
-            </h1>
-          </div>
-          <div className="w-full h-full">
+
+          <div className="w-full h-1/2">
+            {" "}
+            {/* Set the height to half the screen */}
             <Swiper
               slidesPerView={1}
               centeredSlides={true}
               autoplay={{
-                delay: 2500,
-                disableOnInteraction: false,
+                delay: 10000,
+                disableOnInteraction: true,
               }}
               pagination={{
                 clickable: true,
@@ -106,23 +89,23 @@ export default function Exhibition() {
                   spaceBetween: 30,
                 },
               }}
-              className="mySwiper my-20"
+              className="mySwiper h-full" // Ensure Swiper takes full height of its container
             >
               {exhibitions.map((slide, index) => (
-                <SwiperSlide key={index}>
-                  <div className="w-1/2 h-screen bg-[#fef2f2] flex justify-center align-middle flex-col px-10">
+                <SwiperSlide key={index} className="flex h-full">
+                  {" "}
+                  {/* Ensure slides take full height */}
+                  <div className="w-1/2 h-full flex justify-center align-middle flex-col px-10">
                     <h1 className="font-bold text-center text-[35px] my-10 ">
                       {slide.title}
                     </h1>
-                    <h3 className="text-[18px] leading-10">
-                      {slide.description}
-                    </h3>
+                    <h3 className=" text-xs">{slide.description}</h3>
                   </div>
-                  <div className="w-1/2 h-screen">
+                  <div className="w-1/2 h-[500px]">
                     <img
                       src={slide.image.url}
                       alt={slide.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover "
                     />
                   </div>
                 </SwiperSlide>

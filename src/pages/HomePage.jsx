@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import about from "/about-us-back.png";
-import exhibition from "/exhibition-back.png";
-import offers from "/offers-back.png";
-import vendor from "/vendor-back.png";
 import aboutIcon from "/about-us-icon.png";
 import exhibitionIcon from "/exhibition-icon.png";
 import offerIcon from "/special-offer-icon.png";
 import vendorIcon from "/vendor-icon.png";
 import { Link } from "react-router-dom";
+import offers from "/offer-background.png";
+import exhibition from "/exhibition-background.png";
+import about from "/about-background.png";
+import vendor from "/vendor-background.png";
+
 const HomePage = () => {
-  // const [active, setActive] = useState(0);
-  const [bg, setBg] = useState(about);
+  const [bg, setBg] = useState(vendor);
   const boxArrays = [
     {
       id: 0,
