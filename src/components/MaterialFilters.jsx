@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useMaterialFilterContext } from "../context/material_filter_context";
-import { getUniqueValues, formatPrice } from "../utils/helpers";
-import { FaCheck } from "react-icons/fa";
+import { getUniqueValues } from "../utils/helpers";
 import { useProductsContext } from "../context/products_context";
 
 const MaterialFilters = () => {
@@ -27,33 +26,62 @@ const MaterialFilters = () => {
             <input
               type="text"
               name="text"
-              placeholder="جستجو"
+              placeholder="جستجوی تامین کننده"
               className="search-input text-right"
               value={text}
               onChange={updateFilters}
             />
           </div>
           <div className="form-control">
-            <h5>Material Groups</h5>
-            <div className="">
-              {materialGroups.map((m, index) => {
-                return (
-                  <button
-                    key={index}
-                    onClick={updateFilters}
-                    name="materialgroups"
-                    type="button"
-                    className={`${
-                      materialgroups === m.toLowerCase() ? "active" : null
-                    } w-full hover:text-stone-700`}
-                  >
-                    {m}
-                  </button>
-                );
-              })}
-            </div>
+            <input
+              type="text"
+              name="text"
+              placeholder="جستجوی گروه"
+              className="search-input text-right"
+              // value={text}
+              // onChange={updateFilters}
+            />
           </div>
           <div className="form-control">
+            <input
+              type="text"
+              name="text"
+              placeholder="جستجوی نام مواد"
+              className="search-input text-right"
+              // value={text}
+              // onChange={updateFilters}
+            />
+          </div>
+          <div className="form-control">
+            <input
+              type="text"
+              name="text"
+              placeholder="جستجوی گرید مواد"
+              className="search-input text-right"
+              // value={text}
+              // onChange={updateFilters}
+            />
+          </div>
+          <div className="my-5">
+            <h5>Material Groups</h5>
+            <div className="">
+              <select
+                name="materialgroups"
+                value={materialgroups}
+                onChange={updateFilters}
+                className="w-full border rounded-lg p-2"
+              >
+                {materialGroups.map((c, index) => {
+                  return (
+                    <option value={c} key={index}>
+                      {c}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+          </div>
+          <div className="my-5">
             <h5>Material Names</h5>
             <select
               name="materialnames"
@@ -70,7 +98,7 @@ const MaterialFilters = () => {
               })}
             </select>
           </div>
-          <div className="form-control">
+          <div className="my-5">
             <h5>Material Grades</h5>
             <select
               name="materialgrades"

@@ -58,9 +58,6 @@ export const PartFilterProvider = ({ children }) => {
   const updateFilters = (e) => {
     let name = e.target.name;
     let value = e.target.value;
-    if (name === "partgroups") {
-      value = e.target.textContent;
-    }
 
     dispatch({ type: UPDATE_PART_FILTERS, payload: { name, value } });
   };

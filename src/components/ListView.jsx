@@ -1,27 +1,22 @@
 import React from "react";
 import styled from "styled-components";
-import { formatPrice } from "../utils/helpers";
 import { Link } from "react-router-dom";
-const ListView = ({ products }) => {
+const ListView = ({ products, componentType }) => {
   const defaultImage = "/default-provider-image.png";
   return (
     <Wrapper>
       {products &&
         products.map((product) => {
-          const { _id, image, name, phone, description } = product;
+          const { _id, image, name, phone, link } = product;
           return (
             <article key={_id}>
               <img src={image?.url || defaultImage} alt={name} />
               <div>
                 <h4>{name}</h4>
                 <h5 className="price">{phone}</h5>
-                <p>{description.substring(0, 150)}...</p>
-                <Link
-                  to={`/provider/${_id}`}
-                  className="btn"
-                  style={{ backgroundColor: "#333" }}
-                >
-                  بیشتر
+                <h5 className="price">{link}</h5>
+                <Link to={`/${componentType}/provider/${_id}`} className="btn">
+                  اطلاعات بیشتر
                 </Link>
               </div>
             </article>

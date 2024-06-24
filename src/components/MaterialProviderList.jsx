@@ -20,15 +20,15 @@ const MaterialProvidersList = () => {
   if (products.length < 1) {
     return (
       <h5 style={{ textTransform: "none" }}>
-        Sorry, no products matched your search.
+        Sorry, no provideers matched your search.
       </h5>
     );
   }
 
   if (grid_view === false) {
-    return <ListView products={filteredProviders} />;
+    return <ListView products={filteredProviders} componentType="material" />;
   }
-  return <GridView products={filteredProviders} />;
+  return <GridView products={filteredProviders} componentType="material" />;
 };
 
 export default MaterialProvidersList;

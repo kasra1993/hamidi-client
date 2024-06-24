@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useReducer } from "react";
 import reducer from "../reducers/products_reducer";
 import { products_url as url } from "../utils/constants";
-import { single_product_url as singleUrl } from "../utils/constants";
+// import { single_product_url as singleUrl } from "../utils/constants";
 import {
   GET_PROVIDERS_BEGIN,
   GET_PROVIDERS_SUCCESS,
@@ -39,7 +39,7 @@ export const ProductsProvider = ({ children }) => {
       try {
         const response = await axios.get(url);
         const providers = response.data;
-        console.log(providers, "Providers");
+        // console.log(providers, "Providers");
         dispatch({ type: GET_PROVIDERS_SUCCESS, payload: providers });
       } catch (error) {
         dispatch({ type: GET_PROVIDERS_ERROR });

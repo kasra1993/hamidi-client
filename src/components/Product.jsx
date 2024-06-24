@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 const defaultImage = "/default-provider-image.png";
-const Product = ({ image, name, _id, email, link, description, phone }) => {
+const Product = ({ image, name, _id, email, link, phone, componentType }) => {
   return (
-    <div className="max-w-sm bg-white shadow-xl rounded-lg border overflow-hidden my-2">
+    <div className="w-[350px] bg-white shadow-xl rounded-lg border my-2">
       <img
         className="w-full h-56 object-cover object-center"
         src={image?.url || defaultImage}
@@ -14,33 +14,26 @@ const Product = ({ image, name, _id, email, link, description, phone }) => {
           {name}
         </h1>
       </div>
-      <div className="py-4 px-6">
-        {/* <h1 className="text-2xl font-semibold text-gray-800">
-          {name}
-        </h1> */}
-        <p className="py-2 text-xs text-right text-gray-700">{description}</p>
+      <div className="py-4 px-6 flex flex-col flex-wrap w-auto">
         <div className="flex items-start justify-between  mt-4 text-gray-700">
-          {/* <Phone /> */}
-          تماس
           <h1 className="px-2 text-xs">{phone}</h1>
+          <p>تماس</p>
         </div>
-        <div className="flex items-start justify-between  mt-4 text-gray-700">
-          {/* <LinkSharp /> */}
-          لینک
+        {/* <div className="flex items-start justify-between  mt-4 text-gray-700">
           <h1 className="px-2 text-xs">{link}</h1>
-        </div>
+          <p>لینک</p>
+        </div> */}
         <div className="flex items-start justify-between  mt-4 text-gray-700">
-          {/* <Email /> */}
-          ایمیل
           <h1 className="px-2 text-xs">{email}</h1>
+          <p>ایمیل</p>
         </div>
         <div>
           <Link
-            to={`/provider/${_id}`}
+            to={`/${componentType}/provider/${_id}`}
             className="btn my-7"
             style={{ backgroundColor: "#333" }}
           >
-            بیشتر
+            اطلاعات بیشتر
           </Link>
         </div>
       </div>

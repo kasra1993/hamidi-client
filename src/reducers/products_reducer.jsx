@@ -18,6 +18,9 @@ const providers_reducer = (state, action) => {
       material_groups: action.payload.materialGroups,
       material_grades: action.payload.materialGrades,
       material_names: action.payload.materialNames,
+      part_groups: action.payload.partGroups,
+      part_generalids: action.payload.partGeneralIds,
+      part_names: action.payload.partNames,
     };
   }
 

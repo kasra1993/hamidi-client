@@ -1,25 +1,26 @@
 import React from "react";
 import styled from "styled-components";
 import { usePartFilterContext } from "../context/part_filter_context";
-import { getUniqueValues, formatPrice } from "../utils/helpers";
-import { FaCheck } from "react-icons/fa";
+import { getUniqueValues } from "../utils/helpers";
+import { useProductsContext } from "../context/products_context";
 
 const PartFilters = () => {
   const {
     filters: { text, partnames, partgroups, partgeneralids },
     updateFilters,
     clearFilters,
-    all_providers,
   } = usePartFilterContext();
 
-  const partGroups = getUniqueValues(all_providers, "partgroups");
-  const partNames = getUniqueValues(all_providers, "partnames");
-  const partGrades = getUniqueValues(all_providers, "partgeneralids");
+  const { part_groups, part_names, part_generalids } = useProductsContext();
+
+  const partGroups = getUniqueValues(part_groups);
+  const partNames = getUniqueValues(part_names);
+  const partGrades = getUniqueValues(part_generalids);
 
   return (
     <Wrapper>
       <div className="content border p-4 rounded-2xl w-full">
-        {/* <form onSubmit={(e) => e.preventDefault()}>
+        <form onSubmit={(e) => e.preventDefault()}>
           <div className="form-control">
             <input
               type="text"
@@ -33,7 +34,21 @@ const PartFilters = () => {
           <div className="form-control">
             <h5>Part Groups</h5>
             <div className="">
-              {partGroups.map((m, index) => {
+              <select
+                name="partgroups"
+                value={partgroups}
+                onChange={updateFilters}
+                className="w-full border rounded-lg p-2"
+              >
+                {partGroups.map((c, index) => {
+                  return (
+                    <option value={c} key={index}>
+                      {c}
+                    </option>
+                  );
+                })}
+              </select>
+              {/* {partGroups.map((m, index) => {
                 return (
                   <button
                     key={index}
@@ -47,7 +62,7 @@ const PartFilters = () => {
                     {m}
                   </button>
                 );
-              })}
+              })} */}
             </div>
           </div>
           <div className="form-control">
@@ -68,7 +83,7 @@ const PartFilters = () => {
             </select>
           </div>
           <div className="form-control">
-            <h5>Part Grades</h5>
+            <h5>Part General Ids</h5>
             <select
               name="partgeneralids"
               value={partgeneralids}
@@ -92,7 +107,7 @@ const PartFilters = () => {
           >
             پاک کردن فیلتر ها
           </button>
-        </form> */}
+        </form>
       </div>
     </Wrapper>
   );

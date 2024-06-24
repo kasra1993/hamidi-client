@@ -66,35 +66,34 @@ const part_filter_reducer = (state, action) => {
   if (action.type === FILTER_PART_PROVIDERS) {
     const { all_providers } = state;
     let tempProviders = [...all_providers];
+    console.log(tempProviders, "tempproviders");
     const { text, partgroups, partnames, partgeneralids } = state.filters;
-
     if (text) {
-      tempProviders = tempProviders.filter((product) => {
-        return product.name.toLowerCase().includes(text);
+      tempProviders = tempProviders.filter((provider) => {
+        return provider.name.toLowerCase().includes(text.toLowerCase());
       });
     }
 
     if (partgroups !== "all") {
-      tempProviders = tempProviders.filter(
-        // (providers) => providers.partgroups.title === partgroups
-        (providers) => providers.partgroups[0].title === partgroups
+      tempProviders = tempProviders.filter((provider) =>
+        provider.records.some(
+          (record) => record.partgroup?.title === partgroups
+        )
       );
     }
 
     if (partnames !== "all") {
-      tempProviders = tempProviders.filter(
-        (providers) => providers.partnames[0].title === partnames
+      tempProviders = tempProviders.filter((provider) =>
+        provider.records.some((record) => record.partname?.title === partnames)
       );
     }
     if (partgeneralids !== "all") {
-      tempProviders = tempProviders.filter(
-        (providers) => providers.partgeneralids[0].title === partgeneralids
-        // (providers) => providers.partgeneralids.title === partgeneralids
+      tempProviders = tempProviders.filter((provider) =>
+        provider.records.some(
+          (record) => record.partgeneralid?.title === partgeneralids
+        )
       );
     }
-
-    // tempProviders = tempProviders.filter((product) => product.price <= price);
-
     return { ...state, filtered_providers: tempProviders };
   }
 

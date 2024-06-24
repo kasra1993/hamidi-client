@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { single_product_url as url } from "../utils/constants";
-import { useParams } from "react-router-dom";
+import { main_url as url } from "../utils/constants";
+import { useParams, useNavigate } from "react-router-dom";
 import About from "../components/providerComponents/About";
 import Products from "../components/providerComponents/Products";
 import Contact from "../components/providerComponents/Contact";
-import { useNavigate } from "react-router-dom";
 
 const SingleProvider = () => {
   const [provider, setProvider] = useState({});
@@ -13,17 +12,20 @@ const SingleProvider = () => {
   const [activeComponent, setActiveComponent] = useState("Home");
   const navigate = useNavigate();
 
+  let { id, type } = useParams();
   const components = {
     Home: <About provider={provider} />,
     Contact: <Contact provider={provider} />,
-    Products: <Products provider={provider} />,
+    Products: <Products provider={provider} type={type} />,
   };
-  let { id } = useParams();
+  console.log(provider, "provider");
   useEffect(() => {
     const fetchProvider = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${url}/materialProvider/${id}`);
+        const response = await fetch(
+          `${url}${type === "part" ? "partProvider" : "materialProvider"}/${id}`
+        );
         if (!response.ok) {
           throw new Error("Something went wrong");
         }
@@ -40,7 +42,7 @@ const SingleProvider = () => {
     }
   }, [id]); // Dependency array
   return (
-    <div class="bg-white dark:bg-gray-800">
+    <div className="bg-white dark:bg-gray-800">
       <button
         onClick={() => navigate(-1)}
         className="absolute border top-2 left-2 z-50 bg-white hover:bg-black hover:text-white text-black font-bold py-2 px-4 rounded"
@@ -70,7 +72,7 @@ const SingleProvider = () => {
                   }`}
                   onClick={() => setActiveComponent("Contact")}
                 >
-                  تماس
+                  راه ارتباطی
                 </button>
               </li>
               <li className="border border-black rounded">
@@ -80,7 +82,7 @@ const SingleProvider = () => {
                   }`}
                   onClick={() => setActiveComponent("Products")}
                 >
-                  محصولات
+                  {type === "part" ? "قطعات" : "مواد"}
                 </button>
               </li>
             </ul>

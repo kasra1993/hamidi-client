@@ -3,13 +3,19 @@ import styled from "styled-components";
 import Product from "./Product";
 import { Link } from "react-router-dom";
 
-const GridView = ({ products }) => {
+const GridView = ({ products, componentType }) => {
   return (
     <Wrapper>
       <div className="products-container">
         {products &&
           products.map((product) => {
-            return <Product key={product._id} {...product} />;
+            return (
+              <Product
+                key={product._id}
+                {...product}
+                componentType={componentType}
+              />
+            );
           })}
       </div>
     </Wrapper>
