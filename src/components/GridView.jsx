@@ -1,24 +1,39 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Product from "./Product";
 import { Link } from "react-router-dom";
+import Loading from "./Loading";
 
 const GridView = ({ products, componentType }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500); // Simulate loading for 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
   return (
-    <Wrapper>
-      <div className="products-container">
-        {products &&
-          products.map((product) => {
-            return (
-              <Product
-                key={product._id}
-                {...product}
-                componentType={componentType}
-              />
-            );
-          })}
-      </div>
-    </Wrapper>
+    <>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <Wrapper>
+          <div className="products-container">
+            {products &&
+              products.map((product) => {
+                return (
+                  <Product
+                    key={product._id}
+                    {...product}
+                    componentType={componentType}
+                  />
+                );
+              })}
+          </div>
+        </Wrapper>
+      )}
+    </>
   );
 };
 

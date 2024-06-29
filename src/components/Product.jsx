@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 const defaultImage = "/default-provider-image.png";
 const Product = ({ image, name, _id, email, link, phone, componentType }) => {
   return (
-    <div className="w-[350px] bg-white shadow-xl rounded-lg border my-2">
+    <div className="w-[300px] bg-white shadow-xl rounded-lg border my-2">
       <img
-        className="w-full h-56 object-cover object-center"
+        className="w-full h-40 object-contain object-center"
         src={image?.url || defaultImage}
         alt={name}
       />
@@ -15,18 +15,18 @@ const Product = ({ image, name, _id, email, link, phone, componentType }) => {
         </h1>
       </div>
       <div className="py-4 px-6 flex flex-col flex-wrap w-auto">
-        <div className="flex items-start justify-between  mt-4 text-gray-700">
+        {/* <div className="flex items-start justify-between  mt-4 text-gray-700">
           <h1 className="px-2 text-xs">{phone}</h1>
           <p>تماس</p>
-        </div>
+        </div> */}
         {/* <div className="flex items-start justify-between  mt-4 text-gray-700">
           <h1 className="px-2 text-xs">{link}</h1>
           <p>لینک</p>
         </div> */}
-        <div className="flex items-start justify-between  mt-4 text-gray-700">
+        {/* <div className="flex items-start justify-between  mt-4 text-gray-700">
           <h1 className="px-2 text-xs">{email}</h1>
           <p>ایمیل</p>
-        </div>
+        </div> */}
         <div>
           <Link
             to={`/${componentType}/provider/${_id}`}

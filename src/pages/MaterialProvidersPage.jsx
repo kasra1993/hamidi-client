@@ -1,15 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-
 import MaterialFilters from "../components/MaterialFilters";
 import MaterialProvidersList from "../components/MaterialProviderList";
 import MaterialProviderSort from "../components/MaterialProviderSort";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 const MaterialProvidersPage = () => {
   const navigate = useNavigate();
   return (
     <main>
+      <Navbar />
       <Wrapper className="page ">
         <button
           onClick={() => navigate(-1)}

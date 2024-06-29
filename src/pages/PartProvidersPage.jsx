@@ -5,11 +5,13 @@ import PartFilters from "../components/PartFilters";
 import PartProvidersList from "../components/PartProviderList";
 import PartProviderSort from "../components/PartProviderSort";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 const PartProvidersPage = () => {
   const navigate = useNavigate();
   return (
     <main>
+      <Navbar />
       <Wrapper className="page">
         <button
           onClick={() => navigate(-1)}

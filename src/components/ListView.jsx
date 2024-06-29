@@ -1,28 +1,46 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import Loading from "./Loading";
+
 const ListView = ({ products, componentType }) => {
   const defaultImage = "/default-provider-image.png";
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500); // Simulate loading for 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <Wrapper>
-      {products &&
-        products.map((product) => {
-          const { _id, image, name, phone, link } = product;
-          return (
-            <article key={_id}>
-              <img src={image?.url || defaultImage} alt={name} />
-              <div>
-                <h4>{name}</h4>
-                <h5 className="price">{phone}</h5>
-                <h5 className="price">{link}</h5>
-                <Link to={`/${componentType}/provider/${_id}`} className="btn">
-                  اطلاعات بیشتر
-                </Link>
-              </div>
-            </article>
-          );
-        })}
-    </Wrapper>
+    <>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <Wrapper>
+          {products &&
+            products.map((product) => {
+              const { _id, image, name } = product;
+              return (
+                <article key={_id}>
+                  <img src={image?.url || defaultImage} alt={name} />
+                  <div>
+                    <h4>{name}</h4>
+                    <Link
+                      to={`/${componentType}/provider/${_id}`}
+                      className="btn"
+                    >
+                      اطلاعات بیشتر
+                    </Link>
+                  </div>
+                </article>
+              );
+            })}
+        </Wrapper>
+      )}
+    </>
   );
 };
 
@@ -33,16 +51,17 @@ const Wrapper = styled.section`
     border: 1px solid black;
     border-radius: 10px;
     padding: 0.5rem;
+    height: 200px;
   }
   img {
     width: 100%;
     display: block;
     width: 300px;
-    height: 200px;
-    object-fit: cover;
+    height: 180px;
+    object-fit: contain;
     border-radius: var(--radius);
     margin-bottom: 1rem;
-    border: 1px solid black;
+    border: 1px solid #00000033;
   }
   h4 {
     margin-bottom: 0.5rem;

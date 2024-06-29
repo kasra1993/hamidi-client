@@ -32,6 +32,46 @@ const PartFilters = () => {
             />
           </div>
           <div className="form-control">
+            <input
+              type="text"
+              name="text"
+              placeholder="جستجوی تامین کننده"
+              className="search-input text-right"
+              value={text}
+              onChange={updateFilters}
+            />
+          </div>
+          <div className="form-control">
+            <input
+              type="text"
+              name="text"
+              placeholder="جستجوی گروه"
+              className="search-input text-right"
+              // value={text}
+              // onChange={updateFilters}
+            />
+          </div>
+          <div className="form-control">
+            <input
+              type="text"
+              name="text"
+              placeholder="جستجوی نام مواد"
+              className="search-input text-right"
+              // value={text}
+              // onChange={updateFilters}
+            />
+          </div>
+          <div className="form-control">
+            <input
+              type="text"
+              name="text"
+              placeholder="جستجوی گرید مواد"
+              className="search-input text-right"
+              // value={text}
+              // onChange={updateFilters}
+            />
+          </div>
+          <div className="form-control">
             <h5>Part Groups</h5>
             <div className="">
               <select
