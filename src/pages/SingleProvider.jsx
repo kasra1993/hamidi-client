@@ -18,7 +18,6 @@ const SingleProvider = () => {
     Contact: <Contact provider={provider} />,
     Products: <Products provider={provider} type={type} />,
   };
-  console.log(provider, "provider");
   useEffect(() => {
     const fetchProvider = async () => {
       setLoading(true);

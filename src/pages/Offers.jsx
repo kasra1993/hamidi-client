@@ -32,7 +32,6 @@ const Offers = () => {
     try {
       formData.image = image;
       const response = await axios.post(`${main_url}createOffer`, formData);
-      console.log(response, "This is the reponse");
       alert("Email sent!");
     } catch (error) {
       console.error("Failed to send email", error);

@@ -46,12 +46,12 @@ const part_filter_reducer = (state, action) => {
 
     if (sort === "name-a") {
       tempProviders = tempProviders.sort((a, b) => {
-        return a.name.localeCompare(b.name);
+        return a?.name?.localeCompare(b?.name);
       });
     }
     if (sort === "name-z") {
       tempProviders = tempProviders.sort((a, b) => {
-        return b.name.localeCompare(a.name);
+        return b?.name?.localeCompare(a?.name);
       });
     }
 
@@ -66,7 +66,6 @@ const part_filter_reducer = (state, action) => {
   if (action.type === FILTER_PART_PROVIDERS) {
     const { all_providers } = state;
     let tempProviders = [...all_providers];
-    console.log(tempProviders, "tempproviders");
     const { text, partgroups, partnames, partgeneralids } = state.filters;
     if (text) {
       tempProviders = tempProviders.filter((provider) => {
