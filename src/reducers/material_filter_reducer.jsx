@@ -46,12 +46,12 @@ const material_filter_reducer = (state, action) => {
 
     if (sort === "name-a") {
       tempProviders = tempProviders.sort((a, b) => {
-        return a.name.localeCompare(b.name);
+        return a?.name?.localeCompare(b.name);
       });
     }
     if (sort === "name-z") {
       tempProviders = tempProviders.sort((a, b) => {
-        return b.name.localeCompare(a.name);
+        return b?.name?.localeCompare(a.name);
       });
     }
 
