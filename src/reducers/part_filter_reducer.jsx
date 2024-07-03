@@ -69,27 +69,32 @@ const part_filter_reducer = (state, action) => {
     const { text, partgroups, partnames, partgeneralids } = state.filters;
     if (text) {
       tempProviders = tempProviders.filter((provider) => {
-        return provider.name.toLowerCase().includes(text.toLowerCase());
+        return (
+          provider.name &&
+          provider?.name.toLowerCase().includes(text.toLowerCase())
+        );
       });
     }
 
     if (partgroups !== "all") {
       tempProviders = tempProviders.filter((provider) =>
-        provider.records.some(
-          (record) => record.partgroup?.title === partgroups
+        provider?.records.some(
+          (record) => record?.partgroup?.title === partgroups
         )
       );
     }
 
     if (partnames !== "all") {
       tempProviders = tempProviders.filter((provider) =>
-        provider.records.some((record) => record.partname?.title === partnames)
+        provider?.records.some(
+          (record) => record?.partname?.title === partnames
+        )
       );
     }
     if (partgeneralids !== "all") {
       tempProviders = tempProviders.filter((provider) =>
-        provider.records.some(
-          (record) => record.partgeneralid?.title === partgeneralids
+        provider?.records.some(
+          (record) => record?.partgeneralid?.title === partgeneralids
         )
       );
     }

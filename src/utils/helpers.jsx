@@ -9,7 +9,7 @@ export const getUniqueValues = (data) => {
   let unique = [];
   data &&
     data.map(
-      (item) => unique.push(item.title)
+      (item) => unique.push(item?.title)
       //   {
       //   item.map((i) => unique.push(i.title));
       // }

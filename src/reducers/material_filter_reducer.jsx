@@ -68,32 +68,34 @@ const material_filter_reducer = (state, action) => {
     let tempProviders = [...all_providers];
     const { text, materialgroups, materialnames, materialgrades } =
       state.filters;
-
     if (text) {
       tempProviders = tempProviders.filter((provider) => {
-        return provider.name.toLowerCase().includes(text.toLowerCase());
+        return (
+          provider.name &&
+          provider?.name.toLowerCase().includes(text.toLowerCase())
+        );
       });
     }
 
     if (materialgroups !== "all") {
       tempProviders = tempProviders.filter((provider) =>
-        provider.records.some(
-          (record) => record.materialgroup.title === materialgroups
+        provider?.records.some(
+          (record) => record?.materialgroup?.title === materialgroups
         )
       );
     }
 
     if (materialnames !== "all") {
       tempProviders = tempProviders.filter((provider) =>
-        provider.records.some(
-          (record) => record.materialname.title === materialnames
+        provider?.records.some(
+          (record) => record?.materialname?.title === materialnames
         )
       );
     }
     if (materialgrades !== "all") {
       tempProviders = tempProviders.filter((provider) =>
-        provider.records.some(
-          (record) => record.materialgrade.title === materialgrades
+        provider?.records.some(
+          (record) => record?.materialgrade?.title === materialgrades
         )
       );
     }
