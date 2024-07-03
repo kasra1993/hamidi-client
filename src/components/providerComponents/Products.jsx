@@ -11,7 +11,7 @@ const Products = ({ provider, type }) => {
         />
 
         <div>
-          <h3 className="text-lg font-medium text-white">{provider.name}</h3>
+          <h3 className="text-lg font-medium text-white">{provider?.name}</h3>
         </div>
       </div>
       {type && type === "part" ? (
@@ -34,14 +34,15 @@ const Products = ({ provider, type }) => {
 
           <tbody className="w-full">
             {provider &&
+              provider.records &&
               provider?.records.map((record, index) => (
                 <tr
                   key={index}
                   className="flex w-full h-full justify-evenly rounded-lg border border-gray-700 p-4 hover:border-pink-600 text-white my-5 "
                 >
-                  <td className=" text-justify">{record.partgroup?.title}</td>
-                  <td>{record.partname?.title}</td>
-                  <td>{record.partgeneralid?.title}</td>
+                  <td className=" text-justify">{record?.partgroup?.title}</td>
+                  <td>{record?.partname?.title}</td>
+                  <td>{record?.partgeneralid?.title}</td>
                 </tr>
               ))}
           </tbody>
@@ -66,16 +67,17 @@ const Products = ({ provider, type }) => {
 
           <tbody className="w-full">
             {provider &&
+              provider.records &&
               provider?.records.map((record, index) => (
                 <tr
                   key={index}
                   className="flex w-full h-full justify-evenly rounded-lg border border-gray-700 p-4 hover:border-pink-600 text-white my-5 "
                 >
                   <td className=" text-justify">
-                    {record.materialgroup.title}
+                    {record?.materialgroup?.title}
                   </td>
-                  <td>{record.materialname.title}</td>
-                  <td>{record.materialgrade.title}</td>
+                  <td>{record?.materialname?.title}</td>
+                  <td>{record?.materialgrade?.title}</td>
                 </tr>
               ))}
           </tbody>
