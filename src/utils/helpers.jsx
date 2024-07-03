@@ -7,12 +7,13 @@ export const formatPrice = (number) => {
 
 export const getUniqueValues = (data) => {
   let unique = [];
-  data.map(
-    (item) => unique.push(item.title)
-    //   {
-    //   item.map((i) => unique.push(i.title));
-    // }
-  );
+  data &&
+    data.map(
+      (item) => unique.push(item.title)
+      //   {
+      //   item.map((i) => unique.push(i.title));
+      // }
+    );
 
   return ["all", ...new Set(unique)];
 };

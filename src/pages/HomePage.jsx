@@ -56,16 +56,17 @@ const HomePage = () => {
       }}
     >
       <div className="w-[300px] h-1/2   grid grid-cols-2 grid-rows-3 pb-10 gap-x-3 gap-y-10 ">
-        {boxArrays.map(({ id, title, bgId, path, img, classes }) => (
-          <Link
-            to={path}
-            key={title}
-            className={classes}
-            onMouseOver={() => setBg(bgId)}
-          >
-            <img src={img} alt={title} className={classes} />
-          </Link>
-        ))}
+        {boxArrays &&
+          boxArrays.map(({ id, title, bgId, path, img, classes }) => (
+            <Link
+              to={path}
+              key={title}
+              className={classes}
+              onMouseOver={() => setBg(bgId)}
+            >
+              <img src={img} alt={title} className={classes} />
+            </Link>
+          ))}
       </div>
     </section>
   );

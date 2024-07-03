@@ -71,13 +71,14 @@ const MaterialFilters = () => {
                 onChange={updateFilters}
                 className="w-full border rounded-lg p-2"
               >
-                {materialGroups.map((c, index) => {
-                  return (
-                    <option value={c} key={index}>
-                      {c}
-                    </option>
-                  );
-                })}
+                {materialGroups &&
+                  materialGroups.map((c, index) => {
+                    return (
+                      <option value={c} key={index}>
+                        {c}
+                      </option>
+                    );
+                  })}
               </select>
             </div>
           </div>
@@ -89,13 +90,14 @@ const MaterialFilters = () => {
               onChange={updateFilters}
               className="w-full border rounded-lg p-2"
             >
-              {materialNames.map((c, index) => {
-                return (
-                  <option value={c} key={index}>
-                    {c}
-                  </option>
-                );
-              })}
+              {materialNames &&
+                materialNames.map((c, index) => {
+                  return (
+                    <option value={c} key={index}>
+                      {c}
+                    </option>
+                  );
+                })}
             </select>
           </div>
           <div className="my-5">
@@ -106,13 +108,14 @@ const MaterialFilters = () => {
               onChange={updateFilters}
               className="w-full border rounded-lg p-2"
             >
-              {materialGrades.map((c, index) => {
-                return (
-                  <option value={c} key={index}>
-                    {c}
-                  </option>
-                );
-              })}
+              {materialGrades &&
+                materialGrades.map((c, index) => {
+                  return (
+                    <option value={c} key={index}>
+                      {c}
+                    </option>
+                  );
+                })}
             </select>
           </div>
 

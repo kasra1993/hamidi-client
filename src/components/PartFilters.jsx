@@ -15,7 +15,7 @@ const PartFilters = () => {
 
   const partGroups = getUniqueValues(part_groups);
   const partNames = getUniqueValues(part_names);
-  const partGrades = getUniqueValues(part_generalids);
+  const partGeneralIds = getUniqueValues(part_generalids);
 
   return (
     <Wrapper>
@@ -80,29 +80,15 @@ const PartFilters = () => {
                 onChange={updateFilters}
                 className="w-full border rounded-lg p-2"
               >
-                {partGroups.map((c, index) => {
-                  return (
-                    <option value={c} key={index}>
-                      {c}
-                    </option>
-                  );
-                })}
+                {partGroups &&
+                  partGroups.map((c, index) => {
+                    return (
+                      <option value={c} key={index}>
+                        {c}
+                      </option>
+                    );
+                  })}
               </select>
-              {/* {partGroups.map((m, index) => {
-                return (
-                  <button
-                    key={index}
-                    onClick={updateFilters}
-                    name="partgroups"
-                    type="button"
-                    className={`${
-                      partgroups === m.toLowerCase() ? "active" : null
-                    } w-full hover:text-stone-700`}
-                  >
-                    {m}
-                  </button>
-                );
-              })} */}
             </div>
           </div>
           <div className="form-control">
@@ -113,13 +99,14 @@ const PartFilters = () => {
               onChange={updateFilters}
               className="w-full border rounded-lg p-2"
             >
-              {partNames.map((c, index) => {
-                return (
-                  <option value={c} key={index}>
-                    {c}
-                  </option>
-                );
-              })}
+              {partNames &&
+                partNames.map((c, index) => {
+                  return (
+                    <option value={c} key={index}>
+                      {c}
+                    </option>
+                  );
+                })}
             </select>
           </div>
           <div className="form-control">
@@ -130,13 +117,14 @@ const PartFilters = () => {
               onChange={updateFilters}
               className="w-full border rounded-lg p-2"
             >
-              {partGrades.map((c, index) => {
-                return (
-                  <option value={c} key={index}>
-                    {c}
-                  </option>
-                );
-              })}
+              {partGeneralIds &&
+                partGeneralIds.map((c, index) => {
+                  return (
+                    <option value={c} key={index}>
+                      {c}
+                    </option>
+                  );
+                })}
             </select>
           </div>
 

@@ -12,6 +12,7 @@ import "swiper/css/navigation";
 // import required modules
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
 
 export default function Exhibition() {
   const [exhibitions, setExhibitions] = useState(undefined);
@@ -47,7 +48,11 @@ export default function Exhibition() {
         height: "100vh",
       }}
     >
-      {loading && <p>Loading...</p>}
+      {loading && (
+        <div className="w-[85%] relative">
+          <Loading />
+        </div>
+      )}
       {error && <p>Error: {error}</p>}
       {exhibitions && (
         <div className="">
@@ -59,8 +64,6 @@ export default function Exhibition() {
           </button>
 
           <div className="w-full h-1/2">
-            {" "}
-            {/* Set the height to half the screen */}
             <Swiper
               slidesPerView={1}
               centeredSlides={true}
@@ -91,25 +94,26 @@ export default function Exhibition() {
               }}
               className="mySwiper h-full" // Ensure Swiper takes full height of its container
             >
-              {exhibitions.map((slide, index) => (
-                <SwiperSlide key={index} className="flex h-full">
-                  {" "}
-                  {/* Ensure slides take full height */}
-                  <div className="w-1/2 h-full flex justify-center align-middle flex-col px-10">
-                    <h1 className="font-bold text-center text-[35px] my-10 ">
-                      {slide.title}
-                    </h1>
-                    <h3 className=" text-xs">{slide.description}</h3>
-                  </div>
-                  <div className="w-1/2 h-[500px]">
-                    <img
-                      src={slide.image.url}
-                      alt={slide.title}
-                      className="w-full h-full object-cover "
-                    />
-                  </div>
-                </SwiperSlide>
-              ))}
+              {exhibitions &&
+                exhibitions.map((slide, index) => (
+                  <SwiperSlide key={index} className="flex h-full">
+                    {" "}
+                    {/* Ensure slides take full height */}
+                    <div className="w-1/2 h-full flex justify-center align-middle flex-col px-10">
+                      <h1 className="font-bold text-center text-[35px] my-10 ">
+                        {slide.title}
+                      </h1>
+                      <h3 className=" text-xs">{slide.description}</h3>
+                    </div>
+                    <div className="w-1/2 h-[500px]">
+                      <img
+                        src={slide.image.url}
+                        alt={slide.title}
+                        className="w-full h-full object-cover "
+                      />
+                    </div>
+                  </SwiperSlide>
+                ))}
             </Swiper>
           </div>
         </div>

@@ -33,16 +33,17 @@ const Products = ({ provider, type }) => {
           </thead>
 
           <tbody className="w-full">
-            {provider?.records.map((record, index) => (
-              <tr
-                key={index}
-                className="flex w-full h-full justify-evenly rounded-lg border border-gray-700 p-4 hover:border-pink-600 text-white my-5 "
-              >
-                <td className=" text-justify">{record.partgroup?.title}</td>
-                <td>{record.partname?.title}</td>
-                <td>{record.partgeneralid?.title}</td>
-              </tr>
-            ))}
+            {provider &&
+              provider?.records.map((record, index) => (
+                <tr
+                  key={index}
+                  className="flex w-full h-full justify-evenly rounded-lg border border-gray-700 p-4 hover:border-pink-600 text-white my-5 "
+                >
+                  <td className=" text-justify">{record.partgroup?.title}</td>
+                  <td>{record.partname?.title}</td>
+                  <td>{record.partgeneralid?.title}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
       ) : (
@@ -64,16 +65,19 @@ const Products = ({ provider, type }) => {
           </thead>
 
           <tbody className="w-full">
-            {provider.records.map((record, index) => (
-              <tr
-                key={index}
-                className="flex w-full h-full justify-evenly rounded-lg border border-gray-700 p-4 hover:border-pink-600 text-white my-5 "
-              >
-                <td className=" text-justify">{record.materialgroup.title}</td>
-                <td>{record.materialname.title}</td>
-                <td>{record.materialgrade.title}</td>
-              </tr>
-            ))}
+            {provider &&
+              provider?.records.map((record, index) => (
+                <tr
+                  key={index}
+                  className="flex w-full h-full justify-evenly rounded-lg border border-gray-700 p-4 hover:border-pink-600 text-white my-5 "
+                >
+                  <td className=" text-justify">
+                    {record.materialgroup.title}
+                  </td>
+                  <td>{record.materialname.title}</td>
+                  <td>{record.materialgrade.title}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
       )}

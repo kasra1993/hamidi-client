@@ -71,24 +71,26 @@ const VendorPage = () => {
         بازگشت
       </button>
       <div className="absolute w-[300px] h-[500px] left-[250px] top-30 flex flex-col gap-10 justify-end">
-        {backgroundArray.map((item) => (
-          <Link
-            to={item.link}
-            key={item.id}
-            onMouseEnter={() => handleMouseEnter(item.name)}
-            onMouseLeave={handleMouseLeave}
-            style={{
-              padding: "10px",
-              border: hoveredLink === item.name ? "2px solid #2a4667" : "none",
-              borderRadius: "10px",
-              transition: "border 0.3s",
-              zIndex: 50,
-            }}
-            // className="border border-red-600"
-          >
-            <img src={item.img} alt={item.name} className={item.style} />
-          </Link>
-        ))}
+        {backgroundArray &&
+          backgroundArray.map((item) => (
+            <Link
+              to={item.link}
+              key={item.id}
+              onMouseEnter={() => handleMouseEnter(item.name)}
+              onMouseLeave={handleMouseLeave}
+              style={{
+                padding: "10px",
+                border:
+                  hoveredLink === item.name ? "2px solid #2a4667" : "none",
+                borderRadius: "10px",
+                transition: "border 0.3s",
+                zIndex: 50,
+              }}
+              // className="border border-red-600"
+            >
+              <img src={item.img} alt={item.name} className={item.style} />
+            </Link>
+          ))}
       </div>
     </div>
   );
