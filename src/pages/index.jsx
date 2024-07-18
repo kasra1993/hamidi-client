@@ -7,6 +7,7 @@ import VendorPage from "./VendorPage";
 import AboutPage from "./AboutPage";
 import Exhibition from "./Exhibition";
 import Offers from "./Offers";
+import Login from "./Login";
 // import ProductsPage from "./ProductsPage";
 export {
   HomePage,
@@ -17,4 +18,5 @@ export {
   VendorPage,
   Exhibition,
   Offers,
+  Login,
 };

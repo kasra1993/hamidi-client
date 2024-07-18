@@ -10,6 +10,7 @@ import {
   VendorPage,
   Exhibition,
   Offers,
+  Login,
 } from "./pages";
 import SingleProvider from "./pages/SingleProvider";
 
@@ -25,6 +26,7 @@ function App() {
         <Route path="/exhibition" element={<Exhibition />} />
         <Route path="/offers" element={<Offers />} />
         <Route path="/:type/provider/:id" element={<SingleProvider />} />
+        {/* <Route path="/login" element={<Login />} /> */}
 
         {/* <Route path="products" element={<ProductsPage />} /> */}
         {/* <Route path="materials" element={<MaterialProvidersPage />} /> */}
