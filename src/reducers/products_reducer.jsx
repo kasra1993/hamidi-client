@@ -21,6 +21,7 @@ const providers_reducer = (state, action) => {
       part_groups: action.payload.partGroups,
       part_generalids: action.payload.partGeneralIds,
       part_names: action.payload.partNames,
+      products: action.payload.products,
     };
   }
 

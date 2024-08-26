@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import vendorBg from "/vendor-bg.png";
+import { vendorBg } from "../images";
 import materialButton from "/material-provider-btn.png";
 import partButton from "/part-provider-btn.png";
 import marketbtn from "/market-btn.png";
-import productbtn from "/product-info-btn.png";
+import HomeIcon from "../components/HomeIcon";
 
 const backgroundArray = [
   {
@@ -24,16 +24,16 @@ const backgroundArray = [
     style: "",
     active: false,
   },
+  // {
+  //   id: 2,
+  //   name: "product-info",
+  //   img: productbtn,
+  //   link: "/#",
+  //   style: "w-5/6 float-right",
+  //   active: false,
+  // },
   {
     id: 2,
-    name: "product-info",
-    img: productbtn,
-    link: "/#",
-    style: "w-5/6 float-right",
-    active: false,
-  },
-  {
-    id: 4,
     name: "market",
     img: marketbtn,
     link: "/#",
@@ -64,13 +64,8 @@ const VendorPage = () => {
         backgroundPosition: "center",
       }}
     >
-      <button
-        onClick={() => navigate(-1)}
-        className="absolute top-10 left-10 z-50 bg-white hover:bg-black hover:text-white text-black font-bold py-2 px-4 rounded"
-      >
-        بازگشت
-      </button>
-      <div className="absolute w-[300px] h-[500px] left-[250px] top-30 flex flex-col gap-10 justify-end">
+      <HomeIcon />
+      <div className="absolute w-[300px] h-[500px] left-[250px] top-10 flex flex-col gap-10 justify-end">
         {backgroundArray &&
           backgroundArray.map((item) => (
             <Link

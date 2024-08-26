@@ -1,48 +1,87 @@
 import React, { useState } from "react";
-import aboutIcon from "/about-us-icon.png";
-import exhibitionIcon from "/exhibition-icon.png";
-import offerIcon from "/special-offer-icon.png";
-import vendorIcon from "/vendor-icon.png";
 import { Link } from "react-router-dom";
-import offers from "/offer-background.png";
-import exhibition from "/exhibition-background.png";
-import about from "/about-background.png";
-import vendor from "/vendor-background.png";
+import {
+  userBackground,
+  userIcon,
+  providerBackground,
+  providerIcon,
+  aboutBackground,
+  aboutUsIcon,
+  exhibitionBackground,
+  exhibitionIcon,
+  offerBackground,
+  vendorBackground,
+  vendorIcon,
+  productInfoIcon,
+  productInfoBackground,
+  specialOfferIcon,
+} from "../images";
 
 const HomePage = () => {
-  const [bg, setBg] = useState(vendor);
+  const [bg, setBg] = useState(vendorBackground);
   const boxArrays = [
     {
-      id: 0,
-      title: "about",
-      bgId: about,
-      path: "/about",
-      img: aboutIcon,
-      classes: "rounded-2xl h-[185px] w-full row-span-2",
+      id: 3,
+      title: "vendor",
+      bgId: vendorBackground,
+      path: "/vendors",
+      img: vendorIcon,
+      classes:
+        "rounded-2xl  col-span-2 row-span-1 h-[75px]  object-fill w-full",
     },
     {
       id: 1,
       title: "exhibition",
-      bgId: exhibition,
+      bgId: exhibitionBackground,
       path: "/exhibition",
       img: exhibitionIcon,
-      classes: "rounded-2xl  row-span-1",
+      classes:
+        "rounded-2xl  col-span-2 row-span-1 h-[75px]  object-fill w-full",
     },
     {
-      id: 2,
-      title: "offers",
-      bgId: offers,
-      path: "/offers",
-      img: offerIcon,
-      classes: "rounded-2xl row-span-1",
+      id: 5,
+      title: "productsInfo",
+      bgId: productInfoBackground,
+      path: "/products-info-list",
+      img: productInfoIcon,
+      classes:
+        "rounded-2xl  col-span-2 row-span-1 h-[75px]  object-fill w-full",
     },
     {
-      id: 3,
-      title: "vendor",
-      bgId: vendor,
-      path: "/vendors",
-      img: vendorIcon,
-      classes: "rounded-2xl  col-span-2 row-span-1",
+      id: 4,
+      title: "provider",
+      bgId: providerBackground,
+      path: "/provider-login",
+      img: providerIcon,
+      classes:
+        "rounded-2xl  col-span-2 row-span-1 h-[75px]  object-fill w-full",
+    },
+    {
+      id: 4,
+      title: "user",
+      bgId: userBackground,
+      path: "/user-login",
+      img: userIcon,
+      classes:
+        "rounded-2xl  col-span-2 row-span-1 h-[75px]  object-fill w-full",
+    },
+    // {
+    //   id: 5,
+    //   title: "offer",
+    //   bgId: offerBackground,
+    //   path: "/offers",
+    //   img: specialOfferIcon,
+    //   classes:
+    //     "rounded-2xl  col-span-2 row-span-1 h-[75px]  object-fill w-full",
+    // },
+
+    {
+      id: 5,
+      title: "about",
+      bgId: aboutBackground,
+      path: "/about",
+      img: aboutUsIcon,
+      classes: "rounded-2xl  col-span-2 row-span-1 h-[75px] object-fill w-full",
     },
   ];
 
@@ -55,13 +94,13 @@ const HomePage = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="w-[300px] h-1/2   grid grid-cols-2 grid-rows-3 pb-10 gap-x-3 gap-y-10 ">
+      <div className="w-[300px] h-1/2  flex flex-col pb-10 gap-x-3 gap-y-2 ">
         {boxArrays &&
           boxArrays.map(({ id, title, bgId, path, img, classes }) => (
             <Link
               to={path}
               key={title}
-              className={classes}
+              // className={classes}
               onMouseOver={() => setBg(bgId)}
             >
               <img src={img} alt={title} className={classes} />

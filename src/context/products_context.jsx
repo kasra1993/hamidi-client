@@ -12,11 +12,11 @@ import {
 const initialState = {
   providers_loading: false,
   providers_error: false,
-  products: [],
   part_providers: [],
   material_providers: [],
   featured_products: [],
   featured_providers: [],
+  products: [],
 };
 
 const ProductsContext = React.createContext();

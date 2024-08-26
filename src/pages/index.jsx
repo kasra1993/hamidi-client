@@ -7,8 +7,10 @@ import VendorPage from "./VendorPage";
 import AboutPage from "./AboutPage";
 import Exhibition from "./Exhibition";
 import Offers from "./Offers";
-import Login from "./Login";
-// import ProductsPage from "./ProductsPage";
+import UserRegistration from "./users/UserRegistration";
+import UserLogin from "./users/UserLogin";
+import ProviderLogin from "./users/ProviderLogin";
+import ProviderRegistration from "./users/ProviderRegistration";
 export {
   HomePage,
   ErrorPage,
@@ -18,5 +20,8 @@ export {
   VendorPage,
   Exhibition,
   Offers,
-  Login,
+  UserRegistration,
+  UserLogin,
+  ProviderLogin,
+  ProviderRegistration,
 };
