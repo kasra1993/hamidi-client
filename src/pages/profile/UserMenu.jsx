@@ -60,7 +60,7 @@ const UserMenu = () => {
           </button>
           {user.role === "provider" && (
             <button
-              className="block w-full text-right px-4 py-4 text-sm  text-gray-700 hover:bg-gray-100 border-slate-200 rounded-3xl my-3"
+              className="block w-full text-right px-4 py-4 text-sm  text-gray-700 hover:bg-gray-100 border border-slate-200 rounded-3xl my-3"
               onClick={() => {
                 setDropdownOpen(false);
                 navigate("/provider-profile");
@@ -73,7 +73,13 @@ const UserMenu = () => {
             className="block w-full  px-4 py-4 text-sm text-gray-700 hover:bg-gray-100 text-right border border-slate-200 rounded-3xl my-3"
             onClick={() => {
               setDropdownOpen(false);
-              navigate("/settings");
+              {
+                user.role === "provider"
+                  ? navigate("/provider-setting")
+                  : user.role === "user"
+                  ? navigate("/user-setting")
+                  : navigate("/");
+              }
             }}
           >
             تنظیمات

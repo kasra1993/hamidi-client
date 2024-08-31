@@ -59,7 +59,6 @@ export const AuthProvider = ({ children }) => {
         email,
         code,
       });
-      console.log(response.data, `Response for ${mode} verification`);
       setUser(response.data.user);
       localStorage.setItem("authToken", response.data.token);
       setVerifyLoading(false);
@@ -160,7 +159,6 @@ export const AuthProvider = ({ children }) => {
         email,
         code,
       });
-      console.log(response.data, `Response for ${mode} verification`);
       setUser(response.data.provider);
       localStorage.setItem("authToken", response.data.token);
       setVerifyLoading(false);

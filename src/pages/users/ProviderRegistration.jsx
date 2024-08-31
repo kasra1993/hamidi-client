@@ -43,8 +43,6 @@ const ProviderRegistration = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(validate(), "it is validated");
-    console.log(formData, "FORMDATA");
     if (!validate()) return;
     const { repeat_password, ...dataToSubmit } = formData;
     dataToSubmit.role = "provider";
@@ -253,7 +251,7 @@ const ProviderRegistration = () => {
                       type="text"
                       name="form_filler_position"
                       id="form_filler_position"
-                      placeholder="جایگاه پر کتتده فرم"
+                      placeholder="سمت پر کننده فرم"
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
                       onChange={handleChange}
                     />

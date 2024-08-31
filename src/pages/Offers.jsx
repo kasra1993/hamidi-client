@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { main_url } from "../utils/constants";
 import axios from "axios";
+import HomeIcon from "../components/HomeIcon";
 
 const Offers = () => {
   const [formData, setFormData] = useState({
@@ -16,8 +16,6 @@ const Offers = () => {
     quantity: undefined,
   });
   const [image, setImage] = useState();
-
-  const navigate = useNavigate();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -55,18 +53,13 @@ const Offers = () => {
   return (
     <>
       <div className="w-full text-center ">
-        <button
-          onClick={() => navigate(-1)}
-          className="absolute border top-16 left-2 z-50 bg-white hover:bg-black hover:text-white text-black font-bold py-2 px-4 rounded"
-        >
-          بازگشت
-        </button>
-        <h1 className="text-4xl font-bold py-10 bg-slate-700 text-white">
+        <HomeIcon />
+        <h1 className="text-4xl font-bold py-10 bg-black text-white">
           پیشنهادات ویژه خود را وارد کنید
         </h1>
       </div>
       <form
-        className="w-3/4 flex flex-wrap  border rounded-xl p-10 mx-auto justify-center"
+        className="w-full flex flex-wrap  border rounded-xl p-10 mx-auto justify-center"
         onSubmit={handleSubmit}
       >
         <div className="flex w-1/2 flex-wrap -mx-3 mb-6 gap-5 justify-center">
@@ -176,7 +169,7 @@ const Offers = () => {
         </div>
         <div className="w-full mt-5 ">
           <textarea
-            className="w-full bg-slate-100 h-[200px] text-right p-5"
+            className="w-full bg-slate-100 h-[100px] text-right p-5"
             placeholder="توضیحات"
             onChange={handleChange}
             name="description"

@@ -90,8 +90,9 @@ const HomePage = () => {
       className="flex  gap-5 items-center justify-end h-screen transition-all ease-in-out bg-blend-overlay w-full pr-5 "
       style={{
         backgroundImage: `url(${bg})`,
-        backgroundSize: "cover",
+        backgroundSize: "100% 100%",
         backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
       }}
     >
       <div className="w-[300px] h-1/2  flex flex-col pb-10 gap-x-3 gap-y-2 ">

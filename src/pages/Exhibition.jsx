@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import { main_url as url } from "../utils/constants";
-import { exhibitionBackground } from "../images";
+import { exhibitionBg } from "../images";
 import HomeIcon from "../components/HomeIcon";
 
 // Import Swiper styles
@@ -43,7 +43,7 @@ export default function Exhibition() {
     <div
       className="relative pt-52 px-10"
       style={{
-        backgroundImage: `url(${exhibitionBackground})`,
+        backgroundImage: `url(${exhibitionBg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         height: "100vh",

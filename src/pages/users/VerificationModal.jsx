@@ -20,7 +20,6 @@ const VerificationModal = ({ email, onClose, mode }) => {
   const navigate = useNavigate();
   const showToast = useToast();
   const location = useLocation();
-  console.log(location.pathname, "this is lcoation");
 
   useEffect(() => {
     const countdown = setInterval(() => {

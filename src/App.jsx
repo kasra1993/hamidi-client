@@ -23,7 +23,9 @@ import ProviderForgotPassword from "./components/provider/ProviderForgotPassword
 import UserForgotPassword from "./components/user/UserForgotPassword";
 import UserResetPassword from "./components/user/UserResetPassword";
 import ProductsInfoList from "./pages/productInfo/ProductsInfoList";
-import SinlgeProduct from "./pages/productInfo/SinlgeProduct";
+import SingleProduct from "./pages/productInfo/SingleProduct";
+import ProviderSettings from "./pages/profile/ProviderSettings";
+import UserSettings from "./pages/profile/UserSettings";
 
 function App() {
   return (
@@ -52,10 +54,12 @@ function App() {
           <Route path="/exhibition" element={<Exhibition />} />
           <Route path="/offers" element={<Offers />} />
           <Route path="/products-info-list" element={<ProductsInfoList />} />
-          <Route path="/product/:id" element={<SinlgeProduct />} />
+          <Route path="/product/:id" element={<SingleProduct />} />
           <Route path="/:type/provider/:id" element={<SingleProvider />} />
           <Route path="*" element={<ErrorPage />} />
           <Route path="/provider-profile" element={<ProviderProfile />} />
+          <Route path="/provider-setting" element={<ProviderSettings />} />
+          <Route path="/user-setting" element={<UserSettings />} />
         </Route>
         <Route path="/user-forgot-password" element={<UserForgotPassword />} />
         <Route path="/user-reset-password" element={<UserResetPassword />} />
@@ -68,6 +72,7 @@ function App() {
           element={<ProviderResetPassword />}
         />
         <Route path="/user-login" element={<UserLogin />} />
+
         <Route path="/provider-login" element={<ProviderLogin />} />
         <Route path="/user-registration" element={<UserRegistration />} />
         <Route

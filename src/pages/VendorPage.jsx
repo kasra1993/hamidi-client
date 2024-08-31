@@ -5,6 +5,7 @@ import { vendorBg } from "../images";
 import materialButton from "/material-provider-btn.png";
 import partButton from "/part-provider-btn.png";
 import marketbtn from "/market-btn.png";
+import offerbtn from "/offer-btn.png";
 import HomeIcon from "../components/HomeIcon";
 
 const backgroundArray = [
@@ -24,14 +25,14 @@ const backgroundArray = [
     style: "",
     active: false,
   },
-  // {
-  //   id: 2,
-  //   name: "product-info",
-  //   img: productbtn,
-  //   link: "/#",
-  //   style: "w-5/6 float-right",
-  //   active: false,
-  // },
+  {
+    id: 2,
+    name: "product-info",
+    img: offerbtn,
+    link: "/offers",
+    style: "float-right",
+    active: false,
+  },
   {
     id: 2,
     name: "market",
@@ -65,7 +66,7 @@ const VendorPage = () => {
       }}
     >
       <HomeIcon />
-      <div className="absolute w-[300px] h-[500px] left-[250px] top-10 flex flex-col gap-10 justify-end">
+      <div className="absolute w-[300px] h-[500px] left-[250px] top-30 flex flex-col gap-10 justify-end">
         {backgroundArray &&
           backgroundArray.map((item) => (
             <Link

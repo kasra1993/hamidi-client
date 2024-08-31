@@ -11,7 +11,7 @@ const PartProvidersPage = () => {
   const navigate = useNavigate();
   return (
     <main>
-      <Navbar />
+      {/* <Navbar /> */}
       <Wrapper className="page">
         <button
           onClick={() => navigate(-1)}
