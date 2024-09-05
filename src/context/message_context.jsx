@@ -1,72 +1,86 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useReducer } from "react";
 import axios from "axios";
 import { main_url } from "../utils/constants";
+import { messageReducer } from "../reducers/messageReducer";
+
+const initialState = {
+  messages: [],
+  loading: false,
+  error: null,
+};
 
 const MessageContext = createContext();
-
 export const MessageProvider = ({ children }) => {
-  const [sentMessages, setSentMessages] = useState([]);
-  const [receivedMessages, setReceivedMessages] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [state, dispatch] = useReducer(messageReducer, initialState);
 
   // Function to send a message
-  const sendMessage = async (content, recipient) => {
+  const sendMessage = async (content, subject, recipient, sender) => {
+    dispatch({ type: "SEND_MESSAGE_REQUEST" });
     try {
-      const response = await axios.post(`${main_url}/message`, {
+      const { data } = await axios.post(`${main_url}message`, {
         content,
+        subject,
         recipient,
+        sender,
       });
-      fetchSentMessages(); // Fetch updated sent messages
-      return response.data;
+      dispatch({ type: "SEND_MESSAGE_SUCCESS", payload: data.message });
+      alert(data.successMessage); // Show success message from backend
     } catch (error) {
-      console.error("Error sending message:", error);
+      dispatch({ type: "SEND_MESSAGE_FAILURE", payload: error.response.data });
     }
   };
 
   // Function to fetch sent messages (for user1)
   const fetchSentMessages = async () => {
-    setLoading(true);
+    dispatch({ type: "FETCH_MESSAGES_REQUEST" });
     try {
       const { data } = await axios.get`${main_url}/sent-messages`;
-      setSentMessages(data);
+      dispatch({ type: "FETCH_MESSAGES_SUCCESS", payload: data });
     } catch (error) {
-      console.error("Error fetching sent messages:", error);
+      dispatch({
+        type: "FETCH_MESSAGES_FAILURE",
+        payload: error.response.data,
+      });
     }
-    setLoading(false);
   };
 
   // Function to fetch received messages (for user2)
   const fetchReceivedMessages = async () => {
-    setLoading(true);
+    dispatch({ type: "FETCH_MESSAGES_REQUEST" });
     try {
       const { data } = await axios.get(`${main_url}/recieved-messages`);
-      setReceivedMessages(data);
+      dispatch({ type: "FETCH_MESSAGES_SUCCESS", payload: data });
     } catch (error) {
-      console.error("Error fetching received messages:", error);
+      dispatch({
+        type: "FETCH_MESSAGES_FAILURE",
+        payload: error.response.data,
+      });
     }
-    setLoading(false);
   };
 
   // Function to respond to a message (user2)
   const respondToMessage = async (messageId, response) => {
+    dispatch({ type: "RESPOND_MESSAGE_REQUEST" });
+
     try {
-      const response = await axios.post(
+      const { data } = await axios.post(
         `${main_url}/${messageId}/respond-message`,
-        { response: response }
+        { response }
       );
-      fetchReceivedMessages(); // Fetch updated received messages
-      return response.data;
+      dispatch({ type: "RESPOND_MESSAGE_SUCCESS", payload: data.message });
+      alert(data.successMessage); // Show success message from backend
     } catch (error) {
-      console.error("Error responding to message:", error);
+      dispatch({
+        type: "RESPOND_MESSAGE_FAILURE",
+        payload: error.response.data,
+      });
     }
   };
 
   return (
     <MessageContext.Provider
       value={{
-        sentMessages,
-        receivedMessages,
-        loading,
+        ...state,
         fetchSentMessages,
         fetchReceivedMessages,
         sendMessage,

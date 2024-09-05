@@ -164,7 +164,7 @@ const UserLogin = () => {
                 >
                   اینجا
                 </a>
-                را کلیلک کنید
+                را کلیک کنید
               </p>
             </div>
             {/* <div className="lg:h-[400px] md:h-[300px] max-md:mt-8">

@@ -32,7 +32,7 @@ export const ProductsProvider = ({ children }) => {
     initialStateWithStorage
   );
 
-  const fetchProviders = async (url) => {
+  const fetchAll = async (url) => {
     if (state.material_providers) {
       dispatch({ type: GET_PROVIDERS_BEGIN });
 
@@ -50,20 +50,8 @@ export const ProductsProvider = ({ children }) => {
     localStorage.setItem("productsState", JSON.stringify(state));
   }, [state]);
 
-  // const fetchSingleProvider = async (id) => {
-  //   dispatch({ type: GET_SINGLE_PRODUCT_BEGIN });
-  //   try {
-  //     const response = await axios.get(`${singleUrl}/materialProvider/${id}`);
-  //     const singleProduct = response.data;
-  //     console.log(singleProduct, "THIS IS SINGLE PRODUCT");
-  //     dispatch({ type: GET_SINGLE_PRODUCT_SUCCESS, payload: singleProduct });
-  //   } catch (error) {
-  //     dispatch({ type: GET_SINGLE_PRODUCT_ERROR });
-  //   }
-  // };
-
   useEffect(() => {
-    fetchProviders(url);
+    fetchAll(url);
   }, []);
 
   return (
