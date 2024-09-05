@@ -13,7 +13,7 @@ const MaterialProvidersPage = () => {
       {/* <Navbar /> */}
       <Wrapper className="page ">
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/vendors")}
           className="absolute border top-2 left-2 z-50 bg-white hover:bg-black hover:text-white text-black font-bold py-2 px-4 rounded"
         >
           بازگشت

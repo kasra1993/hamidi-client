@@ -19,6 +19,9 @@ const initialState = {
   sort: "name-a",
   filters: {
     text: "",
+    materialGroupText: "",
+    materialNameText: "",
+    materialGradeText: "",
     materialgroups: "all",
     materialnames: "all",
     materialgrades: "all",

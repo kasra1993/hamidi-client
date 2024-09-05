@@ -8,21 +8,23 @@ import { PartFilterProvider } from "./context/part_filter_context.jsx";
 import { AuthProvider } from "./context/auth_context.jsx";
 import { ToastProvider } from "./context/toast_context.jsx";
 import { FormProvider } from "./context/Form_Context.jsx";
-
+import { MessageProvider } from "./context/message_context.jsx";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      <FormProvider>
-        <ToastProvider>
-          <ProductsProvider>
-            <MaterialFilterProvider>
-              <PartFilterProvider>
-                <App />
-              </PartFilterProvider>
-            </MaterialFilterProvider>
-          </ProductsProvider>
-        </ToastProvider>
-      </FormProvider>
+      <MessageProvider>
+        <FormProvider>
+          <ToastProvider>
+            <ProductsProvider>
+              <MaterialFilterProvider>
+                <PartFilterProvider>
+                  <App />
+                </PartFilterProvider>
+              </MaterialFilterProvider>
+            </ProductsProvider>
+          </ToastProvider>
+        </FormProvider>
+      </MessageProvider>
     </AuthProvider>
   </React.StrictMode>
 );

@@ -6,7 +6,15 @@ import { useProductsContext } from "../context/products_context";
 
 const MaterialFilters = () => {
   const {
-    filters: { text, materialnames, materialgroups, materialgrades },
+    filters: {
+      text,
+      materialnames,
+      materialgroups,
+      materialgrades,
+      materialGroupText,
+      materialNameText,
+      materialGradeText,
+    },
     updateFilters,
     clearFilters,
   } = useMaterialFilterContext();
@@ -25,7 +33,7 @@ const MaterialFilters = () => {
           <div className="form-control">
             <input
               type="text"
-              name="text"
+              name="text" // Corresponds to `filters.text`
               placeholder="جستجوی تامین کننده"
               className="search-input text-right"
               value={text}
@@ -35,31 +43,31 @@ const MaterialFilters = () => {
           <div className="form-control">
             <input
               type="text"
-              name="text"
+              name="materialGroupText" // Corresponds to `filters.materialgroups`
               placeholder="جستجوی گروه"
               className="search-input text-right"
-              // value={text}
-              // onChange={updateFilters}
+              value={materialGroupText}
+              onChange={updateFilters}
             />
           </div>
           <div className="form-control">
             <input
               type="text"
-              name="text"
+              name="materialNameText" // Corresponds to `filters.materialnames`
               placeholder="جستجوی نام مواد"
               className="search-input text-right"
-              // value={text}
-              // onChange={updateFilters}
+              value={materialNameText}
+              onChange={updateFilters}
             />
           </div>
           <div className="form-control">
             <input
               type="text"
-              name="text"
+              name="materialGradeText" // Corresponds to `filters.materialgrades`
               placeholder="جستجوی گرید مواد"
               className="search-input text-right"
-              // value={text}
-              // onChange={updateFilters}
+              value={materialGradeText}
+              onChange={updateFilters}
             />
           </div>
           <div className="my-5">

@@ -1,13 +1,14 @@
 import React, { useContext, useState } from "react";
 import AuthContext from "../../context/auth_context";
 import HomeIcon from "../../components/HomeIcon";
+import { main_url } from "../../utils/constants";
+import axios from "axios";
 
 const UserSettings = () => {
   const { user, setUser } = useContext(AuthContext);
   const [formData, setFormData] = useState(user);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [step, setStep] = useState(1);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,25 +22,22 @@ const UserSettings = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch("/api/users/update", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+      const response = await axios.patch(`${main_url}user-update`, {
+        userId: user?._id,
+        ...formData,
       });
 
-      const result = await response.json();
-      if (response.ok) {
-        setUser(result.user); // Update the context with new user data
+      if (response.status === 200) {
+        setUser(response.data.user);
         setMessage("Settings updated successfully!");
       } else {
-        setMessage(result.message || "Failed to update settings.");
+        setMessage(response.data.message || "Failed to update settings.");
       }
     } catch (error) {
       setMessage("An error occurred while updating settings.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -49,7 +47,7 @@ const UserSettings = () => {
         <h2 className="text-3xl font-bold text-center"> ویرایش کاربر</h2>{" "}
         {message && <p className="mb-4 text-center text-red-500">{message}</p>}
         <form
-          className="mx-auto w-full h-3/4 bg-white p-10 rounded-2xl"
+          className="mx-auto w-full bg-white p-10 rounded-2xl"
           onSubmit={handleSubmit}
         >
           <div className="mb-5 pt-3">
@@ -170,7 +168,7 @@ const UserSettings = () => {
                     <select
                       className="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 empty:!bg-gray-900 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                       onChange={handleChange} // Add the onChange event handler
-                      value={user.occupation}
+                      value={user?.occupation}
                       name="occupation"
                     >
                       <option value="purchase_manager">مسئول خرید</option>

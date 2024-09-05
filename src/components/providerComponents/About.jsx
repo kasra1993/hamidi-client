@@ -4,7 +4,7 @@ const About = ({ provider }) => {
   const defaultImage = "/default-provider-image.png";
   return (
     <div className="font-sans bg-white">
-      <h2 className="text-2xl font-extrabold text-white bg-slate-700 rounded  py-5 ">
+      <h2 className="text-3xl font-extrabold text-black bg-gray-200 rounded  py-10 ">
         {provider?.name}
       </h2>
       <div className="p-4 lg:max-w-7xl max-w-4xl mx-auto">
@@ -108,7 +108,7 @@ const About = ({ provider }) => {
             </div>
           </div>
         </div>
-        <h2 className="text-2xl font-extrabold text-white bg-slate-700 rounded  py-5 mt-10 ">
+        <h2 className="text-2xl font-extrabold text-black bg-gray-200 rounded  py-5 mt-10 ">
           توضیحات
         </h2>
         <div className="mt-16 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] p-6">

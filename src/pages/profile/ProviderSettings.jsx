@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
 import AuthContext from "../../context/auth_context";
 import Loading from "../../components/Loading";
+import axios from "axios";
+import { main_url } from "../../utils/constants";
 
 const ProviderSettings = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -20,28 +22,26 @@ const ProviderSettings = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    console.log(formData, "Formdata");
+    console.log(user, "user");
     try {
-      const response = await fetch("/api/users/update", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+      const response = await axios.patch(`${main_url}provider-update`, {
+        userId: user?._id,
+        ...formData,
       });
 
-      const result = await response.json();
-      if (response.ok) {
-        setUser(result.user); // Update the context with new user data
+      if (response.status === 200) {
+        setUser(response.data.provider);
         setMessage("Settings updated successfully!");
       } else {
-        setMessage(result.message || "Failed to update settings.");
+        setMessage(response.data.message || "Failed to update settings.");
       }
     } catch (error) {
       setMessage("An error occurred while updating settings.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
-
   const handleNextStep = () => {
     setStep(step + 1);
   };
@@ -202,7 +202,7 @@ const ProviderSettings = () => {
                         htmlFor="form_filler_position"
                         className="block text-sm font-medium text-gray-700 mb-5"
                       >
-                        جایگاه پر کننده فرم
+                        سمت پر کننده فرم
                       </label>
                       <input
                         type="text"
@@ -364,64 +364,6 @@ const ProviderSettings = () => {
                   </div>
                 </>
               )}
-              {/* {step === 3 && (
-                <div className="flex flex-col w-full justify-center items-center">
-                  <div className="w-1/2 px-3 ">
-                    <div className="mb-5">
-                      <label
-                        htmlFor="email"
-                        className="block text-sm font-medium text-gray-700 mb-5"
-                      >
-                        پست الکترونیک
-                      </label>
-                      <input
-                        type="text"
-                        name="email"
-                        id="email"
-                        placeholder={formData.email}
-                        className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="w-full px-3 sm:w-1/2">
-                    <div className="mb-5">
-                      <label
-                        htmlFor="password"
-                        className="block text-sm font-medium text-gray-700 mb-5"
-                      >
-                        رمز عبور
-                      </label>
-                      <input
-                        type="password"
-                        name="password"
-                        id="password"
-                        placeholder={formData.password}
-                        className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="w-full px-3 sm:w-1/2">
-                    <div className="mb-5">
-                      <label
-                        htmlFor="repeat_password"
-                        className="block text-sm font-medium text-gray-700 mb-5"
-                      >
-                        تکرار رمز عبور
-                      </label>
-                      <input
-                        type="password"
-                        name="repeat_password"
-                        id="repeat-password"
-                        placeholder={formData.repeat_password}
-                        className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                </div>
-              )} */}
             </div>
           </div>
 
@@ -449,7 +391,7 @@ const ProviderSettings = () => {
                 type="submit"
                 className="hover:shadow-form w-full max-w-xs rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none"
               >
-                ثبت نام
+                ثبت
               </button>
             )}
           </div>

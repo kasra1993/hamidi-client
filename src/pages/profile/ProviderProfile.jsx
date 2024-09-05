@@ -1,16 +1,22 @@
 import React, { useState } from "react";
+import ProviderSettings from "./ProviderSettings";
+import ProviderMessages from "./ProviderMessages";
+import ProviderTickets from "./ProviderTickets";
+import ResetPassword from "./ResetPassword";
 
 const ProviderProfile = () => {
   const [activeTab, setActiveTab] = useState("details");
 
   const renderContent = () => {
     switch (activeTab) {
-      case "details":
-        return <DetailsTab />;
+      case "security":
+        return <ResetPassword />;
       case "settings":
-        return <SettingsTab />;
-      case "history":
-        return <HistoryTab />;
+        return <ProviderSettings />;
+      case "messages":
+        return <ProviderMessages />;
+      case "ticket":
+        return <ProviderTickets />;
       default:
         return <DetailsTab />;
     }
@@ -18,18 +24,8 @@ const ProviderProfile = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <div className="bg-white shadow-md rounded-lg h-screen">
+      <div className="bg-white shadow-xl rounded-lg h-screen my-5">
         <div className="flex border-b border-gray-200">
-          <button
-            className={`flex-1 py-2 px-4 text-center ${
-              activeTab === "details"
-                ? "border-b-2 border-blue-500 text-blue-500"
-                : "text-gray-500"
-            }`}
-            onClick={() => setActiveTab("details")}
-          >
-            Details
-          </button>
           <button
             className={`flex-1 py-2 px-4 text-center ${
               activeTab === "settings"
@@ -38,17 +34,37 @@ const ProviderProfile = () => {
             }`}
             onClick={() => setActiveTab("settings")}
           >
-            Settings
+            تنظیمات
           </button>
           <button
             className={`flex-1 py-2 px-4 text-center ${
-              activeTab === "history"
+              activeTab === "messages"
                 ? "border-b-2 border-blue-500 text-blue-500"
                 : "text-gray-500"
             }`}
-            onClick={() => setActiveTab("history")}
+            onClick={() => setActiveTab("messages")}
           >
-            Contact Us
+            پیام ها
+          </button>
+          <button
+            className={`flex-1 py-2 px-4 text-center ${
+              activeTab === "security"
+                ? "border-b-2 border-blue-500 text-blue-500"
+                : "text-gray-500"
+            }`}
+            onClick={() => setActiveTab("security")}
+          >
+            رمز عبور
+          </button>
+          <button
+            className={`flex-1 py-2 px-4 text-center ${
+              activeTab === "ticket"
+                ? "border-b-2 border-blue-500 text-blue-500"
+                : "text-gray-500"
+            }`}
+            onClick={() => setActiveTab("ticket")}
+          >
+            تیکت{" "}
           </button>
         </div>
         <div className="p-4">{renderContent()}</div>

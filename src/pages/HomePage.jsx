@@ -27,7 +27,7 @@ const HomePage = () => {
       path: "/vendors",
       img: vendorIcon,
       classes:
-        "rounded-2xl  col-span-2 row-span-1 h-[75px]  object-fill w-full",
+        "rounded-2xl  col-span-2 row-span-1 h-[4rem]  object-fill w-full",
     },
     {
       id: 1,
@@ -36,7 +36,7 @@ const HomePage = () => {
       path: "/exhibition",
       img: exhibitionIcon,
       classes:
-        "rounded-2xl  col-span-2 row-span-1 h-[75px]  object-fill w-full",
+        "rounded-2xl  col-span-2 row-span-1 h-[4rem]  object-fill w-full",
     },
     {
       id: 5,
@@ -45,7 +45,7 @@ const HomePage = () => {
       path: "/products-info-list",
       img: productInfoIcon,
       classes:
-        "rounded-2xl  col-span-2 row-span-1 h-[75px]  object-fill w-full",
+        "rounded-2xl  col-span-2 row-span-1 h-[4rem]  object-fill w-full",
     },
     {
       id: 4,
@@ -54,7 +54,7 @@ const HomePage = () => {
       path: "/provider-login",
       img: providerIcon,
       classes:
-        "rounded-2xl  col-span-2 row-span-1 h-[75px]  object-fill w-full",
+        "rounded-2xl  col-span-2 row-span-1 h-[4rem]  object-fill w-full",
     },
     {
       id: 4,
@@ -63,7 +63,7 @@ const HomePage = () => {
       path: "/user-login",
       img: userIcon,
       classes:
-        "rounded-2xl  col-span-2 row-span-1 h-[75px]  object-fill w-full",
+        "rounded-2xl  col-span-2 row-span-1 h-[4rem]  object-fill w-full",
     },
     // {
     //   id: 5,
@@ -72,7 +72,7 @@ const HomePage = () => {
     //   path: "/offers",
     //   img: specialOfferIcon,
     //   classes:
-    //     "rounded-2xl  col-span-2 row-span-1 h-[75px]  object-fill w-full",
+    //     "rounded-2xl  col-span-2 row-span-1 h-[4rem]  object-fill w-full",
     // },
 
     {
@@ -81,7 +81,7 @@ const HomePage = () => {
       bgId: aboutBackground,
       path: "/about",
       img: aboutUsIcon,
-      classes: "rounded-2xl  col-span-2 row-span-1 h-[75px] object-fill w-full",
+      classes: "rounded-2xl  col-span-2 row-span-1 h-[4rem] object-fill w-full",
     },
   ];
 
@@ -90,12 +90,13 @@ const HomePage = () => {
       className="flex  gap-5 items-center justify-end h-screen transition-all ease-in-out bg-blend-overlay w-full pr-5 "
       style={{
         backgroundImage: `url(${bg})`,
-        backgroundSize: "100% 100%",
+        backgroundSize: "100% 100%", // Change this line
+        // backgroundSize: "cover", // Change this line
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
       }}
     >
-      <div className="w-[300px] h-1/2  flex flex-col pb-10 gap-x-3 gap-y-2 ">
+      <div className="w-[300px] h-fit  flex flex-col pb-10 gap-2">
         {boxArrays &&
           boxArrays.map(({ id, title, bgId, path, img, classes }) => (
             <Link

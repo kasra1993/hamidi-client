@@ -19,6 +19,9 @@ const initialState = {
   sort: "name-a",
   filters: {
     text: "",
+    partGroupText: "",
+    partNameText: "",
+    partGeneralIdText: "",
     partgroups: "all",
     partnames: "all",
     partgeneralids: "all",

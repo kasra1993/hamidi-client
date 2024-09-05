@@ -6,7 +6,15 @@ import { useProductsContext } from "../context/products_context";
 
 const PartFilters = () => {
   const {
-    filters: { text, partnames, partgroups, partgeneralids },
+    filters: {
+      text,
+      partnames,
+      partgroups,
+      partgeneralids,
+      partGroupText,
+      partNameText,
+      partGeneralIdText,
+    },
     updateFilters,
     clearFilters,
   } = usePartFilterContext();
@@ -25,16 +33,6 @@ const PartFilters = () => {
             <input
               type="text"
               name="text"
-              placeholder="جستجو"
-              className="search-input text-right"
-              value={text}
-              onChange={updateFilters}
-            />
-          </div>
-          <div className="form-control">
-            <input
-              type="text"
-              name="text"
               placeholder="جستجوی تامین کننده"
               className="search-input text-right"
               value={text}
@@ -44,31 +42,31 @@ const PartFilters = () => {
           <div className="form-control">
             <input
               type="text"
-              name="text"
+              name="partGroupText"
               placeholder="جستجوی گروه"
               className="search-input text-right"
-              // value={text}
-              // onChange={updateFilters}
+              value={partGroupText}
+              onChange={updateFilters}
             />
           </div>
           <div className="form-control">
             <input
               type="text"
-              name="text"
-              placeholder="جستجوی نام مواد"
+              name="partNameText"
+              placeholder="جستجوی نام "
               className="search-input text-right"
-              // value={text}
-              // onChange={updateFilters}
+              value={partNameText}
+              onChange={updateFilters}
             />
           </div>
           <div className="form-control">
             <input
               type="text"
-              name="text"
-              placeholder="جستجوی گرید مواد"
+              name="partGeneralIdText"
+              placeholder="جستجوی گرید "
               className="search-input text-right"
-              // value={text}
-              // onChange={updateFilters}
+              value={partGeneralIdText}
+              onChange={updateFilters}
             />
           </div>
           <div className="form-control">
