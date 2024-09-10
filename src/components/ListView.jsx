@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Loading from "./Loading";
 
-const ListView = ({ products, componentType }) => {
+const ListView = ({ providers, componentType }) => {
   const defaultImage = "/default-provider-image.png";
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -20,16 +20,18 @@ const ListView = ({ products, componentType }) => {
         <Loading />
       ) : (
         <Wrapper>
-          {products &&
-            products.map((product) => {
-              const { _id, image, name } = product;
+          {providers &&
+            providers.map((product) => {
+              const { _id, image, name, company_name, isVerified } = product;
               return (
                 <article key={_id}>
                   <img src={image?.url || defaultImage} alt={name} />
                   <div>
-                    <h4>{name}</h4>
+                    <h4>{name || company_name}</h4>
                     <Link
-                      to={`/${componentType}/provider/${_id}`}
+                      to={`/${
+                        isVerified ? "verified" : componentType
+                      }/provider/${_id}`}
                       className="btn"
                     >
                       اطلاعات بیشتر

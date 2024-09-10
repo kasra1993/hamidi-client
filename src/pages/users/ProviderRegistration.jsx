@@ -1,17 +1,58 @@
-import React, { useContext, useState } from "react";
-import AuthContext from "../../context/auth_context";
-// import { getUniqueValues } from "../utils/helpers";
-import { useProductsContext } from "../../context/products_context";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import VerificationModal from "./VerificationModal"; // Import the custom modal component
 import { providerBg } from "../../images";
 import HomeIcon from "../../components/HomeIcon";
-
+import { providerRegister } from "../../redux/slices/providerSlice";
+import { showToast } from "../../redux/slices/toastSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { GrClose } from "react-icons/gr";
+import {
+  fetchMaterialGrades,
+  fetchMaterialNames,
+  fetchMaterialGroups,
+} from "../../redux/slices/materialProvidersSlice";
+import {
+  fetchPartGroups,
+  fetchPartGeneralIds,
+  fetchPartNames,
+} from "../../redux/slices/partProvidersSlice";
+import { GiExitDoor } from "react-icons/gi";
 const ProviderRegistration = () => {
-  const { providerRegister } = useContext(AuthContext);
   const [step, setStep] = useState(1);
   const [showVerification, setShowVerification] = useState(false);
   const [errors, setErrors] = useState({});
+  const [selection, setSelection] = useState("materials");
+  const [records, setRecords] = useState([]);
+  const [image, setImage] = useState();
+  const [imagePreview, setImagePreview] = useState(null); // Preview image state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleRequest = () => {
+    dispatch(
+      showToast({
+        message: "نتیجه درخواست برای شما ارسال خواهد شد",
+        type: "success",
+      })
+    );
+    setIsModalOpen(false);
+  };
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const [recordData, setRecordData] = useState({
+    materialgroup: { id: "", title: "" },
+    materialname: { id: "", title: "" },
+    materialgrade: { id: "", title: "" },
+    partgroup: { id: "", title: "" },
+    partname: { id: "", title: "" },
+    partgeneralid: { id: "", title: "" },
+  });
   const [formData, setFormData] = useState({
     company_name: "",
     phone: "",
@@ -33,28 +74,21 @@ const ProviderRegistration = () => {
     password: "",
     username: "",
     records: [],
+    isVerified: true,
   });
+  const dispatch = useDispatch();
+
   const {
-    part_groups,
-    part_names,
-    part_generalids,
-    material_grades,
-    material_groups,
-    material_names,
-  } = useProductsContext();
+    materialGroups: material_groups,
+    materialNames: material_names,
+    materialGrades: material_grades,
+  } = useSelector((state) => state.materialProviders);
 
-  console.log("formData", formData);
-
-  const [selection, setSelection] = useState("materials");
-  const [records, setRecords] = useState([]);
-  const [recordData, setRecordData] = useState({
-    materialgroup: { id: "", title: "" },
-    materialname: { id: "", title: "" },
-    materialgrade: { id: "", title: "" },
-    partgroup: { id: "", title: "" },
-    partname: { id: "", title: "" },
-    partgeneralid: { id: "", title: "" },
-  });
+  const {
+    partGroups: part_groups,
+    partNames: part_names,
+    partGeneralIds: part_generalids,
+  } = useSelector((state) => state.partProviders);
 
   const handleSelectionChange = (e) => {
     setSelection(e.target.value);
@@ -133,7 +167,12 @@ const ProviderRegistration = () => {
       ...formData,
       records,
     });
-    // handleAddRecord();
+    dispatch(
+      showToast({
+        message: "موارد با موفقیت ثبت شدند",
+        type: "success",
+      })
+    );
   };
 
   const handleChange = (e) => {
@@ -143,21 +182,44 @@ const ProviderRegistration = () => {
     });
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImagePreview(URL.createObjectURL(file));
+    }
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
+
     const { repeat_password, ...dataToSubmit } = formData;
     dataToSubmit.role = "provider";
     dataToSubmit.username = formData.email;
     dataToSubmit.records = records;
-    console.log(dataToSubmit, "DATA TO SUBMIT");
-    await providerRegister(dataToSubmit);
-    setShowVerification(true); // Show verification modal
+    dataToSubmit.isVerified = true;
+
+    if (image) {
+      dataToSubmit.image = image;
+    }
+    // console.log("dataToSubmit", dataToSubmit);
+    dispatch(providerRegister(dataToSubmit))
+      .unwrap()
+      .then(() => {
+        setShowVerification(true);
+      })
+      .catch((error) => {
+        console.error("Registration failed:", error);
+      });
   };
 
   const validate = () => {
     const newErrors = {};
-
     if (!formData.company_name)
       newErrors.company_name = "نام کمپانی مورد نیاز است";
     if (!formData.phone) newErrors.phone = " شماره تماس ثابت مورد نیاز است";
@@ -210,6 +272,15 @@ const ProviderRegistration = () => {
     setStep(step - 1);
   };
 
+  useEffect(() => {
+    dispatch(fetchMaterialGroups());
+    dispatch(fetchMaterialNames());
+    dispatch(fetchMaterialGrades());
+    dispatch(fetchPartGeneralIds());
+    dispatch(fetchPartGroups());
+    dispatch(fetchPartNames());
+  }, [dispatch]);
+
   return (
     <div
       className="flex items-center justify-center p-12 bg-slate-200 h-screen relative"
@@ -226,11 +297,22 @@ const ProviderRegistration = () => {
           step === 3 ? "w-3/4 h-1/2 mt-[15%]" : "w-3/4 h-3/4"
         } mx-auto bg-white p-10 rounded-2xl`}
         onSubmit={handleSubmit}
+        encType="multipart/form-data"
       >
         <div className="mb-5 pt-3">
           <label className="mb-5 block text-base font-semibold text-[#07074D] sm:text-xl">
             ثبت نام تامین کننده
           </label>
+          {step === 3 && (
+            <p>
+              مواد یا قطعات مرتبط با صنعت خود را پیدا نکردید ؟{" "}
+              <button className="text-blue-600 mx-2" onClick={handleOpenModal}>
+                {" "}
+                اینجا
+              </button>
+              را کلیک کنید
+            </p>
+          )}
           <div className="-mx-3 flex flex-wrap px-10 py-5">
             {step === 1 && (
               <>
@@ -516,15 +598,15 @@ const ProviderRegistration = () => {
                   <div className="w-1/2 px-3 absolute top-5">
                     <div className="mb-5">
                       <label className="block text-base font-semibold text-white sm:text-xl mb-2">
-                        Select Category
+                        تولید
                       </label>
                       <select
                         value={selection}
                         onChange={handleSelectionChange}
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                       >
-                        <option value="materials">Materials</option>
-                        <option value="parts">Parts</option>
+                        <option value="materials">ماده</option>
+                        <option value="parts">قطعه</option>
                       </select>
                     </div>
                   </div>
@@ -533,7 +615,7 @@ const ProviderRegistration = () => {
                     <div className="w-full flex  items-center top-[15%] absolute">
                       <div className="w-1/2 px-3 mb-5">
                         <label className="block text-base font-semibold text-white sm:text-xl mb-2">
-                          Material Group
+                          گروه ماده
                         </label>
                         <select
                           name="materialgroup"
@@ -551,7 +633,7 @@ const ProviderRegistration = () => {
 
                       <div className="w-1/2 px-3 mb-5">
                         <label className="block text-base font-semibold text-white sm:text-xl mb-2">
-                          Material Name
+                          نام ماده{" "}
                         </label>
                         <select
                           name="materialname"
@@ -569,7 +651,7 @@ const ProviderRegistration = () => {
 
                       <div className="w-1/2 px-3 mb-5">
                         <label className="block text-base font-semibold text-white sm:text-xl mb-2">
-                          Material Grade
+                          درجه ماده
                         </label>
                         <select
                           name="materialgrade"
@@ -589,7 +671,7 @@ const ProviderRegistration = () => {
                     <div className="w-full flex  items-center top-[15%] absolute">
                       <div className="w-1/2 px-3 mb-5">
                         <label className="block text-base font-semibold text-white sm:text-xl mb-2">
-                          Part Group
+                          گروه قطعه
                         </label>
                         <select
                           name="partgroup"
@@ -607,7 +689,7 @@ const ProviderRegistration = () => {
 
                       <div className="w-1/2 px-3 mb-5">
                         <label className="block text-base font-semibold text-white sm:text-xl mb-2">
-                          Part Name
+                          نام قطعه
                         </label>
                         <select
                           name="partname"
@@ -624,7 +706,7 @@ const ProviderRegistration = () => {
                       </div>
                       <div className="w-1/2 px-3 mb-5">
                         <label className="block text-base font-semibold text-white sm:text-xl mb-2">
-                          Part General Id
+                          شناسه قطعه
                         </label>
                         <select
                           name="partgeneralid"
@@ -641,27 +723,39 @@ const ProviderRegistration = () => {
                       </div>
                     </div>
                   )}
-                  <button
-                    onClick={handleAddRecord}
-                    className="hover:shadow-form w-full max-w-xs rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none absolute top-[30%]"
-                  >
-                    Add Record
-                  </button>
-                  <div className="w-full mt-5 max-h-[200px] overflow-y-auto">
+                  <div className="absolute top-[30%] flex w-full justify-center gap-5">
+                    <button
+                      onClick={handleAddRecord}
+                      className="hover:shadow-form w-auto max-w-xs rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none "
+                    >
+                      ثبت موقت
+                    </button>
+
+                    {step === 3 && (
+                      <button
+                        onClick={handleSubmitStep3}
+                        className=" hover:shadow-form w-auto max-w-xs rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base  font-semibold text-white outline-none "
+                      >
+                        ثبت نهایی موارد
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="w-full max-h-[180px] overflow-y-auto">
                     <table className="table-auto w-full text-left border-collapse border border-gray-400">
                       <thead>
                         <tr className="bg-gray-200">
                           <th className="border border-gray-300 px-4 py-2">
-                            Group
+                            گروه
                           </th>
                           <th className="border border-gray-300 px-4 py-2">
-                            Name
+                            نام
                           </th>
                           <th className="border border-gray-300 px-4 py-2">
-                            Grade/ID
+                            شناسه / درجه
                           </th>
                           <th className="border border-gray-300 px-4 py-2">
-                            Actions
+                            کنش
                           </th>
                         </tr>
                       </thead>
@@ -688,7 +782,7 @@ const ProviderRegistration = () => {
                                 onClick={() => handleRemoveRecord(index)}
                                 className="text-red-500"
                               >
-                                Remove
+                                حذف
                               </button>
                             </td>
                           </tr>
@@ -700,57 +794,91 @@ const ProviderRegistration = () => {
               </>
             )}
             {step === 4 && (
-              <div className="flex flex-col w-full justify-center items-center">
-                <div className="w-1/2 px-3 ">
-                  <div className="mb-5">
-                    <input
-                      type="text"
-                      name="email"
-                      id="email"
-                      placeholder="پست الکترونیک"
-                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
-                      onChange={handleChange}
-                    />
-                    {errors.email && (
-                      <p className="text-red-500 text-xs mt-1">
-                        {errors.email}
-                      </p>
-                    )}
+              <div className="flex w-full justify-center items-center">
+                <div className="w-1/2">
+                  <div className="w-full px-3 ">
+                    <div className="mb-5">
+                      <input
+                        type="text"
+                        name="email"
+                        id="email"
+                        placeholder="پست الکترونیک"
+                        className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
+                        onChange={handleChange}
+                      />
+                      {errors.email && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors.email}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="w-full px-3">
+                    <div className="mb-5">
+                      <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        placeholder="رمز عبور"
+                        className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
+                        onChange={handleChange}
+                      />
+                      {errors.password && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors.password}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="w-full px-3 ">
+                    <div className="mb-5">
+                      <input
+                        type="password"
+                        name="repeat_password"
+                        id="repeat-password"
+                        placeholder="تکرار رمز عبور"
+                        className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
+                        onChange={handleChange}
+                      />
+                      {errors.repeat_password && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors.repeat_password}
+                        </p>
+                      )}
+                    </div>
                   </div>
                 </div>
-                <div className="w-full px-3 sm:w-1/2">
-                  <div className="mb-5">
-                    <input
-                      type="password"
-                      name="password"
-                      id="password"
-                      placeholder="رمز عبور"
-                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
-                      onChange={handleChange}
-                    />
-                    {errors.password && (
-                      <p className="text-red-500 text-xs mt-1">
-                        {errors.password}
-                      </p>
-                    )}
+
+                <div className="w-1/2 px-3 mb-5">
+                  <label className="block text-base font-semibold text-gray-700 sm:text-xl mb-2">
+                    بارگذاری تصویر شرکت
+                  </label>
+                  <div className="flex items-center">
+                    <label className="w-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-200">
+                      <svg
+                        className="w-8 h-8"
+                        fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M16.88 7.59l-3.3-3.3c-.56-.56-1.4-.56-1.96 0l-3.3 3.3c-.56.56-.56 1.4 0 1.96L10 11l1.88-1.88 4.12-4.12zM10 12l1.88-1.88 4.12 4.12L14.12 16H5v-2h3l2-2zm5-10c.55 0 1 .45 1 1v3h-2V3H3v14h4v2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h14z" />
+                      </svg>
+                      <input
+                        type="file"
+                        className="hidden"
+                        onChange={handleImageChange}
+                      />
+                    </label>
                   </div>
-                </div>
-                <div className="w-full px-3 sm:w-1/2">
-                  <div className="mb-5">
-                    <input
-                      type="password"
-                      name="repeat_password"
-                      id="repeat-password"
-                      placeholder="تکرار رمز عبور"
-                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
-                      onChange={handleChange}
-                    />
-                    {errors.repeat_password && (
-                      <p className="text-red-500 text-xs mt-1">
-                        {errors.repeat_password}
-                      </p>
-                    )}
-                  </div>
+                  {imagePreview && (
+                    <div className="">
+                      <img
+                        src={imagePreview}
+                        alt="Company logo preview"
+                        className="w-[100%] max-h-28 rounded-md object-contain pt-2"
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -776,24 +904,42 @@ const ProviderRegistration = () => {
               مرحله بعد
             </button>
           )}
-          {step === 3 && (
-            <button
-              onClick={handleSubmitStep3}
-              className="absolute right-10 top-[20rem] hover:shadow-form w-auto max-w-xs rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base  font-semibold text-white outline-none"
-            >
-              ثبت
-            </button>
-          )}
+
           {step === 4 && (
             <button
               type="submit"
-              className="absolute right-0 bottom-[20rem] hover:shadow-form w-full max-w-xs rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none"
+              className="absolute right-[2rem] bottom-[20rem] hover:shadow-form w-auto max-w-xs rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none"
             >
               ثبت نام
             </button>
           )}
         </div>
       </form>
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-lg w-1/2 h-1/2">
+            <p className="text-center text-2xl py-5">ثبت درخواست </p>
+            <input
+              type="text"
+              placeholder="درخواست خود را وارد کنید "
+              className="border border-slate-300 p-5 rounded-xl w-full text-right"
+            />
+            <button
+              onClick={handleCloseModal}
+              className="absolute right-10 top-0 mt-4 bg-red-500 text-white py-2 px-4 rounded mx-auto block"
+            >
+              <GrClose />
+            </button>
+
+            <button
+              onClick={handleRequest}
+              className="mt-4 bg-green-500 text-white py-2 px-10 rounded mx-auto block"
+            >
+              ثبت
+            </button>
+          </div>
+        </div>
+      )}
       {showVerification && (
         <VerificationModal
           email={formData.email}

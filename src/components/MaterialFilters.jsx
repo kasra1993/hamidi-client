@@ -1,30 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useMaterialFilterContext } from "../context/material_filter_context";
-import { getUniqueValues } from "../utils/helpers";
-import { useProductsContext } from "../context/products_context";
+// import { getUniqueValues } from "../utils/helpers";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateFilters,
+  clearFilters,
+  fetchMaterialGrades,
+  fetchMaterialGroups,
+  fetchMaterialNames,
+} from "../redux/slices/materialProvidersSlice";
 
 const MaterialFilters = () => {
-  const {
-    filters: {
-      text,
-      materialnames,
-      materialgroups,
-      materialgrades,
-      materialGroupText,
-      materialNameText,
-      materialGradeText,
-    },
-    updateFilters,
-    clearFilters,
-  } = useMaterialFilterContext();
+  const dispatch = useDispatch();
+  const { filters, materialGroups, materialNames, materialGrades } =
+    useSelector((state) => state.materialProviders);
 
-  const { material_groups, material_names, material_grades } =
-    useProductsContext();
+  useEffect(() => {
+    dispatch(fetchMaterialGroups());
+    dispatch(fetchMaterialNames());
+    dispatch(fetchMaterialGrades());
+  }, [dispatch]);
 
-  const materialGroups = getUniqueValues(material_groups);
-  const materialNames = getUniqueValues(material_names);
-  const materialGrades = getUniqueValues(material_grades);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    console.log("name", name, "value", value);
+    dispatch(updateFilters({ name, value }));
+  };
+
+  const handleClearFilters = () => {
+    dispatch(clearFilters());
+  };
 
   return (
     <Wrapper>
@@ -33,104 +38,102 @@ const MaterialFilters = () => {
           <div className="form-control">
             <input
               type="text"
-              name="text" // Corresponds to `filters.text`
+              name="searchProviderName"
               placeholder="جستجوی تامین کننده"
               className="search-input text-right"
-              value={text}
-              onChange={updateFilters}
+              value={filters.searchProviderName}
+              onChange={handleInputChange}
             />
           </div>
           <div className="form-control">
             <input
               type="text"
-              name="materialGroupText" // Corresponds to `filters.materialgroups`
+              name="searchMaterialGroup"
               placeholder="جستجوی گروه"
               className="search-input text-right"
-              value={materialGroupText}
-              onChange={updateFilters}
+              value={filters.searchMaterialGroup}
+              onChange={handleInputChange}
             />
           </div>
           <div className="form-control">
             <input
               type="text"
-              name="materialNameText" // Corresponds to `filters.materialnames`
+              name="searchMaterialName"
               placeholder="جستجوی نام مواد"
               className="search-input text-right"
-              value={materialNameText}
-              onChange={updateFilters}
+              value={filters.searchMaterialName}
+              onChange={handleInputChange}
             />
           </div>
           <div className="form-control">
             <input
               type="text"
-              name="materialGradeText" // Corresponds to `filters.materialgrades`
+              name="searchMaterialGrade"
               placeholder="جستجوی گرید مواد"
               className="search-input text-right"
-              value={materialGradeText}
-              onChange={updateFilters}
+              value={filters.searchMaterialGrade}
+              onChange={handleInputChange}
             />
           </div>
           <div className="my-5">
-            <h5>Material Groups</h5>
-            <div className="">
-              <select
-                name="materialgroups"
-                value={materialgroups}
-                onChange={updateFilters}
-                className="w-full border rounded-lg p-2"
-              >
-                {materialGroups &&
-                  materialGroups.map((c, index) => {
-                    return (
-                      <option value={c} key={index}>
-                        {c}
-                      </option>
-                    );
-                  })}
-              </select>
-            </div>
-          </div>
-          <div className="my-5">
-            <h5>Material Names</h5>
+            <h5>گروه ماده</h5>
             <select
-              name="materialnames"
-              value={materialnames}
-              onChange={updateFilters}
-              className="w-full border rounded-lg p-2"
+              name="materialGroup"
+              value={filters.materialGroup}
+              onChange={handleInputChange}
+              className="w-full border rounded-lg p-2 text-right  text-sm"
             >
-              {materialNames &&
-                materialNames.map((c, index) => {
-                  return (
-                    <option value={c} key={index}>
-                      {c}
-                    </option>
-                  );
-                })}
-            </select>
-          </div>
-          <div className="my-5">
-            <h5>Material Grades</h5>
-            <select
-              name="materialgrades"
-              value={materialgrades}
-              onChange={updateFilters}
-              className="w-full border rounded-lg p-2"
-            >
-              {materialGrades &&
-                materialGrades.map((c, index) => {
-                  return (
-                    <option value={c} key={index}>
-                      {c}
-                    </option>
-                  );
-                })}
+              <option value="">انتخاب گروه ماده</option>
+              {materialGroups &&
+                materialGroups.map((group) => (
+                  <option key={group._id} value={group.title}>
+                    {group.title}
+                  </option>
+                ))}
             </select>
           </div>
 
+          {/* Material Name Dropdown */}
+          <div className="my-5">
+            <h5>نام ماده</h5>
+            <select
+              name="materialName"
+              value={filters.materialName}
+              onChange={handleInputChange}
+              className="w-full border rounded-lg p-2 text-right  text-sm"
+            >
+              <option value="">انتخاب نام ماده</option>
+              {materialNames &&
+                materialNames.map((name) => (
+                  <option key={name._id} value={name.title}>
+                    {name.title}
+                  </option>
+                ))}
+            </select>
+          </div>
+
+          {/* Material Grade Dropdown */}
+          <div className="my-5">
+            <h5>درجه ماده</h5>
+            <select
+              name="materialGrade"
+              value={filters.materialGrade}
+              onChange={handleInputChange}
+              className="w-full border rounded-lg p-2 text-right  text-sm"
+            >
+              <option value="">انتخاب درجه ماده</option>
+              {materialGrades &&
+                materialGrades.map((grade) => (
+                  <option key={grade._id} value={grade.title}>
+                    {grade.title}
+                  </option>
+                ))}
+            </select>
+          </div>
           <button
             type="button"
             className="clear-btn text-center w-full"
-            onClick={clearFilters}
+            onClick={handleClearFilters}
           >
             پاک کردن فیلتر ها
           </button>

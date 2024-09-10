@@ -69,10 +69,10 @@ const ProviderTickets = () => {
             <table className="table-auto w-full">
               <thead className="text-sm font-semibold uppercase text-gray-800 bg-gray-50 mx-auto">
                 <tr>
-                  <th>#</th>
-                  <th>Subject</th>
-                  <th>Description</th>
-                  <th>Status</th>
+                  <th>شناسه</th>
+                  <th>موضوع</th>
+                  <th>توضیحات</th>
+                  <th>وضعیت</th>
                   <th className="p-2 text-center">Action</th>
                 </tr>
               </thead>

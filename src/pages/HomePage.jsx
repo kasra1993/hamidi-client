@@ -16,12 +16,15 @@ import {
   productInfoBackground,
   specialOfferIcon,
 } from "../images";
+import { useSelector } from "react-redux";
 
 const HomePage = () => {
   const [bg, setBg] = useState(vendorBackground);
+  const { user } = useSelector((state) => state.user);
+  console.log(user);
   const boxArrays = [
     {
-      id: 3,
+      id: 0,
       title: "vendor",
       bgId: vendorBackground,
       path: "/vendors",
@@ -39,7 +42,7 @@ const HomePage = () => {
         "rounded-2xl  col-span-2 row-span-1 h-[4rem]  object-fill w-full",
     },
     {
-      id: 5,
+      id: 2,
       title: "productsInfo",
       bgId: productInfoBackground,
       path: "/products-info-list",
@@ -48,7 +51,7 @@ const HomePage = () => {
         "rounded-2xl  col-span-2 row-span-1 h-[4rem]  object-fill w-full",
     },
     {
-      id: 4,
+      id: 3,
       title: "provider",
       bgId: providerBackground,
       path: "/provider-login",

@@ -1,15 +1,15 @@
-import React, { useContext, useState } from "react";
-import AuthContext from "../../context/auth_context";
+import React, { useState } from "react";
 import Loading from "../../components/Loading";
-import axios from "axios";
-import { main_url } from "../../utils/constants";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProviderSettings } from "../../redux/slices/providerSlice";
 
 const ProviderSettings = () => {
-  const { user, setUser } = useContext(AuthContext);
-  const [formData, setFormData] = useState(user);
-  const [loading, setLoading] = useState(false);
+  const { provider } = useSelector((state) => state.provider);
+  const [formData, setFormData] = useState(provider);
   const [message, setMessage] = useState("");
   const [step, setStep] = useState(1);
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => state.provider);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,27 +21,16 @@ const ProviderSettings = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    console.log(formData, "Formdata");
-    console.log(user, "user");
-    try {
-      const response = await axios.patch(`${main_url}provider-update`, {
-        userId: user?._id,
-        ...formData,
+    dispatch(updateProviderSettings({ userId: provider?._id, formData }))
+      .unwrap() // Unwraps the response to handle success and error locally
+      .then((response) => {
+        setMessage("با موفقیت ثبت شد");
+      })
+      .catch((error) => {
+        setMessage(error || "مشکلی پیش آمده است ");
       });
-
-      if (response.status === 200) {
-        setUser(response.data.provider);
-        setMessage("Settings updated successfully!");
-      } else {
-        setMessage(response.data.message || "Failed to update settings.");
-      }
-    } catch (error) {
-      setMessage("An error occurred while updating settings.");
-    } finally {
-      setLoading(false);
-    }
   };
+
   const handleNextStep = () => {
     setStep(step + 1);
   };
@@ -50,18 +39,20 @@ const ProviderSettings = () => {
     setStep(step - 1);
   };
 
-  if (!user) {
+  if (!provider) {
     return <Loading />;
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 ">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-3/4 ">
+    <div className="flex justify-center items-center bg-gray-100 ">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-3/4  ">
         <h2 className="text-3xl font-bold mb-6 text-center">
           {" "}
           ویرایش تامین کننده
         </h2>
-        {message && <p className="mb-4 text-center text-red-500">{message}</p>}
+        {message && (
+          <p className="mb-4 text-center text-green-500">{message}</p>
+        )}
         <form
           className="mx-auto w-3/4 h-3/4 bg-white p-10 rounded-2xl"
           onSubmit={handleSubmit}
@@ -70,7 +61,7 @@ const ProviderSettings = () => {
             <div className="-mx-3 flex flex-wrap px-10 py-5">
               {step === 1 && (
                 <>
-                  <div className="w-full px-3 sm:w-1/2">
+                  <div className="w-full px-3 sm:w-1/3">
                     <div className="mb-5">
                       <label
                         htmlFor="company_name"
@@ -82,13 +73,13 @@ const ProviderSettings = () => {
                         type="text"
                         name="company_name"
                         id="company_name"
-                        placeholder={user?.company_name}
+                        placeholder={provider?.company_name}
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
                         onChange={handleChange}
                       />
                     </div>
                   </div>
-                  <div className="w-full px-3 sm:w-1/2">
+                  <div className="w-full px-3 sm:w-1/3">
                     <div className="mb-5">
                       <label
                         htmlFor="ceo_name"
@@ -100,13 +91,13 @@ const ProviderSettings = () => {
                         type="text"
                         name="ceo_name"
                         id="ceo_name"
-                        placeholder={user?.ceo_name}
+                        placeholder={provider?.ceo_name}
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
                         onChange={handleChange}
                       />
                     </div>
                   </div>
-                  <div className="w-full px-3 sm:w-1/2">
+                  <div className="w-full px-3 sm:w-1/3">
                     <div className="mb-5">
                       <label
                         htmlFor="website_address"
@@ -118,13 +109,13 @@ const ProviderSettings = () => {
                         type="text"
                         name="website_address"
                         id="website_address"
-                        placeholder={user?.website_address}
+                        placeholder={provider?.website_address}
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
                         onChange={handleChange}
                       />
                     </div>
                   </div>
-                  <div className="w-full px-3 sm:w-1/2">
+                  <div className="w-full px-3 sm:w-1/3">
                     <div className="mb-5">
                       <label
                         htmlFor="address"
@@ -136,13 +127,13 @@ const ProviderSettings = () => {
                         type="text"
                         name="address"
                         id="address"
-                        placeholder={user?.address}
+                        placeholder={provider?.address}
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
                         onChange={handleChange}
                       />
                     </div>
                   </div>
-                  <div className="w-full px-3 sm:w-1/2">
+                  <div className="w-full px-3 sm:w-1/3">
                     <div className="mb-5">
                       <label
                         htmlFor="country"
@@ -154,13 +145,13 @@ const ProviderSettings = () => {
                         type="text"
                         name="country"
                         id="country"
-                        placeholder={user?.country}
+                        placeholder={provider?.country}
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
                         onChange={handleChange}
                       />
                     </div>
                   </div>
-                  <div className="w-full px-3 sm:w-1/2">
+                  <div className="w-full px-3 sm:w-1/3">
                     <div className="mb-5">
                       <label
                         htmlFor="city"
@@ -172,7 +163,7 @@ const ProviderSettings = () => {
                         type="text"
                         name="city"
                         id="city"
-                        placeholder={user?.city}
+                        placeholder={provider?.city}
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
                         onChange={handleChange}
                       />
@@ -190,7 +181,7 @@ const ProviderSettings = () => {
                         type="text"
                         name="form_filler_name"
                         id="form_filler_name"
-                        placeholder={user?.form_filler_name}
+                        placeholder={provider?.form_filler_name}
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
                         onChange={handleChange}
                       />
@@ -208,7 +199,7 @@ const ProviderSettings = () => {
                         type="text"
                         name="form_filler_position"
                         id="form_filler_position"
-                        placeholder={user?.form_filler_position}
+                        placeholder={provider?.form_filler_position}
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
                         onChange={handleChange}
                       />
@@ -218,7 +209,7 @@ const ProviderSettings = () => {
               )}
               {step === 2 && (
                 <>
-                  <div className="w-full px-3 sm:w-1/2">
+                  <div className="w-full px-3 sm:w-1/3">
                     <div className="mb-5">
                       <label
                         htmlFor="id_number"
@@ -230,13 +221,13 @@ const ProviderSettings = () => {
                         type="number"
                         name="id_number"
                         id="id_number"
-                        placeholder={user?.id_number}
+                        placeholder={provider?.id_number}
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
                         onChange={handleChange}
                       />
                     </div>
                   </div>
-                  <div className="w-full px-3 sm:w-1/2">
+                  <div className="w-full px-3 sm:w-1/3">
                     <div className="mb-5">
                       <label
                         htmlFor="cellphone"
@@ -248,13 +239,13 @@ const ProviderSettings = () => {
                         type="number"
                         name="cellphone"
                         id="cellphone"
-                        placeholder={user?.cellphone}
+                        placeholder={provider?.cellphone}
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
                         onChange={handleChange}
                       />
                     </div>
                   </div>
-                  <div className="w-full px-3 sm:w-1/2">
+                  <div className="w-full px-3 sm:w-1/3">
                     <div className="mb-5">
                       <label
                         htmlFor="ceo_cellphone"
@@ -266,13 +257,13 @@ const ProviderSettings = () => {
                         type="number"
                         name="ceo_cellphone"
                         id="ceo_cellphone"
-                        placeholder={user?.ceo_cellphone}
+                        placeholder={provider?.ceo_cellphone}
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
                         onChange={handleChange}
                       />
                     </div>
                   </div>
-                  <div className="w-full px-3 sm:w-1/2">
+                  <div className="w-full px-3 sm:w-1/3">
                     <div className="mb-5">
                       <label
                         htmlFor="phone"
@@ -284,13 +275,13 @@ const ProviderSettings = () => {
                         type="number"
                         name="phone"
                         id="phone"
-                        placeholder={user?.phone}
+                        placeholder={provider?.phone}
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
                         onChange={handleChange}
                       />
                     </div>
                   </div>
-                  <div className="w-full px-3 sm:w-1/2">
+                  <div className="w-full px-3 sm:w-1/3">
                     <div className="mb-5">
                       <label
                         htmlFor="foundation_year"
@@ -302,13 +293,13 @@ const ProviderSettings = () => {
                         type="number"
                         name="foundation_year"
                         id="foundation_year"
-                        placeholder={user?.foundation_year}
+                        placeholder={provider?.foundation_year}
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
                         onChange={handleChange}
                       />
                     </div>
                   </div>
-                  <div className="w-full px-3 sm:w-1/2">
+                  <div className="w-full px-3 sm:w-1/3">
                     <div className="mb-5">
                       <label
                         htmlFor="postal_code"
@@ -320,13 +311,13 @@ const ProviderSettings = () => {
                         type="number"
                         name="postal_code"
                         id="postal_code"
-                        placeholder={user?.postal_code}
+                        placeholder={provider?.postal_code}
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
                         onChange={handleChange}
                       />
                     </div>
                   </div>
-                  <div className="w-full px-3 sm:w-1/2">
+                  <div className="w-full px-3 sm:w-1/3">
                     <div className="mb-5">
                       <label
                         htmlFor="fax_number"
@@ -338,13 +329,13 @@ const ProviderSettings = () => {
                         type="number"
                         name="fax_number"
                         id="fax_number"
-                        placeholder={user?.fax_number}
+                        placeholder={provider?.fax_number}
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
                         onChange={handleChange}
                       />
                     </div>
                   </div>
-                  <div className="w-full px-3 sm:w-1/2">
+                  <div className="w-full px-3 sm:w-1/3">
                     <div className="mb-5">
                       <label
                         htmlFor="economical_number"
@@ -356,7 +347,7 @@ const ProviderSettings = () => {
                         type="number"
                         name="economical_number"
                         id="economical_number"
-                        placeholder={user?.economical_number}
+                        placeholder={provider?.economical_number}
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
                         onChange={handleChange}
                       />
@@ -367,7 +358,7 @@ const ProviderSettings = () => {
             </div>
           </div>
 
-          <div className="absolute right-0 bottom-[4rem] flex justify-center gap-10 w-full ">
+          <div className="absolute right-0 bottom-[2rem] flex justify-center gap-10 w-full ">
             {step > 1 && (
               <button
                 type="button"
@@ -391,7 +382,7 @@ const ProviderSettings = () => {
                 type="submit"
                 className="hover:shadow-form w-full max-w-xs rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none"
               >
-                ثبت
+                {loading ? "در حال ثبت" : "ثبت"}
               </button>
             )}
           </div>

@@ -1,24 +1,31 @@
-import React, { useState, useContext, useEffect } from "react";
-import AuthContext from "../../context/auth_context";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "../../context/toast_context";
 import { useLocation } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { showToast } from "../../redux/slices/toastSlice";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  resendProviderVerificationCode,
+  verifyProvider,
+} from "../../redux/slices/providerSlice";
+import {
+  resendUserVerificationCode,
+  verifyUser,
+} from "../../redux/slices/userSlice";
 
 const VerificationModal = ({ email, onClose, mode }) => {
-  const {
-    verifyLoading,
-    verifyError,
-    verifyUser,
-    verifySuccess,
-    resendVerificationCode,
-    verifyProvider,
-  } = useContext(AuthContext);
+  const dispatch = useDispatch();
   const [code, setCode] = useState("");
   const [timer, setTimer] = useState(120); // 60 seconds timer
   const [retryAllowed, setRetryAllowed] = useState(false);
+  const {
+    providerVerifyLoading,
+    providerVerifyError,
+    providerVerifySuccess,
+    provider,
+  } = useSelector((state) => state.provider);
+  const { userVerifyLoading, userVerifyError, userVerifySuccess, user } =
+    useSelector((state) => state.user);
   const navigate = useNavigate();
-  const showToast = useToast();
   const location = useLocation();
 
   useEffect(() => {
@@ -40,31 +47,49 @@ const VerificationModal = ({ email, onClose, mode }) => {
   const handleVerify = async (e) => {
     e.preventDefault();
     try {
-      location.pathname.includes("provider")
-        ? await verifyProvider(email, code, mode)
-        : await verifyUser(email, code, mode);
+      if (location.pathname.includes("provider")) {
+        await dispatch(verifyProvider({ email, code, mode })).unwrap();
+      } else {
+        await dispatch(verifyUser({ email, code, mode })).unwrap();
+      }
 
       onClose();
       navigate("/");
-      showToast(`شما وارد صفحه کاربری خود شده اید `, {});
+      dispatch(
+        showToast({
+          message: "شما وارد صفحه کاربری خود شده اید",
+          type: "success",
+        })
+      );
     } catch (err) {
-      console.log(err.message);
-      // Handle verification error if needed
+      console.error(err.message);
     }
   };
 
   const handleRetry = async () => {
-    setTimer(120);
+    setTimer(120); // Reset timer
     setRetryAllowed(false);
-    await resendVerificationCode(email); // Resend the verification code
+    if (location.pathname.includes("provider")) {
+      dispatch(resendProviderVerificationCode(email));
+    } else {
+      dispatch(resendUserVerificationCode(email));
+    }
   };
+
+  const loading = location.pathname.includes("provider")
+    ? providerVerifyLoading
+    : userVerifyLoading;
+
+  const error = location.pathname.includes("provider")
+    ? providerVerifyError
+    : userVerifyError;
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-6 rounded shadow-md w-1/3">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">
-            {mode === "register" ? "Verify Email" : "Forgot Password"}
+          <h2 className="text-xl font-bold ">
+            {mode === "register" ? "تایید ایمیل" : "فراموشی رمر عبور"}
           </h2>
           <button
             onClick={onClose}
@@ -79,7 +104,7 @@ const VerificationModal = ({ email, onClose, mode }) => {
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="code"
             >
-              Verification Code
+              کد ارسال شده به ایمیل خود را وارد کنید
             </label>
             <input
               type="text"
@@ -92,21 +117,19 @@ const VerificationModal = ({ email, onClose, mode }) => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-center">
             <button
               type="submit"
-              disabled={verifyLoading}
+              disabled={loading}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
-              {verifyLoading ? "Verifying..." : "Verify"}
+              {loading ? "در حال تایید" : "ثبت"}
             </button>
           </div>
-          {verifyError && (
-            <p className="text-red-500 text-xs italic">{verifyError}</p>
-          )}
+          {error && <p className="text-red-500 text-xs italic">{error}</p>}
           <div className="mt-4">
             <p className="text-sm text-gray-600">
-              You can retry in {timer} seconds
+              میتوانید درخواست خود را {timer} دوباره ارسال کنید
             </p>
             <button
               type="button"
@@ -116,7 +139,7 @@ const VerificationModal = ({ email, onClose, mode }) => {
                 retryAllowed ? "bg-gray-300 hover:bg-gray-400" : "bg-gray-200"
               } text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
             >
-              Retry
+              تلاش دوباره
             </button>
           </div>
         </form>

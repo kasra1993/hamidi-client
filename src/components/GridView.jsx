@@ -4,7 +4,7 @@ import Product from "./Product";
 import { Link } from "react-router-dom";
 import Loading from "./Loading";
 
-const GridView = ({ products, componentType }) => {
+const GridView = ({ providers, componentType }) => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -20,8 +20,8 @@ const GridView = ({ products, componentType }) => {
       ) : (
         <Wrapper>
           <div className="products-container">
-            {products &&
-              products.map((product) => {
+            {providers &&
+              providers.map((product) => {
                 return (
                   <Product
                     key={product._id}

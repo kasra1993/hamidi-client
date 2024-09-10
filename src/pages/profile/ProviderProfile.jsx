@@ -3,9 +3,11 @@ import ProviderSettings from "./ProviderSettings";
 import ProviderMessages from "./ProviderMessages";
 import ProviderTickets from "./ProviderTickets";
 import ResetPassword from "./ResetPassword";
+import { useNavigate } from "react-router-dom";
 
 const ProviderProfile = () => {
   const [activeTab, setActiveTab] = useState("details");
+  const navigate = useNavigate();
 
   const renderContent = () => {
     switch (activeTab) {
@@ -18,14 +20,20 @@ const ProviderProfile = () => {
       case "ticket":
         return <ProviderTickets />;
       default:
-        return <DetailsTab />;
+        return <ProviderSettings />;
     }
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="bg-white shadow-xl rounded-lg h-screen my-5">
-        <div className="flex border-b border-gray-200">
+    <div className=" mx-auto p-4 h-screen overflow-hidden">
+      <button
+        onClick={() => navigate("/")}
+        className="absolute border top-2 left-2 z-50 bg-white hover:bg-black hover:text-white text-black font-bold py-2 px-4 rounded"
+      >
+        بازگشت
+      </button>
+      <div className="bg-white shadow-xl rounded-lg my-5">
+        <div className="flex border-b border-gray-200 ">
           <button
             className={`flex-1 py-2 px-4 text-center ${
               activeTab === "settings"

@@ -1,6 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import AuthContext from "../../context/auth_context";
+import { providerResetPassword } from "../../redux/slices/providerSlice";
+import { useDispatch } from "react-redux";
 
 const ProviderResetPassword = () => {
   const { token } = useParams();
@@ -8,7 +9,7 @@ const ProviderResetPassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
-  const { providerResetPassword } = useContext(AuthContext);
+  const dispatch = useDispatch(); // Initialize dispatch
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,13 +18,16 @@ const ProviderResetPassword = () => {
       return;
     }
 
-    try {
-      const response = await providerResetPassword(token, newPassword);
-      setMessage(response.message);
-      navigate("/login"); // Redirect to login after success
-    } catch (err) {
-      setMessage(err.response.data.message || "Failed to reset password");
-    }
+    // Dispatch the async thunk action
+    dispatch(providerResetPassword({ token, newPassword }))
+      .unwrap() // Handle the resolved/rejected state directly
+      .then((response) => {
+        setMessage(response.message); // Success: Set success message
+        navigate("/login"); // Redirect to login after success
+      })
+      .catch((error) => {
+        setMessage(error || "Failed to reset password"); // Error: Set error message
+      });
   };
 
   return (

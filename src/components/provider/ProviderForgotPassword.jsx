@@ -1,13 +1,13 @@
-import React, { useState, useContext } from "react";
-import AuthContext from "../../context/auth_context";
+import React, { useState } from "react";
 import axios from "axios";
 import { providerBg } from "../../images";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { providerForgotPassword } from "../../redux/slices/providerSlice";
 
 const ProviderForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const { providerForgotPassword } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {

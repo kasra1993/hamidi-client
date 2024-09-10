@@ -46,12 +46,20 @@ const material_filter_reducer = (state, action) => {
 
     if (sort === "name-a") {
       tempProviders = tempProviders.sort((a, b) => {
-        return a?.name?.localeCompare(b?.name);
+        if (a.name) {
+          return a?.name?.localeCompare(b?.name);
+        } else if (a.company_name) {
+          return a?.company_name?.localeCompare(b?.company_name);
+        } else return "";
       });
     }
     if (sort === "name-z") {
       tempProviders = tempProviders.sort((a, b) => {
-        return b?.name?.localeCompare(a?.name);
+        if (a.name) {
+          return b?.name?.localeCompare(a?.name);
+        } else if (a.company_name) {
+          return b?.company_name?.localeCompare(a?.company_name);
+        } else return "";
       });
     }
 

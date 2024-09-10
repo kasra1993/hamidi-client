@@ -1,26 +1,43 @@
 import React, { useEffect, useState } from "react";
-import { useMessageContext } from "../../context/message_context";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchReceivedMessages,
+  respondToMessage,
+} from "../../redux/slices/messageSlice";
+
 const ProviderReceivedMessages = () => {
-  const { receivedMessages, fetchReceivedMessages, respondToMessage, loading } =
-    useMessageContext();
+  const dispatch = useDispatch();
+  const {
+    messages: receivedMessages,
+    loading,
+    error,
+  } = useSelector((state) => state.messages);
   const [response, setResponse] = useState("");
 
+  // Fetch received messages on component mount
   useEffect(() => {
-    fetchReceivedMessages();
-  }, []);
+    dispatch(fetchReceivedMessages());
+  }, [dispatch]);
 
   const handleRespond = async (messageId) => {
     if (response.trim()) {
-      await respondToMessage(messageId, response);
-      setResponse(""); // Clear response after sending
+      dispatch(respondToMessage({ messageId, response }))
+        .unwrap()
+        .then(() => {
+          setResponse(""); // Clear the response after sending
+        })
+        .catch((err) => {
+          console.error("Error responding to message:", err);
+        });
     }
   };
 
   return (
     <div className="max-w-2xl mx-auto mt-4">
-      <h2 className="text-xl font-semibold mb-4">Received Messages</h2>
       {loading ? (
         <p>Loading...</p>
+      ) : error ? (
+        <p>در حال حاضر پیامی ندارید</p>
       ) : (
         <div className="space-y-4">
           {receivedMessages.length === 0 ? (

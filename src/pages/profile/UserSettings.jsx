@@ -1,14 +1,13 @@
-import React, { useContext, useState } from "react";
-import AuthContext from "../../context/auth_context";
+import React, { useState } from "react";
 import HomeIcon from "../../components/HomeIcon";
-import { main_url } from "../../utils/constants";
-import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUserSetting } from "../../redux/slices/userSlice";
 
 const UserSettings = () => {
-  const { user, setUser } = useContext(AuthContext);
+  const { user, loading } = useSelector((state) => state.user);
   const [formData, setFormData] = useState(user);
-  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,24 +19,14 @@ const UserSettings = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      const response = await axios.patch(`${main_url}user-update`, {
-        userId: user?._id,
-        ...formData,
-      });
-
-      if (response.status === 200) {
-        setUser(response.data.user);
+    dispatch(updateUserSetting({ userId: user?._id, formData }))
+      .unwrap() // Unwraps the response to handle success and error locally
+      .then((response) => {
         setMessage("Settings updated successfully!");
-      } else {
-        setMessage(response.data.message || "Failed to update settings.");
-      }
-    } catch (error) {
-      setMessage("An error occurred while updating settings.");
-    } finally {
-      setLoading(false);
-    }
+      })
+      .catch((error) => {
+        setMessage(error || "An error occurred while updating settings.");
+      });
   };
 
   return (
@@ -194,7 +183,7 @@ const UserSettings = () => {
               type="submit"
               className="hover:shadow-form w-full max-w-xs rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none"
             >
-              ثبت تغییرات
+              {loading ? "در حال ثبت" : "ثبت"}
             </button>
           </div>
         </form>

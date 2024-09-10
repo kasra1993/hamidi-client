@@ -1,6 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import AuthContext from "../../context/auth_context";
+import { userPasswordReset } from "../../redux/slices/userSlice";
+import { useDispatch } from "react-redux";
 
 const UserResetPassword = () => {
   const { token } = useParams();
@@ -8,7 +9,7 @@ const UserResetPassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
-  const { UserResetPassword } = useContext(AuthContext);
+  const dispatch = useDispatch(); // Initialize dispatch
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,14 +17,15 @@ const UserResetPassword = () => {
       setMessage("Passwords do not match");
       return;
     }
-
-    try {
-      const response = await UserResetPassword(token, newPassword);
-      setMessage(response.message);
-      navigate("/login"); // Redirect to login after success
-    } catch (err) {
-      setMessage(err.response.data.message || "Failed to reset password");
-    }
+    dispatch(userPasswordReset({ token, newPassword }))
+      .unwrap() // Handle the resolved/rejected state directly
+      .then((response) => {
+        setMessage(response.message); // Success: Set success message
+        navigate("/login"); // Redirect to login after success
+      })
+      .catch((error) => {
+        setMessage(error || "Failed to reset password"); // Error: Set error message
+      });
   };
 
   return (

@@ -27,7 +27,7 @@ const ResetPassword = () => {
   return (
     <div className="max-w-md mx-auto mt-10 p-8 bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
-        Reset Password
+        تغییر رمز عبور
       </h2>
       <form onSubmit={handleSubmit}>
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
@@ -37,7 +37,7 @@ const ResetPassword = () => {
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="current-password"
           >
-            Current Password
+            رمز کنونی
           </label>
           <input
             type="password"
@@ -53,7 +53,7 @@ const ResetPassword = () => {
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="new-password"
           >
-            New Password
+            رمز جدید
           </label>
           <input
             type="password"
@@ -69,7 +69,7 @@ const ResetPassword = () => {
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="confirm-password"
           >
-            Confirm New Password
+            رمز جدید
           </label>
           <input
             type="password"
@@ -84,7 +84,7 @@ const ResetPassword = () => {
           type="submit"
           className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring focus:border-blue-500"
         >
-          Reset Password
+          ثبت
         </button>
       </form>
     </div>

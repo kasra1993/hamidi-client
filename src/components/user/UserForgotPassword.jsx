@@ -1,27 +1,27 @@
-import React, { useState, useContext } from "react";
-import AuthContext from "../../context/auth_context";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { userBg } from "../../images";
+import { userForgotPassword } from "../../redux/slices/userSlice";
+import { useDispatch } from "react-redux";
 
 const UserForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const { userForgotPassword } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const dispatch = useDispatch(); // Initialize dispatch
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await userForgotPassword(email);
-      setMessage(response.message);
-    } catch (err) {
-      setMessage(
-        err.response.data.message || "Failed to send password reset email"
-      );
-    }
+    dispatch(userForgotPassword(email))
+      .unwrap()
+      .then((response) => {
+        setMessage(response.message);
+      })
+      .catch((error) => {
+        setMessage(error || "Failed to send password reset email");
+      });
   };
-
   return (
     <div
       className="flex justify-center items-center h-screen"

@@ -1,49 +1,57 @@
 import React from "react";
-import { useMaterialFilterContext } from "../context/material_filter_context";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateSort,
+  setGridView,
+  setListView,
+} from "../redux/slices/materialProvidersSlice";
 import { BsFillGridFill, BsList } from "react-icons/bs";
 import styled from "styled-components";
+
 const MaterialProviderSort = () => {
-  const {
-    filtered_providers: products,
-    grid_view,
-    setGridView,
-    setListView,
-    sort,
-    updateSort,
-  } = useMaterialFilterContext();
+  const dispatch = useDispatch();
+
+  // Accessing filteredProviders, sortOption, and gridView from the Redux store
+  const { filteredProviders, sortOption, gridView } = useSelector(
+    (state) => state.materialProviders
+  );
+  console.log("filteredProviders", filteredProviders);
+
   return (
     <Wrapper>
       <div className="btn-container">
+        {/* Toggle between grid and list view */}
         <button
           type="button"
-          className={`${grid_view ? "active" : null}`}
-          onClick={setGridView}
+          className={`${gridView ? "active" : ""}`} // Using gridView correctly here
+          onClick={() => dispatch(setGridView())} // Set Grid View
         >
           <BsFillGridFill />
         </button>
         <button
           type="button"
-          className={`${!grid_view ? "active" : null}`}
-          onClick={setListView}
+          className={`${!gridView ? "active" : ""}`} // Handle list view toggle
+          onClick={() => dispatch(setListView())} // Set List View
         >
           <BsList />
         </button>
       </div>
-      <p>{products.length} providers found</p>
+      <div className="flex gap-2">
+        <p> تامین کننده یافت شد </p>
+        <p>{filteredProviders && filteredProviders.length}</p>
+      </div>
       <hr />
       <form>
-        <label htmlFor="sort">Sort By</label>
+        <label htmlFor="sort">چینش</label>
         <select
           name="sort"
           id="sort"
           className="sort-input"
-          value={sort}
-          onChange={updateSort}
+          value={sortOption} // Current sort option
+          onChange={(e) => dispatch(updateSort(e.target.value))} // Update sort option in Redux
         >
-          {/* <option value="price-lowest">price (lowest)</option>
-          <option value="price-highest">price (highest)</option> */}
-          <option value="name-a">name (a-z)</option>
-          <option value="name-z">name (z-a)</option>
+          <option value="name-a">نام (a-z)</option>
+          <option value="name-z">نام (z-a)</option>
         </select>
       </form>
     </Wrapper>

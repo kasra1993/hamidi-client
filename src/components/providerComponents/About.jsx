@@ -1,10 +1,15 @@
 import React from "react";
+import ReviewForm from "../ReviewForm";
 
 const About = ({ provider }) => {
+  const handleReviewSubmit = (review) => {
+    // Here you can handle the submission, for example, sending the review to a server
+    console.log("Review submitted:", review);
+  };
   const defaultImage = "/default-provider-image.png";
   return (
     <div className="font-sans bg-white">
-      <h2 className="text-3xl font-extrabold text-black bg-gray-200 rounded  py-10 ">
+      <h2 className="text-5xl font-light text-black bg-gray-200 rounded  py-10 font-sans ">
         {provider?.name}
       </h2>
       <div className="p-4 lg:max-w-7xl max-w-4xl mx-auto">
@@ -114,6 +119,7 @@ const About = ({ provider }) => {
         <div className="mt-16 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] p-6">
           <p>{provider?.description}</p>
         </div>
+        <ReviewForm onSubmitReview={handleReviewSubmit} />
       </div>
     </div>
   );
