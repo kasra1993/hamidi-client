@@ -17,11 +17,14 @@ import {
   specialOfferIcon,
 } from "../images";
 import { useSelector } from "react-redux";
+import { Player } from "@lottiefiles/react-lottie-player";
+import { animation } from "../images";
 
 const HomePage = () => {
   const [bg, setBg] = useState(vendorBackground);
   const { user } = useSelector((state) => state.user);
-  console.log(user);
+  const [isLottie, setIsLottie] = useState(false); // Flag to control Lottie or image background
+
   const boxArrays = [
     {
       id: 0,
@@ -89,24 +92,42 @@ const HomePage = () => {
   ];
 
   return (
-    <section
-      className="flex  gap-5 items-center justify-end h-screen transition-all ease-in-out bg-blend-overlay w-full pr-5 "
-      style={{
-        backgroundImage: `url(${bg})`,
-        backgroundSize: "100% 100%", // Change this line
-        // backgroundSize: "cover", // Change this line
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-      }}
-    >
-      <div className="w-[300px] h-fit  flex flex-col pb-10 gap-2">
+    <section className="flex gap-5 items-center justify-end h-screen transition-all ease-in-out bg-blend-overlay w-full pr-5">
+      <div
+        className="absolute inset-0 z-[-1]" // This div will be the background container
+        style={{
+          backgroundImage: isLottie ? "none" : `url(${bg})`,
+          backgroundSize: "100% 100%",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+        }}
+      >
+        {isLottie && (
+          <Player
+            src={animation}
+            className="player"
+            loop
+            autoplay
+            style={{ maxHeight: "70%", width: "100%" }}
+          />
+        )}
+      </div>
+
+      <div className="w-[300px] h-fit flex flex-col pb-10 gap-2">
         {boxArrays &&
           boxArrays.map(({ id, title, bgId, path, img, classes }) => (
             <Link
               to={path}
               key={title}
-              // className={classes}
-              onMouseOver={() => setBg(bgId)}
+              className="relative"
+              onMouseOver={() => {
+                if (title === "provider") {
+                  setIsLottie(true); // Show Lottie animation for the "provider" button
+                } else {
+                  setBg(bgId); // Set static background image for other buttons
+                  setIsLottie(false); // Disable Lottie animation
+                }
+              }}
             >
               <img src={img} alt={title} className={classes} />
             </Link>

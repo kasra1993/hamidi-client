@@ -24,3 +24,5 @@ export { default as userBg } from "./pageBackgrounds/user-bg.png";
 export { default as vendorBg } from "./pageBackgrounds/vendor-bg.png";
 
 export { default as loadingSpinner } from "./gifs/loading-spinner.gif";
+
+export { default as animation } from "./animation.json";

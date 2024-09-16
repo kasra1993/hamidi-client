@@ -33,6 +33,7 @@ import ResourceList from "./pages/resources/ResourceList";
 import SingleResource from "./pages/resources/SingleResource";
 import SingleMarket from "./pages/markets/SingleMarket";
 import ComingSoon from "./pages/ComingSoon";
+import Test from "./pages/Test";
 
 function App() {
   return (
@@ -59,6 +60,7 @@ function App() {
             />
             <Route path="/vendors" element={<VendorPage />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/test" element={<Test />} />
             <Route path="/exhibition" element={<Exhibition />} />
             <Route path="/offers" element={<Offers />} />
             <Route path="/products-info-list" element={<ProductsInfoList />} />
