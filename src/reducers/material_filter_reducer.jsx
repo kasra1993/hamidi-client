@@ -46,12 +46,20 @@ const material_filter_reducer = (state, action) => {
 
     if (sort === "name-a") {
       tempProviders = tempProviders.sort((a, b) => {
-        return a?.name?.localeCompare(b?.name);
+        if (a.name) {
+          return a?.name?.localeCompare(b?.name);
+        } else if (a.company_name) {
+          return a?.company_name?.localeCompare(b?.company_name);
+        } else return "";
       });
     }
     if (sort === "name-z") {
       tempProviders = tempProviders.sort((a, b) => {
-        return b?.name?.localeCompare(a?.name);
+        if (a.name) {
+          return b?.name?.localeCompare(a?.name);
+        } else if (a.company_name) {
+          return b?.company_name?.localeCompare(a?.company_name);
+        } else return "";
       });
     }
 
@@ -66,8 +74,15 @@ const material_filter_reducer = (state, action) => {
   if (action.type === FILTER_MATERIAL_PROVIDERS) {
     const { all_providers } = state;
     let tempProviders = [...all_providers];
-    const { text, materialgroups, materialnames, materialgrades } =
-      state.filters;
+    const {
+      text,
+      materialgroups,
+      materialnames,
+      materialgrades,
+      materialGroupText,
+      materialNameText,
+      materialGradeText,
+    } = state.filters;
     if (text) {
       tempProviders = tempProviders.filter((provider) => {
         return (
@@ -75,6 +90,35 @@ const material_filter_reducer = (state, action) => {
           provider?.name.toLowerCase().includes(text.toLowerCase())
         );
       });
+    }
+    if (materialGroupText) {
+      tempProviders = tempProviders.filter((provider) =>
+        provider.records.some((record) =>
+          record.materialgroup?.title
+            .toLowerCase()
+            .includes(materialGroupText.toLowerCase())
+        )
+      );
+    }
+
+    if (materialNameText) {
+      tempProviders = tempProviders.filter((provider) =>
+        provider.records.some((record) =>
+          record.materialname?.title
+            .toLowerCase()
+            .includes(materialNameText.toLowerCase())
+        )
+      );
+    }
+
+    if (materialGradeText) {
+      tempProviders = tempProviders.filter((provider) =>
+        provider.records.some((record) =>
+          record.materialgrade?.title
+            .toLowerCase()
+            .includes(materialGradeText.toLowerCase())
+        )
+      );
     }
 
     if (materialgroups !== "all") {
@@ -109,6 +153,9 @@ const material_filter_reducer = (state, action) => {
       filters: {
         ...state.filters,
         text: "",
+        materialGroupText: "",
+        materialNameText: "",
+        materialGradeText: "",
         materialgroups: "all",
         materialnames: "all",
         materialgrades: "all",

@@ -2,16 +2,18 @@ import React from "react";
 
 const Products = ({ provider, type }) => {
   return (
-    <article className="rounded-xl border border-gray-700 bg-gray-800 p-4">
-      <div className="flex items-center gap-4">
+    <article className="rounded-xl border border-gray-700 bg-gray-200 p-4">
+      <div className="flex items-center justify-between gap-4 px-10 py-3 mb-5 bg-slate-300 rounded-lg">
         <img
           alt=""
           src={provider?.image?.url}
-          className="size-16 rounded-full object-cover"
+          className="shadow-sm shadow-slate-400 object-cover w-[5rem]"
         />
 
         <div>
-          <h3 className="text-lg font-medium text-white">{provider?.name}</h3>
+          <h3 className="text-2xl font-medium text-black">
+            {provider?.name || provider?.company_name}
+          </h3>
         </div>
       </div>
       {type && type === "part" ? (
@@ -20,7 +22,7 @@ const Products = ({ provider, type }) => {
             <tr
               style={{
                 textAlign: "left",
-                color: "white",
+                color: "black",
                 justifyContent: "space-evenly",
                 display: "flex",
                 width: "100%",
@@ -38,7 +40,7 @@ const Products = ({ provider, type }) => {
               provider?.records.map((record, index) => (
                 <tr
                   key={index}
-                  className="flex w-full h-full justify-evenly rounded-lg border border-gray-700 p-4 hover:border-pink-600 text-white my-5 "
+                  className="flex w-full h-full justify-evenly rounded-lg border border-gray-700 p-4 hover:border-pink-600 text-black my-5 "
                 >
                   <td className=" text-justify">{record?.partgroup?.title}</td>
                   <td>{record?.partname?.title}</td>
@@ -53,7 +55,7 @@ const Products = ({ provider, type }) => {
             <tr
               style={{
                 textAlign: "left",
-                color: "white",
+                color: "black",
                 justifyContent: "space-evenly",
                 display: "flex",
                 width: "100%",
@@ -71,7 +73,7 @@ const Products = ({ provider, type }) => {
               provider?.records.map((record, index) => (
                 <tr
                   key={index}
-                  className="flex w-full h-full justify-evenly rounded-lg border border-gray-700 p-4 hover:border-pink-600 text-white my-5 "
+                  className="flex w-full h-full justify-evenly rounded-lg border border-gray-700 p-4 hover:border-pink-600 text-black my-5 "
                 >
                   <td className=" text-justify">
                     {record?.materialgroup?.title}

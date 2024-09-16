@@ -1,9 +1,9 @@
 import React from "react";
-import loadingSpinner from "/loading-spinner.gif";
+import { loadingSpinner } from "../images";
 
 const Loading = () => {
   return (
-    <div className="absolute left-[45%] top-[25%] ">
+    <div className="flex justify-center items-center fixed inset-0 z-50">
       <img src={loadingSpinner} alt="loading-spinner" />
     </div>
   );

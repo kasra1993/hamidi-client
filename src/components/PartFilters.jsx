@@ -1,21 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { usePartFilterContext } from "../context/part_filter_context";
-import { getUniqueValues } from "../utils/helpers";
-import { useProductsContext } from "../context/products_context";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateFilters,
+  clearFilters,
+  fetchPartGeneralIds,
+  fetchPartGroups,
+  fetchPartNames,
+} from "../redux/slices/partProvidersSlice";
 
 const PartFilters = () => {
-  const {
-    filters: { text, partnames, partgroups, partgeneralids },
-    updateFilters,
-    clearFilters,
-  } = usePartFilterContext();
+  const dispatch = useDispatch();
+  const { filters, partGroups, partNames, partGeneralIds } = useSelector(
+    (state) => state.partProviders
+  );
 
-  const { part_groups, part_names, part_generalids } = useProductsContext();
+  console.log("filters", filters);
 
-  const partGroups = getUniqueValues(part_groups);
-  const partNames = getUniqueValues(part_names);
-  const partGeneralIds = getUniqueValues(part_generalids);
+  useEffect(() => {
+    dispatch(fetchPartGeneralIds());
+    dispatch(fetchPartGroups());
+    dispatch(fetchPartNames());
+  }, [dispatch]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    console.log("name", name, "value", value); // For debugging
+    dispatch(updateFilters({ name, value })); // Make sure this action is dispatched correctly
+  };
+
+  const handleClearFilters = () => {
+    dispatch(clearFilters());
+  };
 
   return (
     <Wrapper>
@@ -24,67 +40,59 @@ const PartFilters = () => {
           <div className="form-control">
             <input
               type="text"
-              name="text"
-              placeholder="جستجو"
-              className="search-input text-right"
-              value={text}
-              onChange={updateFilters}
-            />
-          </div>
-          <div className="form-control">
-            <input
-              type="text"
-              name="text"
+              name="searchPartProviderName"
               placeholder="جستجوی تامین کننده"
               className="search-input text-right"
-              value={text}
-              onChange={updateFilters}
+              value={filters.searchPartProviderName}
+              onChange={handleInputChange}
             />
           </div>
           <div className="form-control">
             <input
               type="text"
-              name="text"
-              placeholder="جستجوی گروه"
+              name="searchPartGroup"
+              placeholder="جستجوی گروه قطعه"
               className="search-input text-right"
-              // value={text}
-              // onChange={updateFilters}
+              value={filters.searchPartGroup}
+              onChange={handleInputChange}
             />
           </div>
           <div className="form-control">
             <input
               type="text"
-              name="text"
-              placeholder="جستجوی نام مواد"
+              name="searchPartName"
+              placeholder="جستجوی نام قطعه "
               className="search-input text-right"
-              // value={text}
-              // onChange={updateFilters}
+              value={filters.searchPartName}
+              onChange={handleInputChange}
             />
           </div>
           <div className="form-control">
             <input
               type="text"
-              name="text"
-              placeholder="جستجوی گرید مواد"
+              name="searchPartGeneralId"
+              placeholder="جستجوی مشخصه عمومی "
               className="search-input text-right"
-              // value={text}
-              // onChange={updateFilters}
+              value={filters.searchPartGeneralId}
+              onChange={handleInputChange}
             />
           </div>
           <div className="form-control">
-            <h5>Part Groups</h5>
+            <h5>گروه قطعه</h5>
             <div className="">
               <select
-                name="partgroups"
-                value={partgroups}
-                onChange={updateFilters}
-                className="w-full border rounded-lg p-2"
+                name="partGroup"
+                value={filters.partGroup}
+                onChange={handleInputChange}
+                className="w-full border rounded-lg p-2 text-right  text-sm"
               >
+                <option value="">انتخاب گروه</option>
+
                 {partGroups &&
-                  partGroups.map((c, index) => {
+                  partGroups.map((group) => {
                     return (
-                      <option value={c} key={index}>
-                        {c}
+                      <option value={group.title} key={group._id}>
+                        {group.title}
                       </option>
                     );
                   })}
@@ -92,36 +100,39 @@ const PartFilters = () => {
             </div>
           </div>
           <div className="form-control">
-            <h5>Part Names</h5>
+            <h5>نام قطعه</h5>
             <select
-              name="partnames"
-              value={partnames}
-              onChange={updateFilters}
-              className="w-full border rounded-lg p-2"
+              name="partName"
+              value={filters.partName}
+              onChange={handleInputChange}
+              className="w-full border rounded-lg p-2 text-right  text-sm"
             >
+              <option value="">انتخاب نام</option>
+
               {partNames &&
-                partNames.map((c, index) => {
+                partNames.map((name) => {
                   return (
-                    <option value={c} key={index}>
-                      {c}
+                    <option value={name.title} key={name._id}>
+                      {name.title}
                     </option>
                   );
                 })}
             </select>
           </div>
           <div className="form-control">
-            <h5>Part General Ids</h5>
+            <h5>مشخصه عمومی قطعه</h5>
             <select
-              name="partgeneralids"
-              value={partgeneralids}
-              onChange={updateFilters}
-              className="w-full border rounded-lg p-2"
+              name="partGeneralId"
+              value={filters.partGeneralId}
+              onChange={handleInputChange}
+              className="w-full border rounded-lg p-2 text-right text-sm"
             >
+              <option value="">انتخاب مشخصه</option>
               {partGeneralIds &&
-                partGeneralIds.map((c, index) => {
+                partGeneralIds.map((id) => {
                   return (
-                    <option value={c} key={index}>
-                      {c}
+                    <option value={id.title} key={id._id}>
+                      {id.title}
                     </option>
                   );
                 })}
@@ -131,7 +142,7 @@ const PartFilters = () => {
           <button
             type="button"
             className="clear-btn text-center w-full"
-            onClick={clearFilters}
+            onClick={handleClearFilters}
           >
             پاک کردن فیلتر ها
           </button>

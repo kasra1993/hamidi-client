@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import About from "../components/providerComponents/About";
 import Products from "../components/providerComponents/Products";
 import Contact from "../components/providerComponents/Contact";
+import Loading from "../components/Loading";
 
 const SingleProvider = () => {
   const [provider, setProvider] = useState({});
@@ -23,7 +24,15 @@ const SingleProvider = () => {
       setLoading(true);
       try {
         const response = await fetch(
-          `${url}${type === "part" ? "partProvider" : "materialProvider"}/${id}`
+          `${url}${
+            type === "part"
+              ? "partProvider"
+              : type === "material"
+              ? "materialProvider"
+              : type === "verified"
+              ? "verifiedProvider"
+              : ""
+          }/${id}`
         );
         if (!response.ok) {
           throw new Error("Something went wrong");
@@ -40,6 +49,10 @@ const SingleProvider = () => {
       fetchProvider();
     }
   }, [id]); // Dependency array
+
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <div className="bg-white dark:bg-gray-800">
       <button
@@ -48,7 +61,6 @@ const SingleProvider = () => {
       >
         بازگشت
       </button>
-      {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
       {provider && (
         <div className="flex h-screen py-10">

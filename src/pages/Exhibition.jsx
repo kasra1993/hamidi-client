@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import { main_url as url } from "../utils/constants";
-import exhibitionBackground from "/exhibition-bg.png";
+import { exhibitionBg } from "../images";
+import HomeIcon from "../components/HomeIcon";
 
 // Import Swiper styles
 import "swiper/css";
@@ -42,7 +43,7 @@ export default function Exhibition() {
     <div
       className="relative pt-52 px-10"
       style={{
-        backgroundImage: `url(${exhibitionBackground})`,
+        backgroundImage: `url(${exhibitionBg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         height: "100vh",
@@ -56,12 +57,7 @@ export default function Exhibition() {
       {error && <p>Error: {error}</p>}
       {exhibitions && (
         <div className="">
-          <button
-            onClick={() => navigate(-1)}
-            className="absolute top-28 left-10 z-50 hover:bg-black hover:text-white text-black font-bold py-2 px-4 rounded border"
-          >
-            بازگشت
-          </button>
+          <HomeIcon />
 
           <div className="w-full h-1/2">
             <Swiper

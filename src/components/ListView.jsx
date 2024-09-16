@@ -2,44 +2,43 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Loading from "./Loading";
+import VirtualizedList from "./VirtualizedList";
 
-const ListView = ({ products, componentType }) => {
+const ListView = ({ providers, componentType }) => {
   const defaultImage = "/default-provider-image.png";
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 500); // Simulate loading for 2 seconds
 
-    return () => clearTimeout(timer);
-  }, []);
+  const renderProvider = (product) => {
+    const { _id, image, name, company_name, isVerified } = product;
+    return (
+      <article key={_id}>
+        <img src={image?.url || defaultImage} alt={name} />
+        <div>
+          <h4>{name || company_name}</h4>
+          <Link
+            to={`/${isVerified ? "verified" : componentType}/provider/${_id}`}
+            className="btn"
+          >
+            اطلاعات بیشتر
+          </Link>
+        </div>
+      </article>
+    );
+  };
 
   return (
     <>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <Wrapper>
-          {products &&
-            products.map((product) => {
-              const { _id, image, name } = product;
-              return (
-                <article key={_id}>
-                  <img src={image?.url || defaultImage} alt={name} />
-                  <div>
-                    <h4>{name}</h4>
-                    <Link
-                      to={`/${componentType}/provider/${_id}`}
-                      className="btn"
-                    >
-                      اطلاعات بیشتر
-                    </Link>
-                  </div>
-                </article>
-              );
-            })}
-        </Wrapper>
-      )}
+      <Wrapper>
+        {providers && (
+          <VirtualizedList
+            items={providers} // Passing the providers array
+            height={800} // Adjust height based on your UI
+            width={900} // Adjust width based on your UI
+            itemSize={220} // Each item is approximately 220px in height
+            renderItem={renderProvider} // Pass the custom render function
+            listType="list"
+          />
+        )}
+      </Wrapper>
     </>
   );
 };

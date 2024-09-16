@@ -1,11 +1,17 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import vendorBg from "/vendor-bg.png";
+import { vendorBg } from "../images";
+import vendorNight from "../images/pageBackgrounds/vendor-night.png";
+import vendorDay from "../images/pageBackgrounds/vendor-day.png";
 import materialButton from "/material-provider-btn.png";
 import partButton from "/part-provider-btn.png";
-import marketbtn from "/market-btn.png";
-import productbtn from "/product-info-btn.png";
+import marketbtn from "/market-info-btn.png";
+import growthCenterBtn from "/growth-center-btn.png";
+import jobBoardBtn from "/job-board-btn.png";
+import discussionForumBtn from "/discussion-forum-btn.png";
+import resourceCenterBtn from "/resource-center-btn.png";
+import offerbtn from "/offer-btn.png";
+import HomeIcon from "../components/HomeIcon";
+import { useSelector } from "react-redux";
 
 const backgroundArray = [
   {
@@ -13,7 +19,7 @@ const backgroundArray = [
     name: "material",
     img: materialButton,
     link: "/materials",
-    style: "ml-4 ",
+    style: " ",
     active: false,
   },
   {
@@ -26,25 +32,59 @@ const backgroundArray = [
   },
   {
     id: 2,
-    name: "product-info",
-    img: productbtn,
-    link: "/#",
-    style: "w-5/6 float-right",
+    name: "offers",
+    img: offerbtn,
+    link: "/offers",
+    style: "float-right",
+    active: false,
+  },
+  {
+    id: 3,
+    name: "market",
+    img: marketbtn,
+    link: "/markets",
+    style: "w-full float-right",
     active: false,
   },
   {
     id: 4,
-    name: "market",
-    img: marketbtn,
-    link: "/#",
-    style: "w-1/4 float-right",
+    name: "resource-center",
+    img: resourceCenterBtn,
+    link: "/resources",
+    style: "w-full float-right",
     active: false,
+  },
+  {
+    id: 5,
+    name: "discussion-forum",
+    img: discussionForumBtn,
+    link: "https://www.autos.ca/forum/index.php?board=2479.0",
+    style: "w-full float-right",
+    active: false,
+    openInNewTab: true,
+  },
+  {
+    id: 6,
+    name: "job-board",
+    img: jobBoardBtn,
+    link: "/coming-soon",
+    style: "w-full float-right",
+    active: false,
+  },
+  {
+    id: 7,
+    name: "growth-center",
+    img: growthCenterBtn,
+    link: "https://uni.rierco.net/research/innovation-center",
+    style: "w-full float-right",
+    active: false,
+    openInNewTab: true,
   },
 ];
 
 const VendorPage = () => {
-  const navigate = useNavigate();
   const [hoveredLink, setHoveredLink] = useState(null);
+  const { user } = useSelector((state) => state.user);
 
   const handleMouseEnter = (name) => {
     setHoveredLink(name);
@@ -58,38 +98,34 @@ const VendorPage = () => {
     <div
       className="w-full h-screen flex justify-center items-center relative transition-all ease-in-out"
       style={{
-        backgroundImage: `url(${vendorBg})`,
+        backgroundImage: `url(${user ? vendorDay : vendorNight})`,
         backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
+        backgroundSize: "100% 100%",
         backgroundPosition: "center",
       }}
     >
-      <button
-        onClick={() => navigate(-1)}
-        className="absolute top-10 left-10 z-50 bg-white hover:bg-black hover:text-white text-black font-bold py-2 px-4 rounded"
-      >
-        بازگشت
-      </button>
-      <div className="absolute w-[300px] h-[500px] left-[250px] top-30 flex flex-col gap-10 justify-end">
+      <HomeIcon />
+      <div className="absolute w-[300px] left-[250px] top-0 h-screen flex flex-col justify-center">
         {backgroundArray &&
           backgroundArray.map((item) => (
-            <Link
-              to={item.link}
+            <a
+              href={item.link}
+              target={item.openInNewTab ? "_blank" : "_self"} // Conditional target
+              rel={item.openInNewTab ? "noopener noreferrer" : ""} // Conditional rel
               key={item.id}
               onMouseEnter={() => handleMouseEnter(item.name)}
               onMouseLeave={handleMouseLeave}
               style={{
-                padding: "10px",
+                paddingX: "10px",
                 border:
                   hoveredLink === item.name ? "2px solid #2a4667" : "none",
                 borderRadius: "10px",
                 transition: "border 0.3s",
                 zIndex: 50,
               }}
-              // className="border border-red-600"
             >
               <img src={item.img} alt={item.name} className={item.style} />
-            </Link>
+            </a>
           ))}
       </div>
     </div>

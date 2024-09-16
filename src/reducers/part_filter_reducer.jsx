@@ -66,7 +66,15 @@ const part_filter_reducer = (state, action) => {
   if (action.type === FILTER_PART_PROVIDERS) {
     const { all_providers } = state;
     let tempProviders = [...all_providers];
-    const { text, partgroups, partnames, partgeneralids } = state.filters;
+    const {
+      text,
+      partgroups,
+      partnames,
+      partgeneralids,
+      partGroupText,
+      partNameText,
+      partGeneralIdText,
+    } = state.filters;
     if (text) {
       tempProviders = tempProviders.filter((provider) => {
         return (
@@ -74,6 +82,36 @@ const part_filter_reducer = (state, action) => {
           provider?.name.toLowerCase().includes(text.toLowerCase())
         );
       });
+    }
+
+    if (partGroupText) {
+      tempProviders = tempProviders.filter((provider) =>
+        provider.records.some((record) =>
+          record.partgroup?.title
+            .toLowerCase()
+            .includes(partGroupText.toLowerCase())
+        )
+      );
+    }
+
+    if (partNameText) {
+      tempProviders = tempProviders.filter((provider) =>
+        provider.records.some((record) =>
+          record.partname?.title
+            .toLowerCase()
+            .includes(partNameText.toLowerCase())
+        )
+      );
+    }
+
+    if (partGeneralIdText) {
+      tempProviders = tempProviders.filter((provider) =>
+        provider.records.some((record) =>
+          record.partgeneralid?.title
+            .toLowerCase()
+            .includes(partGeneralIdText.toLowerCase())
+        )
+      );
     }
 
     if (partgroups !== "all") {

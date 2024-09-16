@@ -1,68 +1,133 @@
 import React, { useState } from "react";
-import aboutIcon from "/about-us-icon.png";
-import exhibitionIcon from "/exhibition-icon.png";
-import offerIcon from "/special-offer-icon.png";
-import vendorIcon from "/vendor-icon.png";
 import { Link } from "react-router-dom";
-import offers from "/offer-background.png";
-import exhibition from "/exhibition-background.png";
-import about from "/about-background.png";
-import vendor from "/vendor-background.png";
+import {
+  userBackground,
+  userIcon,
+  providerBackground,
+  providerIcon,
+  aboutBackground,
+  aboutUsIcon,
+  exhibitionBackground,
+  exhibitionIcon,
+  offerBackground,
+  vendorBackground,
+  vendorIcon,
+  productInfoIcon,
+  productInfoBackground,
+  specialOfferIcon,
+} from "../images";
+import { useSelector } from "react-redux";
+import { Player } from "@lottiefiles/react-lottie-player";
+import { animation } from "../images";
 
 const HomePage = () => {
-  const [bg, setBg] = useState(vendor);
+  const [bg, setBg] = useState(vendorBackground);
+  const { user } = useSelector((state) => state.user);
+  const [isLottie, setIsLottie] = useState(false); // Flag to control Lottie or image background
+
   const boxArrays = [
     {
       id: 0,
-      title: "about",
-      bgId: about,
-      path: "/about",
-      img: aboutIcon,
-      classes: "rounded-2xl h-[185px] w-full row-span-2",
+      title: "vendor",
+      bgId: vendorBackground,
+      path: "/vendors",
+      img: vendorIcon,
+      classes:
+        "rounded-2xl  col-span-2 row-span-1 h-[4rem]  object-fill w-full",
     },
     {
       id: 1,
       title: "exhibition",
-      bgId: exhibition,
+      bgId: exhibitionBackground,
       path: "/exhibition",
       img: exhibitionIcon,
-      classes: "rounded-2xl  row-span-1",
+      classes:
+        "rounded-2xl  col-span-2 row-span-1 h-[4rem]  object-fill w-full",
     },
     {
       id: 2,
-      title: "offers",
-      bgId: offers,
-      path: "/offers",
-      img: offerIcon,
-      classes: "rounded-2xl row-span-1",
+      title: "productsInfo",
+      bgId: productInfoBackground,
+      path: "/products-info-list",
+      img: productInfoIcon,
+      classes:
+        "rounded-2xl  col-span-2 row-span-1 h-[4rem]  object-fill w-full",
     },
     {
       id: 3,
-      title: "vendor",
-      bgId: vendor,
-      path: "/vendors",
-      img: vendorIcon,
-      classes: "rounded-2xl  col-span-2 row-span-1",
+      title: "provider",
+      bgId: providerBackground,
+      path: "/provider-login",
+      img: providerIcon,
+      classes:
+        "rounded-2xl  col-span-2 row-span-1 h-[4rem]  object-fill w-full",
+    },
+    {
+      id: 4,
+      title: "user",
+      bgId: userBackground,
+      path: "/user-login",
+      img: userIcon,
+      classes:
+        "rounded-2xl  col-span-2 row-span-1 h-[4rem]  object-fill w-full",
+    },
+    // {
+    //   id: 5,
+    //   title: "offer",
+    //   bgId: offerBackground,
+    //   path: "/offers",
+    //   img: specialOfferIcon,
+    //   classes:
+    //     "rounded-2xl  col-span-2 row-span-1 h-[4rem]  object-fill w-full",
+    // },
+
+    {
+      id: 5,
+      title: "about",
+      bgId: aboutBackground,
+      path: "/about",
+      img: aboutUsIcon,
+      classes: "rounded-2xl  col-span-2 row-span-1 h-[4rem] object-fill w-full",
     },
   ];
 
   return (
-    <section
-      className="flex  gap-5 items-center justify-end h-screen transition-all ease-in-out bg-blend-overlay w-full pr-5 "
-      style={{
-        backgroundImage: `url(${bg})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
-      <div className="w-[300px] h-1/2   grid grid-cols-2 grid-rows-3 pb-10 gap-x-3 gap-y-10 ">
+    <section className="flex gap-5 items-center justify-end h-screen transition-all ease-in-out bg-blend-overlay w-full pr-5">
+      <div
+        className="absolute inset-0 z-[-1]" // This div will be the background container
+        style={{
+          backgroundImage: isLottie ? "none" : `url(${bg})`,
+          backgroundSize: "100% 100%",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+        }}
+      >
+        {isLottie && (
+          <Player
+            src={animation}
+            className="player"
+            loop
+            autoplay
+            style={{ maxHeight: "70%", width: "100%" }}
+          />
+        )}
+      </div>
+
+      <div className="w-[300px] h-fit flex flex-col pb-10 gap-2">
         {boxArrays &&
           boxArrays.map(({ id, title, bgId, path, img, classes }) => (
             <Link
               to={path}
               key={title}
-              className={classes}
-              onMouseOver={() => setBg(bgId)}
+              className="relative"
+              onMouseOver={() => {
+                if (title === "provider") {
+                  setIsLottie(true); // Show Lottie animation for the "provider" button
+                } else {
+                  setBg(bgId); // Set static background image for other buttons
+                  setIsLottie(false); // Disable Lottie animation
+                }
+              }}
             >
               <img src={img} alt={title} className={classes} />
             </Link>

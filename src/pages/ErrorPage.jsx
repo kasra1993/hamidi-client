@@ -5,11 +5,11 @@ const ErrorPage = () => {
   return (
     <Wrapper className="page-100">
       <section>
-        <h2>404 Error</h2>
-        <h3>
-          Oops! It seems you've wandered off the digital map.
-        </h3>
-        <Link to="/" className="btn">Back Home</Link>
+        <h2>خطا</h2>
+        <h3>به نظر مسیر اشتباهی اومدی</h3>
+        <Link to="/" className="btn">
+          خانه
+        </Link>
       </section>
     </Wrapper>
   );
