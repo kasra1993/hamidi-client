@@ -23,8 +23,8 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           docker build -t my-app:${{ github.sha }} .
-          docker tag my-app:${{ github.sha }} my-docker-repo/my-app:dev
-          docker push my-docker-repo/my-app:dev
+          docker tag my-app:${{ github.sha }} kasramahsouli/hamidi-client:dev
+          docker push kasramahsouli/hamidi-client:dev
 
   deploy:
     runs-on: ubuntu-latest

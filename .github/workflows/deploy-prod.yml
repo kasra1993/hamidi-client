@@ -25,8 +25,8 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           docker build -t my-app:${{ github.sha }} .
-          docker tag my-app:${{ github.sha }} my-docker-repo/my-app:prod-${{ github.event.inputs.version }}
-          docker push my-docker-repo/my-app:prod-${{ github.event.inputs.version }}
+          docker tag my-app:${{ github.sha }} kasramahsouli/hamidi-client:prod-${{ github.event.inputs.version }}
+          docker push kasramahsouli/hamidi-client:prod-${{ github.event.inputs.version }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -39,7 +39,7 @@ jobs:
           username: ${{ secrets.PROD_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            docker pull my-docker-repo/my-app:prod-${{ github.event.inputs.version }}
+            docker pull kasramahsouli/hamidi-client:prod-${{ github.event.inputs.version }}
             docker stop my-app || true
             docker rm my-app || true
-            docker run -d -p 80:80 --name my-app my-docker-repo/my-app:prod-${{ github.event.inputs.version }}
+            docker run -d -p 80:80 --name my-app kasramahsouli/hamidi-client:prod-${{ github.event.inputs.version }}
