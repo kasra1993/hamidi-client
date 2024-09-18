@@ -37,7 +37,7 @@ jobs:
           username: ${{ secrets.DEV_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            docker pull my-docker-repo/my-app:dev
+            docker pull kasramahsouli/hamidi-client:dev
             docker stop my-app || true
             docker rm my-app || true
-            docker run -d -p 8080:8080 --name my-app my-docker-repo/my-app:dev
+            docker run -d -p 8080:8080 --name my-app kasramahsouli/hamidi-client:dev
