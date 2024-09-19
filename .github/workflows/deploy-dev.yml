@@ -40,4 +40,4 @@ jobs:
             docker pull kasramahsouli/hamidi-client:dev
             docker stop my-app || true
             docker rm my-app || true
-            docker run -d -p 8080:8080 --name my-app kasramahsouli/hamidi-client:dev
+            docker run -d -p 8080:5173 --name my-app kasramahsouli/hamidi-client:dev
