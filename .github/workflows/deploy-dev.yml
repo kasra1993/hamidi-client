@@ -37,7 +37,9 @@ jobs:
           username: ${{ secrets.DEV_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            docker pull kasramahsouli/hamidi-client:dev
-            docker stop my-app || true
-            docker rm my-app || true
-            docker run -d -p 8080:5173 --name my-app kasramahsouli/hamidi-client:dev
+            ssh -v root@82.165.239.219 << EOF
+             docker pull kasramahsouli/hamidi-client:dev
+             docker stop my-app || true
+             docker rm my-app || true
+             docker run -d -p 8080:5173 --name my-app kasramahsouli/hamidi-client:dev
+             EOF
