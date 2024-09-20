@@ -40,7 +40,7 @@ jobs:
 
       # SSH and Deployment step
       - name: SSH to VPS and Deploy
-        uses: appleboy/ssh-action@v0.1.2
+        uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{ secrets.DEV_HOST }}
           username: ${{ secrets.DEV_USER }}
