@@ -40,10 +40,6 @@ jobs:
           eval "$(ssh-agent -s)"   # Start the ssh-agent
           echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' | ssh-add -  # Add the private key from GitHub Secrets to the agent
 
-      - name: Add VPS to known_hosts
-        run: |
-          ssh-keyscan 82.165.239.219 >> ~/.ssh/known_hosts
-
       - name: SSH to VPS and Deploy
         uses: appleboy/ssh-action@v0.1.3
         with:
