@@ -33,19 +33,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Build the project (optional step if you have a build process)
-      - name: Build Project
-        run: |
-          npm install  # Install dependencies
-          npm run build  # Build the project (modify this if needed)
+      # Install sshpass to use password-based SSH authentication
+      - name: Install sshpass
+        run: sudo apt-get install sshpass
 
-      # Deploy using SFTP
-      - name: Deploy via SFTP
-        uses: SamKirkland/FTP-Deploy-Action@4.1.0
-        with:
-          server: ${{ secrets.SFTP_SERVER }} # SFTP server (e.g., your_vps_ip or sftp://your_vps_ip)
-          username: ${{ secrets.SFTP_USERNAME }} # SFTP username
-          password: ${{ secrets.SFTP_PASSWORD }} # SFTP password
-          local-dir: ./dist # Vite's default build output directory
-          server-dir: /var/wwww/ # Directory on your VPS to upload the files
-          protocol: ftp # Use the SFTP protocol
+      # Use sshpass to SSH into the VPS using password authentication
+      - name: SSH to VPS and Deploy using password
+        run: |
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.DEV_USER }}@${{ secrets.DEV_HOST }} << EOF
+            docker pull kasramahsouli/hamidi-client:dev
+            docker stop my-app || true
+            docker rm my-app || true
+            docker run -d -p 8080:5173 --name my-app kasramahsouli/hamidi-client:dev
+          EOF
