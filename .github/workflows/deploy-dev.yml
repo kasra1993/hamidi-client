@@ -33,38 +33,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 1: Add SSH Key to Agent
-      - name: Add SSH Key
+      # Build the project (optional step if you have a build process)
+      - name: Build Project
         run: |
-          eval "$(ssh-agent -s)"  # Start the ssh-agent
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' | ssh-add -  # Add the private key
+          npm install  # Install dependencies
+          npm run build  # Build the project (modify this if needed)
 
-      # Step 2: Create the .ssh directory
-      - name: Create .ssh directory
-        run: |
-          mkdir -p ~/.ssh  # Create the .ssh directory if it doesn't exist
-          chmod 700 ~/.ssh  # Set correct permissions
-
-      # Step 3: Add VPS to known_hosts to prevent host key verification failure
-      - name: Add VPS to known_hosts
-        run: |
-          ssh-keyscan -H 82.165.239.219 >> ~/.ssh/known_hosts  # Fetch the host key and add it to known_hosts
-          chmod 644 ~/.ssh/known_hosts  # Set the correct permissions for known_hosts
-
-      # Step 4: Test SSH Connection (optional, can be removed after confirming it's working)
-      - name: Test SSH Connection
-        run: |
-          ssh -o StrictHostKeyChecking=no root@82.165.239.219 'echo "SSH connection successful"'
-
-      # Step 5: SSH into VPS and deploy using Docker commands
-      - name: SSH to VPS and Deploy
-        uses: appleboy/ssh-action@v0.1.3
+      # Deploy using SFTP
+      - name: Deploy via SFTP
+        uses: SamKirkland/FTP-Deploy-Action@4.1.0
         with:
-          host: "82.165.239.219"
-          username: "root"
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            docker pull kasramahsouli/hamidi-client:dev
-            docker stop my-app || true
-            docker rm my-app || true
-            docker run -d -p 8080:5173 --name my-app kasramahsouli/hamidi-client:dev
+          server: ${{ secrets.SFTP_SERVER }} # SFTP server (e.g., your_vps_ip or sftp://your_vps_ip)
+          username: ${{ secrets.SFTP_USERNAME }} # SFTP username
+          password: ${{ secrets.SFTP_PASSWORD }} # SFTP password
+          local-dir: ./dist # Vite's default build output directory
+          server-dir: /var/wwww/ # Directory on your VPS to upload the files
+          protocol: sftp # Use the SFTP protocol
