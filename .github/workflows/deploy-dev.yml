@@ -48,4 +48,4 @@ jobs:
           password: ${{ secrets.SFTP_PASSWORD }} # SFTP password
           local-dir: ./dist # Vite's default build output directory
           server-dir: /var/wwww/ # Directory on your VPS to upload the files
-          protocol: sftp # Use the SFTP protocol
+          protocol: ftp # Use the SFTP protocol
