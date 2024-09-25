@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { main_url } from "../../utils/constants";
+import axiosInstance from "../../utils/axiosConfig";
 
 // Thunks for async operations
 export const userRegister = createAsyncThunk(
@@ -8,7 +7,7 @@ export const userRegister = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       console.log("userData", userData);
-      const response = await axios.post(`${main_url}user-register`, userData);
+      const response = await axiosInstance.post("user-register", userData);
       return response.data;
     } catch (err) {
       return rejectWithValue(
@@ -22,7 +21,7 @@ export const userLogin = createAsyncThunk(
   "user/login",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${main_url}user-login`, {
+      const { data } = await axiosInstance.post("user-login", {
         email,
         password,
       });
@@ -34,7 +33,7 @@ export const userLogin = createAsyncThunk(
       };
 
       // Fetch full user data from the /me endpoint
-      const userResponse = await axios.get(`${main_url}me`, config);
+      const userResponse = await axiosInstance.get("me", config);
 
       // Return the full user data
       console.log(userResponse.data, "User Response Data");
@@ -49,7 +48,7 @@ export const verifyUser = createAsyncThunk(
   "user/verify",
   async ({ email, code }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${main_url}verify-user`, {
+      const { data } = await axiosInstance.post("verify-user", {
         email,
         code,
       });
@@ -67,7 +66,7 @@ export const resendUserVerificationCode = createAsyncThunk(
   "user/resendVerification",
   async (email, { rejectWithValue }) => {
     try {
-      await axios.post(`${main_url}resend-verify-user`, { email });
+      await axiosInstance.post("resend-verify-user", { email });
     } catch (err) {
       return rejectWithValue(
         err.response?.data?.message || "Resend verification failed"
@@ -80,7 +79,7 @@ export const userForgotPassword = createAsyncThunk(
   "user/forgotPassword",
   async (email, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${main_url}forgot-password`, {
+      const response = await axiosInstance.post("forgot-password", {
         email,
       });
       return response.data;
@@ -96,7 +95,7 @@ export const userPasswordReset = createAsyncThunk(
   "user/resetPassword",
   async ({ token, newPassword }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${main_url}reset-password`, {
+      const response = await axiosInstance.post("reset-password", {
         token,
         newPassword,
       });
@@ -113,7 +112,7 @@ export const updateUserSetting = createAsyncThunk(
   "user/updateSettings",
   async ({ userId, formData }, { rejectWithValue }) => {
     try {
-      const response = await axios.patch(`${main_url}user-update`, {
+      const response = await axiosInstance.patch("user-update", {
         userId,
         ...formData,
       });

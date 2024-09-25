@@ -1,14 +1,13 @@
 // redux/slices/productsSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { main_url } from "../../utils/constants";
+import axiosInstance from "../../utils/axiosConfig";
 
 // Async thunk to fetch all products
 export const fetchProducts = createAsyncThunk(
   "products/fetchAll",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${main_url}/products`);
+      const response = await axiosInstance.get("/products");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -21,7 +20,7 @@ export const fetchSingleProduct = createAsyncThunk(
   "products/fetchSingle",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${main_url}/product/${id}`);
+      const response = await axiosInstance.get(`/product/${id}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

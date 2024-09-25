@@ -1,12 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { main_url } from "../../utils/constants";
+import axiosInstance from "../../utils/axiosConfig";
 
 export const fetchMaterialProviders = createAsyncThunk(
   "materialProviders/fetchAll",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${main_url}materialProviders`);
+      const response = await axiosInstance.get("materialProviders");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -18,7 +17,7 @@ export const fetchMaterialGroups = createAsyncThunk(
   "materialProviders/fetchGroups",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${main_url}materialGroups`);
+      const response = await axiosInstance.get("materialGroups");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -30,7 +29,7 @@ export const fetchMaterialNames = createAsyncThunk(
   "materialProviders/fetchNames",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${main_url}materialNames`);
+      const response = await axiosInstance.get("materialNames");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -42,7 +41,7 @@ export const fetchMaterialGrades = createAsyncThunk(
   "materialProviders/fetchGrades",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${main_url}materialGrades`);
+      const response = await axiosInstance.get("materialGrades");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

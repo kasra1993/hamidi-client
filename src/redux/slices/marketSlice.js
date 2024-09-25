@@ -1,14 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { main_url } from "../../utils/constants";
+import axiosInstance from "../../utils/axiosConfig";
 
 // Async thunk to fetch all markets
 export const fetchMarkets = createAsyncThunk(
   "markets/fetchAll",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${main_url}/markets`);
-      console.log("response", response);
+      const response = await axiosInstance.get("/markets");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -21,7 +19,7 @@ export const fetchSingleMarket = createAsyncThunk(
   "markets/fetchSingle",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${main_url}/market/${id}`);
+      const response = await axiosInstance.get(`/market/${id}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

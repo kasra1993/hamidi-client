@@ -1,7 +1,6 @@
 // slices/messageSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { main_url } from "../../utils/constants";
+import axiosInstance from "../../utils/axiosConfig";
 
 const initialState = {
   messages: [],
@@ -15,7 +14,7 @@ export const sendMessage = createAsyncThunk(
   "messages/sendMessage",
   async ({ content, subject, recipient, sender }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${main_url}message`, {
+      const { data } = await axiosInstance.post("message", {
         content,
         subject,
         recipient,
@@ -32,7 +31,7 @@ export const fetchSentMessages = createAsyncThunk(
   "messages/fetchSentMessages",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`${main_url}/sent-messages`);
+      const { data } = await axiosInstance.get("sent-messages");
       return data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -44,7 +43,7 @@ export const fetchReceivedMessages = createAsyncThunk(
   "messages/fetchReceivedMessages",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`${main_url}/recieved-messages`);
+      const { data } = await axiosInstance.get("recieved-messages");
       return data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -56,8 +55,8 @@ export const respondToMessage = createAsyncThunk(
   "messages/respondToMessage",
   async ({ messageId, response }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(
-        `${main_url}/${messageId}/respond-message`,
+      const { data } = await axiosInstance.post(
+        `${messageId}/respond-message`,
         {
           response,
         }
