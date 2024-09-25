@@ -21,15 +21,20 @@ export const userLogin = createAsyncThunk(
   "user/login",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const { data } = await axiosInstance.post("user-login", {
-        email,
-        password,
-      });
+      const { data } = await axiosInstance.post(
+        "user-login",
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
       localStorage.setItem("authToken", data.token);
       const config = {
         headers: {
           authorization: `Bearer ${data.token}`,
         },
+        withCredentials: true, // Add this flag to the /me request as well
       };
 
       // Fetch full user data from the /me endpoint
