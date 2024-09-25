@@ -39,8 +39,8 @@ export const services = [
   },
 ];
 
-// export const main_url = "https://vendor.rierco.net/api/server/";
-// export const products_url = "https://vendor.rierco.net/api/server/getAll";
+export const main_url = "https://vendor.rierco.net/api/server/";
+export const products_url = "https://vendor.rierco.net/api/server/getAll";
 
-export const main_url = "http://localhost:3004/server/";
-export const products_url = "http://localhost:3004/server/getAll";
+// export const main_url = "http://localhost:3004/server/";
+// export const products_url = "http://localhost:3004/server/getAll";
