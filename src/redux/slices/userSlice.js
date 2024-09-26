@@ -30,6 +30,7 @@ export const userLogin = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${data.token}`,
         },
+        withCredentials: true, // Include credentials like cookies
       };
 
       // Fetch full user data from the /me endpoint
