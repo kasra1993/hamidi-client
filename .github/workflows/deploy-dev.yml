@@ -22,7 +22,7 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker build --no-cache -t my-vite-app:${{ github.sha }} .
+          docker build --no-cache -t my-app:${{ github.sha }} .
           docker tag my-app:${{ github.sha }} kasramahsouli/hamidi-client:dev
           docker push kasramahsouli/hamidi-client:dev
 
