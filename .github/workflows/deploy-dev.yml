@@ -25,7 +25,7 @@ jobs:
           docker build --no-cache -t kasramahsouli/hamidi-client:${{ github.sha }} .
 
              # After the Docker build, list the contents of the dist folder
-          docker run --rm hamidi-client ls -la /usr/share/nginx/html
+          docker run --rm kasramahsouli/hamidi-client:${{ github.sha }} ls -la /usr/share/nginx/html
 
           docker tag kasramahsouli/hamidi-client:${{ github.sha }} kasramahsouli/hamidi-client:dev
           docker push kasramahsouli/hamidi-client:dev
