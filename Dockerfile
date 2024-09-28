@@ -21,6 +21,9 @@ RUN chmod -R 755 /app/dist
 # Use Nginx to serve the build
 FROM nginx:alpine
 
+# Remove the default Nginx static files
+RUN rm -rf /usr/share/nginx/html/*
+
 # Copy the React build files to Nginx's default directory
 COPY --from=build /app/dist /usr/share/nginx/html
 
