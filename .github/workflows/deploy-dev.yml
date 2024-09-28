@@ -23,6 +23,10 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           docker build --no-cache -t kasramahsouli/hamidi-client:${{ github.sha }} .
+
+             # After the Docker build, list the contents of the dist folder
+          docker run --rm hamidi-client ls -la /usr/share/nginx/html
+
           docker tag kasramahsouli/hamidi-client:${{ github.sha }} kasramahsouli/hamidi-client:dev
           docker push kasramahsouli/hamidi-client:dev
 
@@ -46,4 +50,6 @@ jobs:
           docker stop hamidi-client || true
           docker rm hamidi-client || true
           docker run -d -p 8080:80 --name hamidi-client kasramahsouli/hamidi-client:dev
+          # Check the files inside the container
+            docker exec hamidi-client ls -la /usr/share/nginx/html
           EOF
