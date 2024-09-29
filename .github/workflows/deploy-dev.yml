@@ -13,22 +13,21 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKER_ACCESS_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-
-      - name: Build and Push Docker Image
+        # Install Node.js (version based on your project needs)
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18" # or whatever version you need
+      # Install dependencies and build the React app
+      - name: Install dependencies and build
         run: |
-          docker build --no-cache -t kasramahsouli/hamidi-client:${{ github.sha }} .
+          npm install
+          npm run build
 
-             # After the Docker build, list the contents of the dist folder
-          docker run --rm kasramahsouli/hamidi-client:${{ github.sha }} ls -la /usr/share/nginx/html
-
-          docker tag kasramahsouli/hamidi-client:${{ github.sha }} kasramahsouli/hamidi-client:dev
-          docker push kasramahsouli/hamidi-client:dev
+        # Archive the build folder (React's build output)
+      - name: Archive production artifacts
+        run: tar -zcvf build.tar.gz ./dist
+        # If you're using Vite, change ./build to ./dist
 
   deploy:
     runs-on: ubuntu-latest
@@ -45,11 +44,13 @@ jobs:
       # Use sshpass to SSH into the VPS using password authentication
       - name: SSH to VPS and Deploy using password
         run: |
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.DEV_USER }}@${{ secrets.DEV_HOST }} << EOF
-          docker pull kasramahsouli/hamidi-client:dev
-          docker stop hamidi-client || true
-          docker rm hamidi-client || true
-          docker run -d -p 8080:80 --name hamidi-client kasramahsouli/hamidi-client:dev
-          # Check the files inside the container
-            docker exec hamidi-client ls -la /usr/share/nginx/html
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -o StrictHostKeyChecking=no build.tar.gz ${{ secrets.DEV_USER }}@${{ secrets.DEV_HOST }}:/var/www/vendor-dev
+
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.DEV_USER }}@${{ secrets.DEV_HOST }} << 'EOF'
+            cd /var/www/vendor-dev
+            rm -rf dist
+            tar -zxvf build.tar.gz
+            rm build.tar.gz
+            sudo chown -R www-data:www-data /var/www/vendor-dev
+            sudo systemctl reload nginx
           EOF
