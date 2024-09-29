@@ -56,6 +56,10 @@ jobs:
           ls -la
           echo "Listing parent directory:"
            ls -la ..
+          echo "Listing parent directory:"
+           ls -la ./src
+          echo "Listing parent directory:"
+           ls -la ./src/dist
 
       - name: Copy build.tar.gz to VPS
         run: |
