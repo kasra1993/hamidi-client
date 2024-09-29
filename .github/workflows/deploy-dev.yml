@@ -50,6 +50,9 @@ jobs:
       - name: Print current directory
         run: pwd
 
+      - name: List contents before copying
+        run: ls -la
+
       - name: Copy build.tar.gz to VPS
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -o StrictHostKeyChecking=no ./build.tar.gz root@${{ secrets.DEV_HOST }}:/var/www/vendor-dev/
