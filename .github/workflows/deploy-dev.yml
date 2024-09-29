@@ -52,7 +52,7 @@ jobs:
 
       - name: Copy build.tar.gz to VPS
         run: |
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -o StrictHostKeyChecking=no ./build.tar.gz root@${{ secrets.DEV_HOST }}:/var/www/vendor-dev/
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -o StrictHostKeyChecking=no build.tar.gz root@${{ secrets.DEV_HOST }}:/var/www/vendor-dev/
 
       # Use sshpass to SSH into the VPS using password authentication
       - name: SSH to VPS and Deploy using password
