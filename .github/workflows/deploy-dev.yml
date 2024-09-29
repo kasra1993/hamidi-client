@@ -24,6 +24,9 @@ jobs:
           npm install
           npm run build
 
+      - name: List contents after build
+        run: ls -la
+
         # Archive the build folder (React's build output)
       - name: Archive production artifacts
         run: tar -zcvf build.tar.gz ./dist
