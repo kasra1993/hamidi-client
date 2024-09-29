@@ -51,7 +51,11 @@ jobs:
         run: pwd
 
       - name: List contents before copying
-        run: ls -la
+        run: |
+          echo "Listing current directory:"
+          ls -la
+          echo "Listing parent directory:"
+           ls -la ..
 
       - name: Copy build.tar.gz to VPS
         run: |
