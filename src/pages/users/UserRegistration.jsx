@@ -239,8 +239,8 @@ const UserRegistration = () => {
                       <option value="student">دانشجو/ محقق</option>
                       <option value="startup_member">عضو استارت آپ</option>
                       <option value="provider">تامین کننده</option>
-                      <option value="analyzer"> تحلیلگر</option>
-                      <option value="observer"> ناظر</option>
+                      {/* <option value="analyzer"> تحلیلگر</option>
+                      <option value="observer"> ناظر</option> */}
                       <option value="other">سایر</option>
                     </select>
 
@@ -314,7 +314,7 @@ const UserRegistration = () => {
 
                 <div className="w-1/2 px-3 mb-5">
                   <label className="block text-base font-semibold text-gray-700 sm:text-xl mb-2">
-                    بارگذاری تصویر شرکت
+                    بارگزاری تصویر کاربری
                   </label>
                   <div className="flex items-center">
                     <label className="w-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-200">

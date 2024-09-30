@@ -37,7 +37,6 @@ export const userLogin = createAsyncThunk(
       const userResponse = await axiosInstance.get("me", config);
 
       // Return the full user data
-      console.log(userResponse.data, "User Response Data");
       return userResponse.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Login failed");

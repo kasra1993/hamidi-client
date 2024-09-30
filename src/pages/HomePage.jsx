@@ -113,7 +113,7 @@ const HomePage = () => {
             className="player"
             loop
             autoplay
-            style={{ maxHeight: "70%", width: "100%" }}
+            style={{ maxHeight: "100vh", width: "100%" }}
           />
         )}
       </div>

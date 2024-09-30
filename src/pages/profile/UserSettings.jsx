@@ -164,8 +164,8 @@ const UserSettings = () => {
                       <option value="student">دانشجو/ محقق</option>
                       <option value="startup_member">عضو استارت آپ</option>
                       <option value="provider">تامین کننده</option>
-                      <option value="analyzer"> تحلیلگر</option>
-                      <option value="observer"> ناظر</option>
+                      {/* <option value="analyzer"> تحلیلگر</option>
+                      <option value="observer"> ناظر</option> */}
                       <option value="other">سایر</option>
                     </select>
 

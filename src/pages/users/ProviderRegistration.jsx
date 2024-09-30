@@ -851,7 +851,7 @@ const ProviderRegistration = () => {
 
                 <div className="w-1/2 px-3 mb-5">
                   <label className="block text-base font-semibold text-gray-700 sm:text-xl mb-2">
-                    بارگذاری تصویر شرکت
+                    بارگزاری لوگو/ تصویر تامین کننده
                   </label>
                   <div className="flex items-center">
                     <label className="w-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-200">
@@ -918,10 +918,10 @@ const ProviderRegistration = () => {
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded shadow-lg w-1/2 h-1/2">
-            <p className="text-center text-2xl py-5">ثبت درخواست </p>
+            <p className="text-center text-2xl py-5">ثبت ماده یا قطعه</p>
             <input
               type="text"
-              placeholder="درخواست خود را وارد کنید "
+              placeholder="اطلاعات ماده یا قطعه را با جزییات کامل بنویسید"
               className="border border-slate-300 p-5 rounded-xl w-full text-right"
             />
             <button

@@ -97,22 +97,14 @@ const VendorPage = () => {
   };
 
   return (
-    <div
-      className="w-full h-screen flex justify-center items-center relative transition-all ease-in-out"
-      // style={{
-      //   backgroundImage: `url(${user ? vendorDay : vendorNight})`,
-      //   backgroundRepeat: "no-repeat",
-      //   backgroundSize: "100% 100%",
-      //   backgroundPosition: "center",
-      // }}
-    >
+    <div className="w-full h-screen flex justify-center items-center relative transition-all ease-in-out">
       <HomeIcon />
       <Player
         src={user ? vendorDay : vendorNight}
         className="player"
         loop
         autoplay
-        style={{ maxHeight: "70%", width: "100%" }}
+        style={{ maxHeight: "100vh", width: "100%" }}
       />
       <div className="absolute w-[300px] left-[250px] top-0 h-screen flex flex-col justify-center">
         {backgroundArray &&

@@ -9,7 +9,9 @@ const HomeIcon = ({ color = "white" }) => {
   return (
     <Link
       to="/"
-      className={`absolute ${user || provider ? "left-20" : "left-6 "} top-8`}
+      className={`absolute ${
+        user || provider ? "left-20" : "left-6 "
+      } top-8 z-10`}
     >
       <FaHome color={color} fontSize={36} />
     </Link>
