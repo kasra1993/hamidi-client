@@ -16,7 +16,8 @@ import {
   fetchPartGeneralIds,
   fetchPartNames,
 } from "../../redux/slices/partProvidersSlice";
-import { GiExitDoor } from "react-icons/gi";
+import { calculateRemainingTime } from "../../utils/helpers";
+
 const ProviderRegistration = () => {
   const [step, setStep] = useState(1);
   const [showVerification, setShowVerification] = useState(false);
@@ -26,7 +27,9 @@ const ProviderRegistration = () => {
   const [image, setImage] = useState();
   const [imagePreview, setImagePreview] = useState(null); // Preview image state
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // const { loading, error } = useSelector((state) => state.provider);
 
+  console.log("errors", errors);
   const handleRequest = () => {
     dispatch(
       showToast({
@@ -197,6 +200,9 @@ const ProviderRegistration = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
+    const time = calculateRemainingTime();
+
+    setShowVerification(true);
 
     const { repeat_password, ...dataToSubmit } = formData;
     dataToSubmit.role = "provider";
@@ -207,15 +213,8 @@ const ProviderRegistration = () => {
     if (image) {
       dataToSubmit.image = image;
     }
-    // console.log("dataToSubmit", dataToSubmit);
-    dispatch(providerRegister(dataToSubmit))
-      .unwrap()
-      .then(() => {
-        setShowVerification(true);
-      })
-      .catch((error) => {
-        console.error("Registration failed:", error);
-      });
+    if (time) return;
+    dispatch(providerRegister(dataToSubmit));
   };
 
   const validate = () => {
@@ -725,6 +724,7 @@ const ProviderRegistration = () => {
                   )}
                   <div className="absolute top-[30%] flex w-full justify-center gap-5">
                     <button
+                      type="button"
                       onClick={handleAddRecord}
                       className="hover:shadow-form w-auto max-w-xs rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none "
                     >
@@ -733,6 +733,7 @@ const ProviderRegistration = () => {
 
                     {step === 3 && (
                       <button
+                        type="button"
                         onClick={handleSubmitStep3}
                         className=" hover:shadow-form w-auto max-w-xs rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base  font-semibold text-white outline-none "
                       >

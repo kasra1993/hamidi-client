@@ -4,6 +4,7 @@ import { userBg } from "../../images";
 import HomeIcon from "../../components/HomeIcon";
 import { userRegister } from "../../redux/slices/userSlice";
 import { useDispatch } from "react-redux";
+import { calculateRemainingTime } from "../../utils/helpers";
 
 const UserRegistration = () => {
   const [showVerification, setShowVerification] = useState(false);
@@ -24,6 +25,8 @@ const UserRegistration = () => {
     email: "",
     username: "",
     occupation: "",
+    age: "",
+    sex: "",
   });
   const dispatch = useDispatch();
 
@@ -36,22 +39,17 @@ const UserRegistration = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // const time = calculateRemainingTime();
     if (!validate()) return;
-
+    setShowVerification(true);
     const { repeat_password, ...dataToSubmit } = formData;
     dataToSubmit.role = "user";
     dataToSubmit.username = formData.email;
     if (image) {
       dataToSubmit.image = image;
     }
-    dispatch(userRegister(dataToSubmit))
-      .unwrap()
-      .then(() => {
-        setShowVerification(true);
-      })
-      .catch((error) => {
-        console.error("Registration failed:", error);
-      });
+    // if (time) return;
+    dispatch(userRegister(dataToSubmit));
   };
 
   const handleImageChange = (e) => {
@@ -72,10 +70,10 @@ const UserRegistration = () => {
     if (!formData.name) newErrors.name = "نام مورد نیاز است";
     if (!formData.family_name)
       newErrors.family_name = "نام خانوادگی مورد نیاز است";
-    if (!formData.address) newErrors.address = "آدرس مورد نیاز است";
+    if (!formData.age) newErrors.age = "سن مورد نیاز است";
     if (!formData.id_number) newErrors.id_number = "کد ملی مورد نیاز است";
     if (!formData.cellphone) newErrors.cellphone = "شماره همراه  مورد نیاز است";
-    if (!formData.phone) newErrors.phone = " شماره تماس ثابت مورد نیاز است";
+    if (!formData.sex) newErrors.sex = "لطفا جنسیت را مشخص کنید";
     if (!formData.occupation) newErrors.occupation = "شغل را انتخاب بفرمایید";
     if (!formData.email) {
       newErrors.email = "ایمیل مورد نیاز است";
@@ -162,17 +160,15 @@ const UserRegistration = () => {
                 <div className="w-full px-3 sm:w-1/2">
                   <div className="mb-5">
                     <input
-                      type="text"
-                      name="address"
-                      id="address"
-                      placeholder="آدرس"
+                      type="number"
+                      name="age"
+                      id="age"
+                      placeholder="سن"
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                       onChange={handleChange}
                     />
-                    {errors.address && (
-                      <p className="text-red-500 text-xs mt-1">
-                        {errors.address}
-                      </p>
+                    {errors.age && (
+                      <p className="text-red-500 text-xs mt-1">{errors.age}</p>
                     )}
                   </div>
                 </div>
@@ -211,30 +207,36 @@ const UserRegistration = () => {
                   </div>
                 </div>
                 <div className="w-full px-3 sm:w-1/2">
-                  <div className="mb-5">
-                    <input
-                      type="number"
-                      name="phone"
-                      id="phone"
-                      placeholder="تلفن ثابت"
-                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      onChange={handleChange}
-                    />
-                    {errors.phone && (
-                      <p className="text-red-500 text-xs mt-1">
-                        {errors.phone}
-                      </p>
+                  <div className="relative h-10 w-72 min-w-[200px]">
+                    <select
+                      className="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-1 font-sans text-xs font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 empty:!bg-gray-900 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                      onChange={handleChange} // Add the onChange event handler
+                      value={formData.sex} // Dynamically set value from formData
+                      name="sex"
+                    >
+                      <option value="">انتخاب جنسیت </option>
+                      <option value="man">مرد</option>
+                      <option value="woman">زن</option>
+                      <option value="other">نمیخواهم بگویم</option>
+                    </select>
+
+                    <label className="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-gray-900 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
+                      جنسیت
+                    </label>
+                    {errors.sex && (
+                      <p className="text-red-500 text-xs mt-1">{errors.sex}</p>
                     )}
                   </div>
                 </div>
                 <div className="w-full px-3 sm:w-1/2">
                   <div className="relative h-10 w-72 min-w-[200px]">
                     <select
-                      className="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 empty:!bg-gray-900 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                      className="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-1 font-sans text-xs font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 empty:!bg-gray-900 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                       onChange={handleChange} // Add the onChange event handler
                       value={formData.occupation} // Dynamically set value from formData
                       name="occupation"
                     >
+                      <option value="">انتخاب کنید </option>
                       <option value="purchase_manager">مسئول خرید</option>
                       <option value="student">دانشجو/ محقق</option>
                       <option value="startup_member">عضو استارت آپ</option>
@@ -406,7 +408,7 @@ const UserRegistration = () => {
             <button
               type="button"
               onClick={handlePreviousStep}
-              className="absolute left-10 bottom-[20rem] hover:shadow-form w-auto max-w-xs rounded-md bg-gray-500 py-3 px-8 text-center text-base font-semibold text-white outline-none"
+              className="absolute left-10 bottom-[20rem] hover:shadow-form w-auto max-w-xs rounded-md bg-[#061b42] py-3 px-8 text-center text-base font-semibold text-white outline-none hover:bg-white hover:text-[#061b42]"
             >
               مرحله قبل
             </button>
@@ -415,7 +417,7 @@ const UserRegistration = () => {
             <button
               type="button"
               onClick={handleNextStep}
-              className="absolute right-10 bottom-[20rem] hover:shadow-form w-auto max-w-xs rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base  font-semibold text-white outline-none"
+              className="absolute right-10 bottom-[20rem] hover:shadow-form w-auto max-w-xs rounded-md bg-[#061b42] py-3 px-8 text-center text-base  font-semibold text-white outline-none hover:bg-white hover:text-[#061b42]"
             >
               مرحله بعد
             </button>
@@ -423,7 +425,7 @@ const UserRegistration = () => {
           {step === 2 && (
             <button
               type="submit"
-              className="absolute right-[2rem] bottom-[20rem] hover:shadow-form w-auto max-w-xs rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none"
+              className="absolute right-[2rem] bottom-[20rem] hover:shadow-form w-auto max-w-xs rounded-md bg-green-500 py-3 px-8 text-center text-base font-semibold text-white outline-none hover:bg-green-700"
             >
               ثبت نام
             </button>

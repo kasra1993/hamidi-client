@@ -22,6 +22,7 @@ import { Player } from "@lottiefiles/react-lottie-player";
 const HomePage = () => {
   const [bg, setBg] = useState(vendorBackground);
   const { user } = useSelector((state) => state.user);
+  const { provider } = useSelector((state) => state.provider);
   const [isLottie, setIsLottie] = useState(vendorBackground); // Flag to control Lottie or image background
 
   const boxArrays = [
@@ -59,7 +60,8 @@ const HomePage = () => {
       id: 3,
       title: "provider",
       bgId: providerBackground,
-      path: "/provider-login",
+      // path: "/provider-login",
+      path: `${provider || user ? "/" : "/provider-login"}`,
       img: providerIcon,
       classes:
         "rounded-2xl  col-span-2 row-span-1 h-[4rem]  object-fill w-full",
@@ -69,7 +71,7 @@ const HomePage = () => {
       id: 4,
       title: "user",
       bgId: userBackground,
-      path: "/user-login",
+      path: `${provider || user ? "/" : "/user-login"}`,
       img: userIcon,
       classes:
         "rounded-2xl  col-span-2 row-span-1 h-[4rem]  object-fill w-full",

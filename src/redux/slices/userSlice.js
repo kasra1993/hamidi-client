@@ -6,7 +6,6 @@ export const userRegister = createAsyncThunk(
   "user/register",
   async (userData, { rejectWithValue }) => {
     try {
-      console.log("userData", userData);
       const response = await axiosInstance.post("user-register", userData);
       return response.data;
     } catch (err) {
@@ -67,6 +66,19 @@ export const resendUserVerificationCode = createAsyncThunk(
   async (email, { rejectWithValue }) => {
     try {
       await axiosInstance.post("resend-verify-user", { email });
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data?.message || "Resend verification failed"
+      );
+    }
+  }
+);
+
+export const removeUnverifiedUser = createAsyncThunk(
+  "user/removeUnverifiedUser",
+  async (email, { rejectWithValue }) => {
+    try {
+      await axiosInstance.post("remove-unverified-user", { email });
     } catch (err) {
       return rejectWithValue(
         err.response?.data?.message || "Resend verification failed"
@@ -139,7 +151,11 @@ const userSlice = createSlice({
     registerSuccess: false,
     loginSuccess: false,
     showVerification: false,
-    verifySuccess: false,
+    userVerifyLoading: false,
+    userVerifyError: null,
+    userVerifySuccess: false,
+    userRegisterLoading: false,
+    userRegisterError: null,
   },
   reducers: {
     logout: (state) => {
@@ -153,16 +169,16 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(userRegister.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.userRegisterLoading = true;
+        state.userRegisterError = null;
       })
       .addCase(userRegister.fulfilled, (state) => {
-        state.loading = false;
+        state.userRegisterLoading = false;
         state.showVerification = true;
       })
       .addCase(userRegister.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
+        state.userRegisterLoading = false;
+        state.userRegisterError = action.payload;
       })
       .addCase(userLogin.pending, (state) => {
         state.loading = true;
@@ -178,17 +194,17 @@ const userSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(verifyUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.userVerifyLoading = true;
+        state.userVerifyError = null;
       })
       .addCase(verifyUser.fulfilled, (state, action) => {
-        state.loading = false;
+        state.userVerifyLoading = false;
         state.user = action.payload.user;
-        state.verifySuccess = true;
+        state.userVerifySuccess = true;
       })
       .addCase(verifyUser.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
+        state.userVerifyLoading = false;
+        state.userVerifyError = action.payload;
       });
   },
 });
