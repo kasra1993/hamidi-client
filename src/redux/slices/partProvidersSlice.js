@@ -142,7 +142,6 @@ const partProvidersSlice = createSlice({
 
 const applyFiltersAndSorting = (providers, filters, sortOption) => {
   let filtered = [...providers];
-  console.log(filters, "FILTERS");
 
   // Apply search filters
   if (filters.searchPartProviderName) {
