@@ -16,9 +16,6 @@ const ProviderLogin = () => {
 
   // Accessing the auth state from Redux
   const { provider, loading, error } = useSelector((state) => state.provider);
-  console.log(error, "this is the error ");
-
-  console.log(provider, "provider");
 
   // Handling form submission and login
   const handleSubmit = async (e) => {

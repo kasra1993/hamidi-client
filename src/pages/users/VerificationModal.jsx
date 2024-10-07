@@ -23,7 +23,7 @@ import {
 
 const VerificationModal = ({ email, onClose, mode }) => {
   const [code, setCode] = useState("");
-  const [timer, setTimer] = useState(120); // 60 seconds timer
+  const [timer, setTimer] = useState(20); // 60 seconds timer
   const [retryAllowed, setRetryAllowed] = useState(false);
   const [remainingTime, setRemainingTime] = useState(null);
   const navigate = useNavigate();
@@ -49,9 +49,6 @@ const VerificationModal = ({ email, onClose, mode }) => {
   const error = isProvider ? providerVerifyError : userVerifyError;
   const dispatch = useDispatch();
 
-  // console.log("providerVerifyError", providerVerifyError);
-  // console.log("userVerifyError", userVerifyError);
-
   useEffect(() => {
     const countdown = setInterval(() => {
       setTimer((prev) => (prev > 0 ? prev - 1 : 0));
@@ -67,8 +64,8 @@ const VerificationModal = ({ email, onClose, mode }) => {
   useEffect(() => {
     // Check remaining time when the component mounts
     const time = calculateRemainingTime();
-    setRemainingTime(time); // Set the calculated remaining time
 
+    setRemainingTime(time); // Set the calculated remaining time
     // Set an interval to update remaining time every second
     const interval = setInterval(() => {
       const updatedTime = calculateRemainingTime();
@@ -78,6 +75,13 @@ const VerificationModal = ({ email, onClose, mode }) => {
     return () => clearInterval(interval); // Clear interval when component unmounts
   }, []);
 
+  useEffect(() => {
+    // This effect will now run whenever remainingTime is updated
+    if (remainingTime?.minutes === 0 && remainingTime?.seconds === 0) {
+      window.location.reload();
+    }
+  }, [remainingTime]); // Add remainingTime as a dependency here
+
   const handleChange = (e) => {
     setCode(e.target.value);
   };
@@ -85,12 +89,12 @@ const VerificationModal = ({ email, onClose, mode }) => {
   const handleVerify = async (e) => {
     e.preventDefault();
     try {
+      deleteCookie("resendAttempts");
       if (isProvider) {
         await dispatch(verifyProvider({ email, code, mode })).unwrap();
       } else {
         await dispatch(verifyUser({ email, code, mode })).unwrap();
       }
-      deleteCookie("resendAttempts");
       onClose();
       navigate("/");
       dispatch(
@@ -115,10 +119,10 @@ const VerificationModal = ({ email, onClose, mode }) => {
       }
       setRetryAllowed(false);
       // setTimer(1800); // 30 minutes timer
-      setTimer(300); // 30 minutes timer
+      setTimer(60); // 30 minutes timer
       const expiryTime = new Date();
-      expiryTime.setTime(expiryTime.getTime() + 5 * 60 * 1000); // 30 minutes from now
-      setCookie("resendAttemptsTime", expiryTime.toUTCString(), 5); // Store the expiry time in the cookie
+      expiryTime.setTime(expiryTime.getTime() + 1 * 60 * 1000); // 30 minutes from now
+      setCookie("resendAttemptsTime", expiryTime.toUTCString(), 1); // Store the expiry time in the cookie
       dispatch(
         showToast({
           message:
@@ -128,9 +132,9 @@ const VerificationModal = ({ email, onClose, mode }) => {
       );
       // navigate("/");
     } else {
-      setTimer(120); // Reset to 2 minutes for retry
+      setTimer(20); // Reset to 2 minutes for retry
       setRetryAllowed(false);
-      setCookie("resendAttempts", attempts + 1, 5); // Cookie will expire in 30 minutes
+      setCookie("resendAttempts", attempts + 1, 1); // Cookie will expire in 30 minutes
 
       if (isProvider) {
         dispatch(resendProviderVerificationCode(email));
@@ -148,15 +152,15 @@ const VerificationModal = ({ email, onClose, mode }) => {
     );
   }
 
-  if (userRegisterError || providerRegisterError) {
-    return (
-      <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-        <p className="text-red-900">
-          {userRegisterError || providerRegisterError}
-        </p>
-      </div>
-    );
-  }
+  // if (userRegisterError || providerRegisterError) {
+  //   return (
+  //     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+  //       <p className="text-red-900">
+  //         {userRegisterError || providerRegisterError}
+  //       </p>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
@@ -211,11 +215,18 @@ const VerificationModal = ({ email, onClose, mode }) => {
                 />
               </div>
               {error && (
-                <p className="text-red-500 text-md pb-5 text-right">{error}</p>
+                <>
+                  <p className="text-red-500 text-md pb-5 text-right">
+                    {error}
+                  </p>
+                </>
               )}
               <div className="flex items-center justify-center">
                 <button
                   type="submit"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
                   disabled={loading}
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-10 rounded focus:outline-none focus:shadow-outline"
                 >

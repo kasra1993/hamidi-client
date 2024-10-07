@@ -145,6 +145,8 @@ const materialProvidersSlice = createSlice({
 const applyFiltersAndSorting = (providers, filters, sortOption) => {
   let filtered = [...providers];
 
+  console.log(filters, "FILTERS");
+
   // Apply search filters
   if (filters.searchProviderName) {
     filtered = filtered.filter((provider) =>
@@ -158,7 +160,6 @@ const applyFiltersAndSorting = (providers, filters, sortOption) => {
   }
 
   if (filters.searchMaterialGroup) {
-    console.log(filtered, "filtered");
     filtered = filtered.filter((provider) =>
       provider?.records.some(
         (record) =>

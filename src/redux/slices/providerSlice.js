@@ -160,6 +160,8 @@ const providerSlice = createSlice({
     },
     clearError: (state) => {
       state.error = null;
+      state.providerRegisterError = null;
+      state.providerVerifyError = null;
     },
   },
   extraReducers: (builder) => {

@@ -7,7 +7,6 @@ const MaterialProvidersList = () => {
   const { filteredProviders, gridView } = useSelector(
     (state) => state.materialProviders
   );
-  console.log("filteredProviders", filteredProviders);
 
   if (filteredProviders.length < 1) {
     return <h5>No providers found matching the criteria.</h5>;

@@ -29,7 +29,6 @@ const ProviderRegistration = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   // const { loading, error } = useSelector((state) => state.provider);
 
-  console.log("errors", errors);
   const handleRequest = () => {
     dispatch(
       showToast({

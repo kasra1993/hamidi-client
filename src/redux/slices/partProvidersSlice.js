@@ -142,17 +142,27 @@ const partProvidersSlice = createSlice({
 
 const applyFiltersAndSorting = (providers, filters, sortOption) => {
   let filtered = [...providers];
-  console.log(providers, "providers");
+  console.log(filters, "FILTERS");
 
   // Apply search filters
   if (filters.searchPartProviderName) {
-    filtered = filtered.filter((provider) =>
-      (
-        (provider.name && provider?.name) ||
-        (provider.company_name && provider?.company_name)
-      )
-        .toLowerCase()
-        .includes(filters.searchPartProviderName.toLowerCase())
+    filtered = filtered.filter(
+      (provider) => {
+        const name = provider?.name ? provider.name.toLowerCase() : "";
+        const companyName = provider?.company_name
+          ? provider.company_name.toLowerCase()
+          : "";
+        return (
+          name.includes(filters.searchPartProviderName.toLowerCase()) ||
+          companyName.includes(filters.searchPartProviderName.toLowerCase())
+        );
+      }
+      //   (
+      //     (provider?.name && provider?.name) ||
+      //     (provider?.company_name && provider?.company_name)
+      //   )
+      //     .toLowerCase()
+      //     .includes(filters.searchPartProviderName.toLowerCase())
     );
   }
 

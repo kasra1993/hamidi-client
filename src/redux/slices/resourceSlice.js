@@ -19,7 +19,6 @@ export const fetchSingleResource = createAsyncThunk(
   "resources/fetchSingle",
   async (id, { rejectWithValue }) => {
     try {
-      console.log("this is happening");
       const response = await axiosInstance.get(`/resource/${id}`);
       return response.data;
     } catch (error) {

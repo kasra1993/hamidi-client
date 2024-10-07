@@ -29,7 +29,7 @@ export const userLogin = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${data.token}`,
         },
-        withCredentials: true, // Include credentials like cookies
+        // withCredentials: true, // Include credentials like cookies
       };
 
       // Fetch full user data from the /me endpoint
@@ -164,6 +164,8 @@ const userSlice = createSlice({
     },
     clearError: (state) => {
       state.error = null;
+      state.userRegisterError = null;
+      state.userVerifyError = null;
     },
   },
   extraReducers: (builder) => {

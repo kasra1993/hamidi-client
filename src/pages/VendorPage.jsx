@@ -104,7 +104,11 @@ const VendorPage = () => {
         className="player"
         loop
         autoplay
-        style={{ maxHeight: "100vh", width: "100%" }}
+        style={{
+          height: "100%",
+          width: "100%",
+          aspectRatio: "16/9", // Replace with your specific aspect ratio
+        }}
       />
       <div className="absolute w-[300px] left-[250px] top-0 h-screen flex flex-col justify-center">
         {backgroundArray &&
