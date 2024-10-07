@@ -17,8 +17,6 @@ const UserLogin = () => {
   // Accessing the auth state from Redux
   const { user, loading, error } = useSelector((state) => state.user);
 
-  console.log(user, "User");
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(userLogin({ email, password }));

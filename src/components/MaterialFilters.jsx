@@ -23,7 +23,6 @@ const MaterialFilters = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log("name", name, "value", value);
     dispatch(updateFilters({ name, value }));
   };
 

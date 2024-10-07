@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { main_url } from "../../utils/constants";
+import axiosInstance from "../../utils/axiosConfig";
 
 // Thunks for async operations
 
@@ -8,10 +7,7 @@ export const providerRegister = createAsyncThunk(
   "provider/register",
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `${main_url}provider-register`,
-        userData
-      );
+      const response = await axiosInstance.post("provider-register", userData);
       return response.data;
     } catch (err) {
       return rejectWithValue(
@@ -25,7 +21,7 @@ export const providerLogin = createAsyncThunk(
   "provider/login",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${main_url}provider-login`, {
+      const { data } = await axiosInstance.post("provider-login", {
         email,
         password,
       });
@@ -35,8 +31,7 @@ export const providerLogin = createAsyncThunk(
           authorization: `Bearer ${data.token}`,
         },
       };
-      const userResponse = await axios.get(`${main_url}me`, config);
-      console.log(userResponse, "User response");
+      const userResponse = await axiosInstance.get(`me`, config);
       return userResponse.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Login failed");
@@ -48,7 +43,7 @@ export const verifyProvider = createAsyncThunk(
   "provider/verify",
   async ({ email, code }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${main_url}verify-provider`, {
+      const { data } = await axiosInstance.post("verify-provider", {
         email,
         code,
       });
@@ -62,11 +57,24 @@ export const verifyProvider = createAsyncThunk(
   }
 );
 
+export const removeUnverifiedProvider = createAsyncThunk(
+  "user/removeUnverifiedProvider",
+  async (email, { rejectWithValue }) => {
+    try {
+      await axiosInstance.post("remove-unverified-provider", { email });
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data?.message || "Resend verification failed"
+      );
+    }
+  }
+);
+
 export const resendProviderVerificationCode = createAsyncThunk(
   "provider/resendVerification",
   async (email, { rejectWithValue }) => {
     try {
-      await axios.post(`${main_url}resend-verify-provider`, { email });
+      await axiosInstance.post("resend-verify-provider", { email });
     } catch (err) {
       return rejectWithValue(
         err.response?.data?.message || "Resend verification failed"
@@ -79,7 +87,7 @@ export const providerForgotPassword = createAsyncThunk(
   "provider/forgotPassword",
   async (email, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${main_url}forgot-password`, {
+      const response = await axiosInstance.post("forgot-password", {
         email,
       });
       return response.data;
@@ -95,7 +103,7 @@ export const providerResetPassword = createAsyncThunk(
   "provider/resetPassword",
   async ({ token, newPassword }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${main_url}reset-password`, {
+      const response = await axiosInstance.post("reset-password", {
         token,
         newPassword,
       });
@@ -112,7 +120,7 @@ export const updateProviderSettings = createAsyncThunk(
   "provider/updateSettings",
   async ({ userId, formData }, { rejectWithValue }) => {
     try {
-      const response = await axios.patch(`${main_url}provider-update`, {
+      const response = await axiosInstance.patch("provider-update", {
         userId,
         ...formData,
       });
@@ -139,7 +147,11 @@ const providerSlice = createSlice({
     registerSuccess: false,
     loginSuccess: false,
     showVerification: false,
-    verifySuccess: false,
+    providerVerifyLoading: false,
+    providerVerifyError: null,
+    providerVerifySuccess: false,
+    providerRegisterLoading: false,
+    providerRegisterError: null,
   },
   reducers: {
     logout: (state) => {
@@ -148,21 +160,23 @@ const providerSlice = createSlice({
     },
     clearError: (state) => {
       state.error = null;
+      state.providerRegisterError = null;
+      state.providerVerifyError = null;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(providerRegister.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.providerRegisterLoading = true;
+        state.providerRegisterError = null;
       })
       .addCase(providerRegister.fulfilled, (state) => {
-        state.loading = false;
+        state.providerRegisterLoading = false;
         state.showVerification = true;
       })
       .addCase(providerRegister.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
+        state.providerRegisterLoading = false;
+        state.providerRegisterError = action.payload;
       })
       .addCase(providerLogin.pending, (state) => {
         state.loading = true;
@@ -178,17 +192,17 @@ const providerSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(verifyProvider.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.providerVerifyLoading = true;
+        state.providerVerifyError = null;
       })
       .addCase(verifyProvider.fulfilled, (state, action) => {
-        state.loading = false;
+        state.providerVerifyLoading = false;
         state.provider = action.payload.provider;
-        state.verifySuccess = true;
+        state.providerVerifySuccess = true;
       })
       .addCase(verifyProvider.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
+        state.providerVerifyLoading = false;
+        state.providerVerifyError = action.payload;
       });
   },
 });

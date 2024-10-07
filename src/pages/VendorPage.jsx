@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { vendorBg } from "../images";
-import vendorNight from "../images/pageBackgrounds/vendor-night.png";
-import vendorDay from "../images/pageBackgrounds/vendor-day.png";
+// import vendorNight from "../images/pageBackgrounds/vendor-night.png";
+// import vendorDay from "../images/pageBackgrounds/vendor-day.png";
+import { vendorDay, vendorNight } from "../images";
 import materialButton from "/material-provider-btn.png";
 import partButton from "/part-provider-btn.png";
 import marketbtn from "/market-info-btn.png";
@@ -12,6 +13,7 @@ import resourceCenterBtn from "/resource-center-btn.png";
 import offerbtn from "/offer-btn.png";
 import HomeIcon from "../components/HomeIcon";
 import { useSelector } from "react-redux";
+import { Player } from "@lottiefiles/react-lottie-player";
 
 const backgroundArray = [
   {
@@ -95,16 +97,19 @@ const VendorPage = () => {
   };
 
   return (
-    <div
-      className="w-full h-screen flex justify-center items-center relative transition-all ease-in-out"
-      style={{
-        backgroundImage: `url(${user ? vendorDay : vendorNight})`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "100% 100%",
-        backgroundPosition: "center",
-      }}
-    >
+    <div className="w-full h-screen flex justify-center items-center relative transition-all ease-in-out">
       <HomeIcon />
+      <Player
+        src={user ? vendorDay : vendorNight}
+        className="player"
+        loop
+        autoplay
+        style={{
+          height: "100%",
+          width: "100%",
+          aspectRatio: "16/9", // Replace with your specific aspect ratio
+        }}
+      />
       <div className="absolute w-[300px] left-[250px] top-0 h-screen flex flex-col justify-center">
         {backgroundArray &&
           backgroundArray.map((item) => (

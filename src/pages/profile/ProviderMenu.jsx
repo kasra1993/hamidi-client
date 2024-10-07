@@ -13,7 +13,6 @@ const ProviderMenu = ({ provider }) => {
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log(provider);
 
   const handleLogout = () => {
     dispatch(logout());

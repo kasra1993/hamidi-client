@@ -15,7 +15,6 @@ const MaterialProviderSort = () => {
   const { filteredProviders, sortOption, gridView } = useSelector(
     (state) => state.materialProviders
   );
-  console.log("filteredProviders", filteredProviders);
 
   return (
     <Wrapper>

@@ -15,8 +15,6 @@ const PartFilters = () => {
     (state) => state.partProviders
   );
 
-  console.log("filters", filters);
-
   useEffect(() => {
     dispatch(fetchPartGeneralIds());
     dispatch(fetchPartGroups());
@@ -25,7 +23,6 @@ const PartFilters = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log("name", name, "value", value); // For debugging
     dispatch(updateFilters({ name, value })); // Make sure this action is dispatched correctly
   };
 

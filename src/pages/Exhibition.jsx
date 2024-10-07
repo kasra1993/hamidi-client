@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-// Import Swiper React components
+import React, { useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { main_url as url } from "../utils/constants";
 import { exhibitionBg } from "../images";
 import HomeIcon from "../components/HomeIcon";
+import { fetchExhibitions } from "../redux/slices/exhibitionSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 // Import Swiper styles
 import "swiper/css";
@@ -12,33 +12,18 @@ import "swiper/css/navigation";
 
 // import required modules
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
-import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 
 export default function Exhibition() {
-  const [exhibitions, setExhibitions] = useState(undefined);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const { exhibitions, loading, error } = useSelector(
+    (state) => state.exhibitions
+  );
+  const dispatch = useDispatch();
 
-  const navigate = useNavigate();
   useEffect(() => {
-    const fetchExhibitions = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(`${url}/exhibitions`);
-        if (!response.ok) {
-          throw new Error("Something went wrong");
-        }
-        const data = await response.json();
-        setExhibitions(data);
-      } catch (error) {
-        setError(error.message);
-      }
-      setLoading(false);
-    };
+    dispatch(fetchExhibitions());
+  }, [dispatch]);
 
-    fetchExhibitions();
-  }, []); // Dependency array
   return (
     <div
       className="relative pt-52 px-10"

@@ -16,8 +16,6 @@ const PartProvidersPage = () => {
     (state) => state.partProviders
   );
 
-  console.log("filteredProviders", filteredProviders);
-
   const areFiltersUpdated =
     filters.searchPartProviderName ||
     filters.searchPartGroup ||

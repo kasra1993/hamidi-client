@@ -1,12 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { main_url } from "../../utils/constants";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosConfig";
 
 export const fetchPartProviders = createAsyncThunk(
   "partProviders/fetchAllPartProviders",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${main_url}partProviders`);
+      const response = await axiosInstance.get("partProviders");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -18,7 +17,7 @@ export const fetchPartGroups = createAsyncThunk(
   "partProviders/fetchPartGroups",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${main_url}partGroups`);
+      const response = await axiosInstance.get("partGroups");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -30,7 +29,7 @@ export const fetchPartNames = createAsyncThunk(
   "partProviders/fetchPartNames",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${main_url}partNames`);
+      const response = await axiosInstance.get("partNames");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -42,7 +41,7 @@ export const fetchPartGeneralIds = createAsyncThunk(
   "partProviders/fetchPartGeneralIds",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${main_url}partGeneralIds`);
+      const response = await axiosInstance.get("partGeneralIds");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -143,17 +142,26 @@ const partProvidersSlice = createSlice({
 
 const applyFiltersAndSorting = (providers, filters, sortOption) => {
   let filtered = [...providers];
-  console.log(providers, "providers");
 
   // Apply search filters
   if (filters.searchPartProviderName) {
-    filtered = filtered.filter((provider) =>
-      (
-        (provider.name && provider?.name) ||
-        (provider.company_name && provider?.company_name)
-      )
-        .toLowerCase()
-        .includes(filters.searchPartProviderName.toLowerCase())
+    filtered = filtered.filter(
+      (provider) => {
+        const name = provider?.name ? provider.name.toLowerCase() : "";
+        const companyName = provider?.company_name
+          ? provider.company_name.toLowerCase()
+          : "";
+        return (
+          name.includes(filters.searchPartProviderName.toLowerCase()) ||
+          companyName.includes(filters.searchPartProviderName.toLowerCase())
+        );
+      }
+      //   (
+      //     (provider?.name && provider?.name) ||
+      //     (provider?.company_name && provider?.company_name)
+      //   )
+      //     .toLowerCase()
+      //     .includes(filters.searchPartProviderName.toLowerCase())
     );
   }
 

@@ -16,7 +16,8 @@ import {
   fetchPartGeneralIds,
   fetchPartNames,
 } from "../../redux/slices/partProvidersSlice";
-import { GiExitDoor } from "react-icons/gi";
+import { calculateRemainingTime } from "../../utils/helpers";
+
 const ProviderRegistration = () => {
   const [step, setStep] = useState(1);
   const [showVerification, setShowVerification] = useState(false);
@@ -26,6 +27,7 @@ const ProviderRegistration = () => {
   const [image, setImage] = useState();
   const [imagePreview, setImagePreview] = useState(null); // Preview image state
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // const { loading, error } = useSelector((state) => state.provider);
 
   const handleRequest = () => {
     dispatch(
@@ -197,6 +199,9 @@ const ProviderRegistration = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
+    const time = calculateRemainingTime();
+
+    setShowVerification(true);
 
     const { repeat_password, ...dataToSubmit } = formData;
     dataToSubmit.role = "provider";
@@ -207,15 +212,8 @@ const ProviderRegistration = () => {
     if (image) {
       dataToSubmit.image = image;
     }
-    // console.log("dataToSubmit", dataToSubmit);
-    dispatch(providerRegister(dataToSubmit))
-      .unwrap()
-      .then(() => {
-        setShowVerification(true);
-      })
-      .catch((error) => {
-        console.error("Registration failed:", error);
-      });
+    if (time) return;
+    dispatch(providerRegister(dataToSubmit));
   };
 
   const validate = () => {
@@ -237,7 +235,7 @@ const ProviderRegistration = () => {
       newErrors.economical_number = " شماره اقتصادی مورد نیاز است";
     if (!formData.ceo_name) newErrors.ceo_name = "نام مدیر مورد نیاز است";
     if (!formData.website_address)
-      newErrors.website_address = "نام مدیر مورد نیاز است";
+      newErrors.website_address = "نام وبسایت مورد نیاز است";
     if (!formData.country) newErrors.country = " نام کشور مورد نیاز است";
     if (!formData.city) newErrors.city = "نام شهر مورد نیاز است";
     if (!formData.form_filler_name)
@@ -320,6 +318,40 @@ const ProviderRegistration = () => {
                   <div className="mb-5">
                     <input
                       type="text"
+                      name="form_filler_name"
+                      id="form_filler_name"
+                      placeholder="نام پر کننده فرم"
+                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
+                      onChange={handleChange}
+                    />
+                    {errors.form_filler_name && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.form_filler_name}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div className="w-full px-3 sm:w-1/2">
+                  <div className="mb-5">
+                    <input
+                      type="text"
+                      name="form_filler_position"
+                      id="form_filler_position"
+                      placeholder="سمت پر کننده فرم"
+                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
+                      onChange={handleChange}
+                    />
+                    {errors.form_filler_position && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.form_filler_position}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div className="w-full px-3 sm:w-1/2">
+                  <div className="mb-5">
+                    <input
+                      type="text"
                       name="company_name"
                       id="company_name"
                       placeholder="نام کمپانی"
@@ -333,23 +365,7 @@ const ProviderRegistration = () => {
                     )}
                   </div>
                 </div>
-                <div className="w-full px-3 sm:w-1/2">
-                  <div className="mb-5">
-                    <input
-                      type="text"
-                      name="ceo_name"
-                      id="ceo_name"
-                      placeholder="نام مدیر"
-                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
-                      onChange={handleChange}
-                    />
-                    {errors.ceo_name && (
-                      <p className="text-red-500 text-xs mt-1">
-                        {errors.ceo_name}
-                      </p>
-                    )}
-                  </div>
-                </div>
+
                 <div className="w-full px-3 sm:w-1/2">
                   <div className="mb-5">
                     <input
@@ -420,32 +436,15 @@ const ProviderRegistration = () => {
                   <div className="mb-5">
                     <input
                       type="text"
-                      name="form_filler_name"
-                      id="form_filler_name"
-                      placeholder="نام پر کننده فرم"
+                      name="ceo_name"
+                      id="ceo_name"
+                      placeholder="نام مدیر عامل کمپانی"
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
                       onChange={handleChange}
                     />
-                    {errors.form_filler_name && (
+                    {errors.ceo_name && (
                       <p className="text-red-500 text-xs mt-1">
-                        {errors.form_filler_name}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                <div className="w-full px-3 sm:w-1/2">
-                  <div className="mb-5">
-                    <input
-                      type="text"
-                      name="form_filler_position"
-                      id="form_filler_position"
-                      placeholder="سمت پر کننده فرم"
-                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
-                      onChange={handleChange}
-                    />
-                    {errors.form_filler_position && (
-                      <p className="text-red-500 text-xs mt-1">
-                        {errors.form_filler_position}
+                        {errors.ceo_name}
                       </p>
                     )}
                   </div>
@@ -494,7 +493,7 @@ const ProviderRegistration = () => {
                       type="number"
                       name="ceo_cellphone"
                       id="ceo_cellphone"
-                      placeholder=" شماره تماس مدیر"
+                      placeholder="شماره تماس مدیر عامل"
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
                       onChange={handleChange}
                     />
@@ -725,6 +724,7 @@ const ProviderRegistration = () => {
                   )}
                   <div className="absolute top-[30%] flex w-full justify-center gap-5">
                     <button
+                      type="button"
                       onClick={handleAddRecord}
                       className="hover:shadow-form w-auto max-w-xs rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none "
                     >
@@ -733,6 +733,7 @@ const ProviderRegistration = () => {
 
                     {step === 3 && (
                       <button
+                        type="button"
                         onClick={handleSubmitStep3}
                         className=" hover:shadow-form w-auto max-w-xs rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base  font-semibold text-white outline-none "
                       >
@@ -851,7 +852,7 @@ const ProviderRegistration = () => {
 
                 <div className="w-1/2 px-3 mb-5">
                   <label className="block text-base font-semibold text-gray-700 sm:text-xl mb-2">
-                    بارگذاری تصویر شرکت
+                    بارگزاری لوگو/ تصویر تامین کننده
                   </label>
                   <div className="flex items-center">
                     <label className="w-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-200">
@@ -918,10 +919,10 @@ const ProviderRegistration = () => {
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded shadow-lg w-1/2 h-1/2">
-            <p className="text-center text-2xl py-5">ثبت درخواست </p>
+            <p className="text-center text-2xl py-5">ثبت ماده یا قطعه</p>
             <input
               type="text"
-              placeholder="درخواست خود را وارد کنید "
+              placeholder="اطلاعات ماده یا قطعه را با جزییات کامل بنویسید"
               className="border border-slate-300 p-5 rounded-xl w-full text-right"
             />
             <button

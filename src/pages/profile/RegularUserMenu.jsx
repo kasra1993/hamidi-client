@@ -81,22 +81,17 @@ const RegularUserMenu = ({ user }) => {
           >
             تنظیمات
           </button>
-          <button
+          <a
             className="block w-full text-right px-4 py-4 text-sm text-gray-700 hover:bg-gray-100 border border-slate-200 rounded-3xl my-3"
             onClick={() => {
               setDropdownOpen(false);
-              navigate("/");
             }}
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://yandex.com/games/app/242234#app-id=242234&catalog-session-uid=catalog-30f37d78-5939-590b-9aeb-4d43892b5edd-1725892709973-1e5e&rtx-reqid=11012481745256740977&pos=%7B%22listType%22%3A%22played%22%2C%22tabCategory%22%3A%22common%22%7D&redir-data=%7B%22block%22%3A%22played%22%2C%22block_index%22%3A0%2C%22card%22%3A%22your_games%22%2C%22col%22%3A0%2C%22first_screen%22%3A1%2C%22page%22%3A%22main%22%2C%22rn%22%3A373803740%2C%22row%22%3A0%2C%22rtx_reqid%22%3A%2211012481745256740977%22%2C%22same_block_index%22%3A0%2C%22wrapper%22%3A%22played_games%22%2C%22http_ref%22%3A%22https%253A%252F%252Fyandex.com%252Fgames%252F%22%7D"
           >
-            <a
-              className="w-full h-full"
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://yandex.com/games/app/242234#app-id=242234&catalog-session-uid=catalog-30f37d78-5939-590b-9aeb-4d43892b5edd-1725892709973-1e5e&rtx-reqid=11012481745256740977&pos=%7B%22listType%22%3A%22played%22%2C%22tabCategory%22%3A%22common%22%7D&redir-data=%7B%22block%22%3A%22played%22%2C%22block_index%22%3A0%2C%22card%22%3A%22your_games%22%2C%22col%22%3A0%2C%22first_screen%22%3A1%2C%22page%22%3A%22main%22%2C%22rn%22%3A373803740%2C%22row%22%3A0%2C%22rtx_reqid%22%3A%2211012481745256740977%22%2C%22same_block_index%22%3A0%2C%22wrapper%22%3A%22played_games%22%2C%22http_ref%22%3A%22https%253A%252F%252Fyandex.com%252Fgames%252F%22%7D"
-            >
-              سرگرمی
-            </a>
-          </button>
+            سرگرمی
+          </a>
           <button
             className="block w-full text-right px-4 py-4 text-sm text-gray-700 hover:bg-red-800 hover:text-white border border-slate-200 rounded-3xl my-3"
             onClick={handleLogout}

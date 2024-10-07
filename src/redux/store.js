@@ -12,6 +12,7 @@ import userSliceReducer from "./slices/userSlice";
 import productsInfoSliceReducer from "./slices/productInfoSlice";
 import resourceSliceReducer from "./slices/resourceSlice";
 import marketSliceReducer from "./slices/marketSlice";
+import exhibitionSliceReducer from "./slices/exhibitionSlice";
 import { thunk } from "redux-thunk";
 import storage from "redux-persist/lib/storage"; // Defaults to localStorage for web
 
@@ -41,6 +42,7 @@ const rootReducer = combineReducers({
   productInfo: productsInfoSliceReducer,
   resources: resourceSliceReducer,
   partProviders: partProvidersSliceReducer, // Add part filter slice to root reducer
+  exhibitions: exhibitionSliceReducer, // Add part filter slice to root reducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

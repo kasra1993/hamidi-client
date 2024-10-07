@@ -1,14 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { main_url } from "../../utils/constants";
+import axiosInstance from "../../utils/axiosConfig";
 
 // Async thunk to fetch all resources
 export const fetchResources = createAsyncThunk(
   "resources/fetchAll",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${main_url}resources`);
-      console.log(response);
+      const response = await axiosInstance.get("resources");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -21,8 +19,7 @@ export const fetchSingleResource = createAsyncThunk(
   "resources/fetchSingle",
   async (id, { rejectWithValue }) => {
     try {
-      console.log("this is happening");
-      const response = await axios.get(`${main_url}/resource/${id}`);
+      const response = await axiosInstance.get(`/resource/${id}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
