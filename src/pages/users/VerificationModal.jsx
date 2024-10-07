@@ -114,10 +114,11 @@ const VerificationModal = ({ email, onClose, mode }) => {
         dispatch(removeUnverifiedUser(email));
       }
       setRetryAllowed(false);
-      setTimer(1800); // 30 minutes timer
+      // setTimer(1800); // 30 minutes timer
+      setTimer(300); // 30 minutes timer
       const expiryTime = new Date();
-      expiryTime.setTime(expiryTime.getTime() + 30 * 60 * 1000); // 30 minutes from now
-      setCookie("resendAttemptsTime", expiryTime.toUTCString(), 30); // Store the expiry time in the cookie
+      expiryTime.setTime(expiryTime.getTime() + 5 * 60 * 1000); // 30 minutes from now
+      setCookie("resendAttemptsTime", expiryTime.toUTCString(), 5); // Store the expiry time in the cookie
       dispatch(
         showToast({
           message:
@@ -129,7 +130,7 @@ const VerificationModal = ({ email, onClose, mode }) => {
     } else {
       setTimer(120); // Reset to 2 minutes for retry
       setRetryAllowed(false);
-      setCookie("resendAttempts", attempts + 1, 30); // Cookie will expire in 30 minutes
+      setCookie("resendAttempts", attempts + 1, 5); // Cookie will expire in 30 minutes
 
       if (isProvider) {
         dispatch(resendProviderVerificationCode(email));

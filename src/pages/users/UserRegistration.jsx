@@ -55,7 +55,18 @@ const UserRegistration = () => {
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          image: "اندازه تصویر نباید بیشتر از 2 مگابایت باشد",
+        }));
+        return;
+      }
       setImagePreview(URL.createObjectURL(file));
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        image: undefined, // Clear the error if the file size is acceptable
+      }));
     }
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -118,7 +129,7 @@ const UserRegistration = () => {
         encType="multipart/form-data"
       >
         <div className="mb-5 pt-3">
-          <label className="mb-5 block text-base font-semibold text-[#07074D] sm:text-xl">
+          <label className="mb-20 block text-base font-semibold text-[#07074D] sm:text-xl">
             ثبت نام
           </label>
           <div className="-mx-3 flex flex-wrap px-10">
@@ -157,7 +168,7 @@ const UserRegistration = () => {
                   </div>
                 </div>
 
-                <div className="w-full px-3 sm:w-1/2">
+                {/* <div className="w-full px-3 sm:w-1/2">
                   <div className="mb-5">
                     <input
                       type="number"
@@ -171,7 +182,8 @@ const UserRegistration = () => {
                       <p className="text-red-500 text-xs mt-1">{errors.age}</p>
                     )}
                   </div>
-                </div>
+                </div> */}
+
                 <div className="w-full px-3 sm:w-1/2">
                   <div className="mb-5">
                     <input
@@ -206,54 +218,85 @@ const UserRegistration = () => {
                     )}
                   </div>
                 </div>
-                <div className="w-full px-3 sm:w-1/2">
-                  <div className="relative h-10 w-72 min-w-[200px]">
-                    <select
-                      className="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-1 font-sans text-xs font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 empty:!bg-gray-900 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                      onChange={handleChange} // Add the onChange event handler
-                      value={formData.sex} // Dynamically set value from formData
-                      name="sex"
-                    >
-                      <option value="">انتخاب جنسیت </option>
-                      <option value="man">مرد</option>
-                      <option value="woman">زن</option>
-                      <option value="other">نمیخواهم بگویم</option>
-                    </select>
+                <div className="flex justify-around w-full ">
+                  <div className="w-full px-3 sm:w-1/2 ">
+                    <div className="relative h-10 w-72 min-w-[200px] mx-auto">
+                      <select
+                        className="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-1 font-sans text-xs font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 empty:!bg-gray-900 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                        onChange={handleChange} // Add the onChange event handler
+                        value={formData.age} // Dynamically set value from formData
+                        name="age"
+                      >
+                        <option value="">انتخاب</option>
+                        <option value="under">زیر 20 سال</option>
+                        <option value="20-30">20 - 30</option>
+                        <option value="30-40">30 - 40</option>
+                        <option value="40-50">40 - 50</option>
+                        <option value="above">بالای 50 سال</option>
+                        <option value="other">نمیخواهم بگویم</option>
+                      </select>
 
-                    <label className="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-gray-900 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
-                      جنسیت
-                    </label>
-                    {errors.sex && (
-                      <p className="text-red-500 text-xs mt-1">{errors.sex}</p>
-                    )}
+                      <label className="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-gray-900 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
+                        سن
+                      </label>
+                      {errors.age && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors.age}
+                        </p>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className="w-full px-3 sm:w-1/2">
-                  <div className="relative h-10 w-72 min-w-[200px]">
-                    <select
-                      className="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-1 font-sans text-xs font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 empty:!bg-gray-900 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                      onChange={handleChange} // Add the onChange event handler
-                      value={formData.occupation} // Dynamically set value from formData
-                      name="occupation"
-                    >
-                      <option value="">انتخاب کنید </option>
-                      <option value="purchase_manager">مسئول خرید</option>
-                      <option value="student">دانشجو/ محقق</option>
-                      <option value="startup_member">عضو استارت آپ</option>
-                      <option value="provider">تامین کننده</option>
-                      {/* <option value="analyzer"> تحلیلگر</option>
-                      <option value="observer"> ناظر</option> */}
-                      <option value="other">سایر</option>
-                    </select>
+                  <div className="w-full px-3 sm:w-1/2">
+                    <div className="relative h-10 w-72 min-w-[200px] mx-auto">
+                      <select
+                        className="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-1 font-sans text-xs font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 empty:!bg-gray-900 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                        onChange={handleChange} // Add the onChange event handler
+                        value={formData.sex} // Dynamically set value from formData
+                        name="sex"
+                      >
+                        <option value="">انتخاب</option>
+                        <option value="man">مرد</option>
+                        <option value="woman">زن</option>
+                        <option value="other">نمیخواهم بگویم</option>
+                      </select>
 
-                    <label className="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-gray-900 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
-                      شغل
-                    </label>
-                    {errors.occupation && (
-                      <p className="text-red-500 text-xs mt-1">
-                        {errors.occupation}
-                      </p>
-                    )}
+                      <label className="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-gray-900 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
+                        جنسیت
+                      </label>
+                      {errors.sex && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors.sex}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="w-full px-3 sm:w-1/2">
+                    <div className="relative h-10 w-72 min-w-[200px] mx-auto">
+                      <select
+                        className="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-1 font-sans text-xs font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 empty:!bg-gray-900 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                        onChange={handleChange} // Add the onChange event handler
+                        value={formData.occupation} // Dynamically set value from formData
+                        name="occupation"
+                      >
+                        <option value="">انتخاب</option>
+                        <option value="purchase_manager">مسئول خرید</option>
+                        <option value="student">دانشجو/ محقق</option>
+                        <option value="startup_member">عضو استارت آپ</option>
+                        <option value="provider">تامین کننده</option>
+                        {/* <option value="analyzer"> تحلیلگر</option>
+                      <option value="observer"> ناظر</option> */}
+                        <option value="other">سایر</option>
+                      </select>
+
+                      <label className="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-gray-900 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
+                        شغل
+                      </label>
+                      {errors.occupation && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors.occupation}
+                        </p>
+                      )}
+                    </div>
                   </div>
                 </div>
               </>
@@ -343,6 +386,9 @@ const UserRegistration = () => {
                         className="w-[100%] max-h-28 rounded-md object-contain pt-2"
                       />
                     </div>
+                  )}
+                  {errors.image && (
+                    <p className="text-red-500 text-xs mt-1">{errors.image}</p>
                   )}
                 </div>
               </div>

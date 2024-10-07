@@ -236,7 +236,7 @@ const ProviderRegistration = () => {
       newErrors.economical_number = " شماره اقتصادی مورد نیاز است";
     if (!formData.ceo_name) newErrors.ceo_name = "نام مدیر مورد نیاز است";
     if (!formData.website_address)
-      newErrors.website_address = "نام مدیر مورد نیاز است";
+      newErrors.website_address = "نام وبسایت مورد نیاز است";
     if (!formData.country) newErrors.country = " نام کشور مورد نیاز است";
     if (!formData.city) newErrors.city = "نام شهر مورد نیاز است";
     if (!formData.form_filler_name)
@@ -319,6 +319,40 @@ const ProviderRegistration = () => {
                   <div className="mb-5">
                     <input
                       type="text"
+                      name="form_filler_name"
+                      id="form_filler_name"
+                      placeholder="نام پر کننده فرم"
+                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
+                      onChange={handleChange}
+                    />
+                    {errors.form_filler_name && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.form_filler_name}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div className="w-full px-3 sm:w-1/2">
+                  <div className="mb-5">
+                    <input
+                      type="text"
+                      name="form_filler_position"
+                      id="form_filler_position"
+                      placeholder="سمت پر کننده فرم"
+                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
+                      onChange={handleChange}
+                    />
+                    {errors.form_filler_position && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.form_filler_position}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div className="w-full px-3 sm:w-1/2">
+                  <div className="mb-5">
+                    <input
+                      type="text"
                       name="company_name"
                       id="company_name"
                       placeholder="نام کمپانی"
@@ -332,23 +366,7 @@ const ProviderRegistration = () => {
                     )}
                   </div>
                 </div>
-                <div className="w-full px-3 sm:w-1/2">
-                  <div className="mb-5">
-                    <input
-                      type="text"
-                      name="ceo_name"
-                      id="ceo_name"
-                      placeholder="نام مدیر"
-                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
-                      onChange={handleChange}
-                    />
-                    {errors.ceo_name && (
-                      <p className="text-red-500 text-xs mt-1">
-                        {errors.ceo_name}
-                      </p>
-                    )}
-                  </div>
-                </div>
+
                 <div className="w-full px-3 sm:w-1/2">
                   <div className="mb-5">
                     <input
@@ -419,32 +437,15 @@ const ProviderRegistration = () => {
                   <div className="mb-5">
                     <input
                       type="text"
-                      name="form_filler_name"
-                      id="form_filler_name"
-                      placeholder="نام پر کننده فرم"
+                      name="ceo_name"
+                      id="ceo_name"
+                      placeholder="نام مدیر عامل کمپانی"
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
                       onChange={handleChange}
                     />
-                    {errors.form_filler_name && (
+                    {errors.ceo_name && (
                       <p className="text-red-500 text-xs mt-1">
-                        {errors.form_filler_name}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                <div className="w-full px-3 sm:w-1/2">
-                  <div className="mb-5">
-                    <input
-                      type="text"
-                      name="form_filler_position"
-                      id="form_filler_position"
-                      placeholder="سمت پر کننده فرم"
-                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
-                      onChange={handleChange}
-                    />
-                    {errors.form_filler_position && (
-                      <p className="text-red-500 text-xs mt-1">
-                        {errors.form_filler_position}
+                        {errors.ceo_name}
                       </p>
                     )}
                   </div>
@@ -493,7 +494,7 @@ const ProviderRegistration = () => {
                       type="number"
                       name="ceo_cellphone"
                       id="ceo_cellphone"
-                      placeholder=" شماره تماس مدیر"
+                      placeholder="شماره تماس مدیر عامل"
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md text-right"
                       onChange={handleChange}
                     />
