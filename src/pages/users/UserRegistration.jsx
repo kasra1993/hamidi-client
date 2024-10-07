@@ -39,7 +39,7 @@ const UserRegistration = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // const time = calculateRemainingTime();
+    const time = calculateRemainingTime();
     if (!validate()) return;
     setShowVerification(true);
     const { repeat_password, ...dataToSubmit } = formData;
@@ -48,7 +48,7 @@ const UserRegistration = () => {
     if (image) {
       dataToSubmit.image = image;
     }
-    // if (time) return;
+    if (time) return;
     dispatch(userRegister(dataToSubmit));
   };
 
