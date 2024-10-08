@@ -99,7 +99,7 @@ const HomePage = () => {
   ];
 
   return (
-    <section className="flex gap-5 items-center justify-end h-screen transition-all ease-in-out bg-blend-overlay w-full pr-5">
+    <section className="flex gap-5 items-center justify-end h-screen transition-all ease-in-out bg-blend-overlay w-full pr-5 relative">
       <div
         className="absolute inset-0 z-[-1]" // This div will be the background container
         style={{
@@ -115,7 +115,13 @@ const HomePage = () => {
             className="player"
             loop
             autoplay
-            style={{ maxHeight: "100vh", width: "100%" }}
+            style={{
+              maxWidth: "100vw",
+              maxHeight: "100vh",
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
+            }}
           />
         )}
       </div>

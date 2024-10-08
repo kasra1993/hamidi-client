@@ -23,7 +23,7 @@ import {
 
 const VerificationModal = ({ email, onClose, mode }) => {
   const [code, setCode] = useState("");
-  const [timer, setTimer] = useState(20); // 60 seconds timer
+  const [timer, setTimer] = useState(120); // 60 seconds timer
   const [retryAllowed, setRetryAllowed] = useState(false);
   const [remainingTime, setRemainingTime] = useState(null);
   const navigate = useNavigate();
@@ -119,10 +119,10 @@ const VerificationModal = ({ email, onClose, mode }) => {
       }
       setRetryAllowed(false);
       // setTimer(1800); // 30 minutes timer
-      setTimer(60); // 30 minutes timer
+      setTimer(600); // 30 minutes timer
       const expiryTime = new Date();
-      expiryTime.setTime(expiryTime.getTime() + 1 * 60 * 1000); // 30 minutes from now
-      setCookie("resendAttemptsTime", expiryTime.toUTCString(), 1); // Store the expiry time in the cookie
+      expiryTime.setTime(expiryTime.getTime() + 10 * 60 * 1000); // 30 minutes from now
+      setCookie("resendAttemptsTime", expiryTime.toUTCString(), 10); // Store the expiry time in the cookie
       dispatch(
         showToast({
           message:
@@ -132,9 +132,9 @@ const VerificationModal = ({ email, onClose, mode }) => {
       );
       // navigate("/");
     } else {
-      setTimer(20); // Reset to 2 minutes for retry
+      setTimer(120); // Reset to 2 minutes for retry
       setRetryAllowed(false);
-      setCookie("resendAttempts", attempts + 1, 1); // Cookie will expire in 30 minutes
+      setCookie("resendAttempts", attempts + 1, 10); // Cookie will expire in 30 minutes
 
       if (isProvider) {
         dispatch(resendProviderVerificationCode(email));

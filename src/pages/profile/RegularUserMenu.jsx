@@ -6,7 +6,7 @@ import { logout } from "../../redux/slices/userSlice";
 import { showToast } from "../../redux/slices/toastSlice";
 
 const defaultImage = "/default-provider-image.png";
-const RegularUserMenu = ({ user }) => {
+const RegularUserMenu = ({ user, isBlackIconPage }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -41,12 +41,18 @@ const RegularUserMenu = ({ user }) => {
   }, [dropdownOpen]);
 
   return (
-    <div className="absolute top-5 left-5 z-50" ref={dropdownRef}>
+    <div
+      className={`${isBlackIconPage ? "top-22" : "top-5"} absolute left-5 z-50`}
+      ref={dropdownRef}
+    >
       <button
         className="text-gray-600 focus:outline-none"
         onClick={() => setDropdownOpen(!dropdownOpen)}
       >
-        <FaUserCircle size={50} color="white" />
+        <FaUserCircle
+          size={50}
+          color={`${isBlackIconPage ? "black" : "white"}`}
+        />
       </button>
       {dropdownOpen && (
         <div className="absolute right-100 mt-2 w-60 bg-white border rounded-md shadow-lg p-2">

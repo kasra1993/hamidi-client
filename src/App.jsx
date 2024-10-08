@@ -33,73 +33,80 @@ import ResourceList from "./pages/resources/ResourceList";
 import SingleResource from "./pages/resources/SingleResource";
 import SingleMarket from "./pages/markets/SingleMarket";
 import ComingSoon from "./pages/ComingSoon";
-import Test from "./pages/Test";
+import ResponsiveWrapper from "./components/ResponsiveWrapper";
 
 function App() {
   return (
     <Router>
-      <div>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<HomePage />} />
+      <ResponsiveWrapper>
+        <div>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<HomePage />} />
+              <Route
+                path="/materials"
+                element={
+                  <PrivateRoute>
+                    <MaterialProvidersPage />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/parts"
+                element={
+                  <PrivateRoute>
+                    <PartProvidersPage />
+                  </PrivateRoute>
+                }
+              />
+              <Route path="/vendors" element={<VendorPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/exhibition" element={<Exhibition />} />
+              <Route path="/offers" element={<Offers />} />
+              <Route
+                path="/products-info-list"
+                element={<ProductsInfoList />}
+              />
+              <Route path="/product/:id" element={<SingleProduct />} />
+              <Route path="/markets" element={<MarketList />} />
+              <Route path="/market/:id" element={<SingleMarket />} />
+              <Route path="/resources" element={<ResourceList />} />
+              <Route path="/resource/:id" element={<SingleResource />} />
+              <Route path="/:type/provider/:id" element={<SingleProvider />} />
+              <Route path="*" element={<ErrorPage />} />
+              <Route path="/coming-soon" element={<ComingSoon />} />
+              <Route path="/provider-profile" element={<ProviderProfile />} />
+              <Route path="/provider-setting" element={<ProviderSettings />} />
+              <Route path="/user-setting" element={<UserSettings />} />
+            </Route>
             <Route
-              path="/materials"
-              element={
-                <PrivateRoute>
-                  <MaterialProvidersPage />
-                </PrivateRoute>
-              }
+              path="/user-forgot-password"
+              element={<UserForgotPassword />}
             />
             <Route
-              path="/parts"
-              element={
-                <PrivateRoute>
-                  <PartProvidersPage />
-                </PrivateRoute>
-              }
+              path="/user-reset-password"
+              element={<UserResetPassword />}
             />
-            <Route path="/vendors" element={<VendorPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/test" element={<Test />} />
-            <Route path="/exhibition" element={<Exhibition />} />
-            <Route path="/offers" element={<Offers />} />
-            <Route path="/products-info-list" element={<ProductsInfoList />} />
-            <Route path="/product/:id" element={<SingleProduct />} />
-            <Route path="/markets" element={<MarketList />} />
-            <Route path="/market/:id" element={<SingleMarket />} />
-            <Route path="/resources" element={<ResourceList />} />
-            <Route path="/resource/:id" element={<SingleResource />} />
-            <Route path="/:type/provider/:id" element={<SingleProvider />} />
-            <Route path="*" element={<ErrorPage />} />
-            <Route path="/coming-soon" element={<ComingSoon />} />
-            <Route path="/provider-profile" element={<ProviderProfile />} />
-            <Route path="/provider-setting" element={<ProviderSettings />} />
-            <Route path="/user-setting" element={<UserSettings />} />
-          </Route>
-          <Route
-            path="/user-forgot-password"
-            element={<UserForgotPassword />}
-          />
-          <Route path="/user-reset-password" element={<UserResetPassword />} />
-          <Route
-            path="/provider-forgot-password"
-            element={<ProviderForgotPassword />}
-          />
-          <Route
-            path="/provider-reset-password"
-            element={<ProviderResetPassword />}
-          />
-          <Route path="/user-login" element={<UserLogin />} />
+            <Route
+              path="/provider-forgot-password"
+              element={<ProviderForgotPassword />}
+            />
+            <Route
+              path="/provider-reset-password"
+              element={<ProviderResetPassword />}
+            />
+            <Route path="/user-login" element={<UserLogin />} />
 
-          <Route path="/provider-login" element={<ProviderLogin />} />
-          <Route path="/user-registration" element={<UserRegistration />} />
-          <Route
-            path="/provider-registration"
-            element={<ProviderRegistration />}
-          />
-        </Routes>
-        <ToastContainer />
-      </div>
+            <Route path="/provider-login" element={<ProviderLogin />} />
+            <Route path="/user-registration" element={<UserRegistration />} />
+            <Route
+              path="/provider-registration"
+              element={<ProviderRegistration />}
+            />
+          </Routes>
+          <ToastContainer />
+        </div>
+      </ResponsiveWrapper>
     </Router>
   );
 }
