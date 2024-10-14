@@ -279,12 +279,15 @@ const UserRegistration = () => {
                         name="occupation"
                       >
                         <option value="">انتخاب</option>
-                        <option value="purchase_manager">مسئول خرید</option>
+                        <option value="procurement">تدارکات </option>
+                        <option value="technical_officer">تکنیکال</option>
+                        <option value="quality_control">کنترل کیفی</option>
+                        <option value="research_development">
+                          تحقیق و توسعه
+                        </option>
+                        <option value="quality_assurance">تضمین</option>
                         <option value="student">دانشجو/ محقق</option>
                         <option value="startup_member">عضو استارت آپ</option>
-                        <option value="provider">تامین کننده</option>
-                        {/* <option value="analyzer"> تحلیلگر</option>
-                      <option value="observer"> ناظر</option> */}
                         <option value="other">سایر</option>
                       </select>
 

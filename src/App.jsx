@@ -34,6 +34,7 @@ import SingleResource from "./pages/resources/SingleResource";
 import SingleMarket from "./pages/markets/SingleMarket";
 import ComingSoon from "./pages/ComingSoon";
 import ResponsiveWrapper from "./components/ResponsiveWrapper";
+import UserProfile from "./pages/profile/UserProfile";
 
 function App() {
   return (
@@ -43,6 +44,24 @@ function App() {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<HomePage />} />
+              <Route path="/vendors" element={<VendorPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/exhibition" element={<Exhibition />} />
+              <Route path="/offers" element={<Offers />} />
+              <Route
+                path="/products-info-list"
+                element={<ProductsInfoList />}
+              />
+              <Route path="/product/:id" element={<SingleProduct />} />
+              <Route path="/markets" element={<MarketList />} />
+              <Route path="/market/:id" element={<SingleMarket />} />
+              <Route path="/resources" element={<ResourceList />} />
+              <Route path="/resource/:id" element={<SingleResource />} />
+              <Route path="*" element={<ErrorPage />} />
+              <Route path="/coming-soon" element={<ComingSoon />} />
+
+              {/* Group all protected routes under a single PrivateRoute */}
+
               <Route
                 path="/materials"
                 element={
@@ -59,26 +78,42 @@ function App() {
                   </PrivateRoute>
                 }
               />
-              <Route path="/vendors" element={<VendorPage />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/exhibition" element={<Exhibition />} />
-              <Route path="/offers" element={<Offers />} />
               <Route
-                path="/products-info-list"
-                element={<ProductsInfoList />}
+                path="/:type/provider/:id"
+                element={
+                  <PrivateRoute>
+                    <SingleProvider />
+                  </PrivateRoute>
+                }
               />
-              <Route path="/product/:id" element={<SingleProduct />} />
-              <Route path="/markets" element={<MarketList />} />
-              <Route path="/market/:id" element={<SingleMarket />} />
-              <Route path="/resources" element={<ResourceList />} />
-              <Route path="/resource/:id" element={<SingleResource />} />
-              <Route path="/:type/provider/:id" element={<SingleProvider />} />
-              <Route path="*" element={<ErrorPage />} />
-              <Route path="/coming-soon" element={<ComingSoon />} />
-              <Route path="/provider-profile" element={<ProviderProfile />} />
-              <Route path="/provider-setting" element={<ProviderSettings />} />
-              <Route path="/user-setting" element={<UserSettings />} />
+              <Route
+                path="/provider-profile"
+                element={
+                  <PrivateRoute>
+                    <ProviderProfile />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/provider-setting"
+                element={
+                  <PrivateRoute>
+                    <ProviderSettings />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/user-profile"
+                element={
+                  <PrivateRoute>
+                    <UserProfile />
+                  </PrivateRoute>
+                }
+              />
             </Route>
+
+            {/* Authentication & Password Reset Routes */}
+
             <Route
               path="/user-forgot-password"
               element={<UserForgotPassword />}

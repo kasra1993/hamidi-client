@@ -43,6 +43,33 @@ export const userLogin = createAsyncThunk(
   }
 );
 
+export const refetchUser = createAsyncThunk(
+  "user/refetch",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("authToken");
+
+      if (!token) {
+        throw new Error("No authentication token found");
+      }
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`, // Use the token from localStorage
+        },
+      };
+
+      // Fetch the updated user data
+      const response = await axiosInstance.get("me", config);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data?.message || "Unable to fetch user data"
+      );
+    }
+  }
+);
+
 export const verifyUser = createAsyncThunk(
   "user/verify",
   async ({ email, code }, { rejectWithValue }) => {
@@ -141,6 +168,22 @@ export const updateUserSetting = createAsyncThunk(
   }
 );
 
+export const uploadFile = createAsyncThunk(
+  "user/uploadFile",
+  async ({ base64File, userId, originalFilename }, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post("user-upload-file", {
+        file: base64File,
+        userId,
+        originalFilename,
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 // Slice
 const userSlice = createSlice({
   name: "user",
@@ -156,6 +199,12 @@ const userSlice = createSlice({
     userVerifySuccess: false,
     userRegisterLoading: false,
     userRegisterError: null,
+    sidebar_expanded: true,
+    uploading: false,
+    uploadError: null,
+    uploadSuccess: false,
+    refetchLoading: false,
+    refetchError: null,
   },
   reducers: {
     logout: (state) => {
@@ -166,6 +215,17 @@ const userSlice = createSlice({
       state.error = null;
       state.userRegisterError = null;
       state.userVerifyError = null;
+    },
+    toggleSidebar: (state) => {
+      state.sidebar_expanded = !state.sidebar_expanded;
+    },
+    setSidebarExpanded: (state, action) => {
+      state.sidebar_expanded = action.payload;
+    },
+    clearUploadStatus: (state) => {
+      state.uploading = false;
+      state.uploadError = null;
+      state.uploadSuccess = false;
     },
   },
   extraReducers: (builder) => {
@@ -207,9 +267,39 @@ const userSlice = createSlice({
       .addCase(verifyUser.rejected, (state, action) => {
         state.userVerifyLoading = false;
         state.userVerifyError = action.payload;
+      })
+      .addCase(uploadFile.pending, (state) => {
+        state.uploading = true;
+        state.uploadError = null;
+        state.uploadSuccess = false;
+      })
+      .addCase(uploadFile.fulfilled, (state) => {
+        state.uploading = false;
+        state.uploadSuccess = true;
+      })
+      .addCase(uploadFile.rejected, (state, action) => {
+        state.uploading = false;
+        state.uploadError = action.payload;
+      })
+      .addCase(refetchUser.pending, (state) => {
+        state.refetchLoading = true;
+      })
+      .addCase(refetchUser.fulfilled, (state, action) => {
+        state.refetchLoading = false;
+        state.user = action.payload; // Update the user data with new info (including uploadedFiles)
+      })
+      .addCase(refetchUser.rejected, (state, action) => {
+        state.refetchLoading = false;
+        state.refetchError = action.payload;
       });
   },
 });
 
-export const { logout, clearError } = userSlice.actions;
+export const {
+  logout,
+  clearError,
+  toggleSidebar,
+  setSidebarExpanded,
+  clearUploadStatus,
+} = userSlice.actions;
 export default userSlice.reducer;

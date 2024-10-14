@@ -31,7 +31,7 @@ const UserSettings = () => {
 
   return (
     <div className="flex justify-center items-center h-screen py-10 bg-gray-100 ">
-      <HomeIcon color="black" />
+      {/* <HomeIcon color="black" /> */}
       <div className="bg-white p-8 rounded-lg shadow-lg w-4/5 h-full">
         <h2 className="text-3xl font-bold text-center"> ویرایش کاربر</h2>{" "}
         {message && <p className="mb-4 text-center text-red-500">{message}</p>}

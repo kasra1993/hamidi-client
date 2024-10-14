@@ -6,7 +6,7 @@ import { logout } from "../../redux/slices/userSlice";
 import { showToast } from "../../redux/slices/toastSlice";
 
 const defaultImage = "/default-provider-image.png";
-const RegularUserMenu = ({ user, isBlackIconPage }) => {
+const RegularUserMenu = ({ user, isBlackIconPage, isProfilePage }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -39,6 +39,10 @@ const RegularUserMenu = ({ user, isBlackIconPage }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [dropdownOpen]);
+
+  if (isProfilePage) {
+    return null;
+  }
 
   return (
     <div
@@ -82,7 +86,7 @@ const RegularUserMenu = ({ user, isBlackIconPage }) => {
             className="block w-full text-right px-4 py-4 text-sm text-gray-700 hover:bg-gray-100 border border-slate-200 rounded-3xl my-3"
             onClick={() => {
               setDropdownOpen(false);
-              navigate("/user-setting");
+              navigate("/user-profile");
             }}
           >
             تنظیمات

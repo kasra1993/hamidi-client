@@ -10,14 +10,27 @@ const UserMenu = () => {
   const location = useLocation();
   const isBlackIconPage =
     location.pathname === "/parts" || location.pathname === "/materials";
+  const isProfilePage =
+    location.pathname === "/user-profile" ||
+    location.pathname === "/provider-profile";
 
   if (user) {
-    return <RegularUserMenu user={user} isBlackIconPage={isBlackIconPage} />;
+    return (
+      <RegularUserMenu
+        user={user}
+        isBlackIconPage={isBlackIconPage}
+        isProfilePage={isProfilePage}
+      />
+    );
   }
 
   if (provider) {
     return (
-      <ProviderMenu provider={provider} isBlackIconPage={isBlackIconPage} />
+      <ProviderMenu
+        provider={provider}
+        isBlackIconPage={isBlackIconPage}
+        isProfilePage={isProfilePage}
+      />
     );
   }
 
