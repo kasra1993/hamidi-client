@@ -12,11 +12,12 @@ import { SidebarItem } from "../../components/sidebar/SidebarItem";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { useSelector, useDispatch } from "react-redux";
 import UserSettings from "./UserSettings";
+
 import UserMessages from "./UserMessages";
 import UserUpload from "./UserUpload";
 import { useNavigate } from "react-router-dom";
 import { showToast } from "../../redux/slices/toastSlice";
-import UserTickets from "./userTickets";
+import UserTickets from "./UserTicket";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
