@@ -5,6 +5,7 @@ import {
   LogOutIcon,
   UploadCloudIcon,
   MessageCircle,
+  TicketPlus,
 } from "lucide-react";
 import { logout } from "../../redux/slices/userSlice";
 import { SidebarItem } from "../../components/sidebar/SidebarItem";
@@ -15,6 +16,7 @@ import UserMessages from "./UserMessages";
 import UserUpload from "./UserUpload";
 import { useNavigate } from "react-router-dom";
 import { showToast } from "../../redux/slices/toastSlice";
+import UserTickets from "./userTickets";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -41,6 +43,8 @@ const UserProfile = () => {
         return <UserSettings />;
       case "Messages":
         return <UserMessages />;
+      case "Tickets":
+        return <UserTickets />;
       default:
         return <UserSettings />;
     }
@@ -68,8 +72,13 @@ const UserProfile = () => {
             onClick={() => setSelectedMenu("Messages")}
           />
           <SidebarItem
+            icon={<TicketPlus size={20} />}
+            text="تیکت ها"
+            onClick={() => setSelectedMenu("Tickets")}
+          />
+          <SidebarItem
             icon={<UploadCloudIcon size={20} />}
-            text="بارگزاری"
+            text="بارگذاری"
             onClick={() => setSelectedMenu("User-Upload")}
           />
           <SidebarItem

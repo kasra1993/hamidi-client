@@ -852,7 +852,7 @@ const ProviderRegistration = () => {
 
                 <div className="w-1/2 px-3 mb-5">
                   <label className="block text-base font-semibold text-gray-700 sm:text-xl mb-2">
-                    بارگزاری لوگو/ تصویر تامین کننده
+                    بارگذاری لوگو/ تصویر تامین کننده
                   </label>
                   <div className="flex items-center">
                     <label className="w-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-200">

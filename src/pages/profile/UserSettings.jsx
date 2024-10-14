@@ -11,6 +11,7 @@ const UserSettings = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log("name , value", name, value);
     setFormData({
       ...formData,
       [name]: value,
@@ -153,19 +154,22 @@ const UserSettings = () => {
                   </div>
                 </div>
                 <div className="w-full px-3 sm:w-1/2">
-                  <div className="relative h-10 w-72 min-w-[200px] mt-5">
+                  <div className="relative h-15 w-72 min-w-[200px] mt-5">
                     <select
                       className="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 empty:!bg-gray-900 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                       onChange={handleChange} // Add the onChange event handler
-                      value={user?.occupation}
+                      value={formData?.occupation || user?.occupation}
                       name="occupation"
                     >
-                      <option value="purchase_manager">مسئول خرید</option>
+                      <option value="procurement">تدارکات </option>
+                      <option value="technical_officer">تکنیکال</option>
+                      <option value="quality_control">کنترل کیفی</option>
+                      <option value="research_development">
+                        تحقیق و توسعه
+                      </option>
+                      <option value="quality_assurance">تضمین</option>
                       <option value="student">دانشجو/ محقق</option>
                       <option value="startup_member">عضو استارت آپ</option>
-                      <option value="provider">تامین کننده</option>
-                      {/* <option value="analyzer"> تحلیلگر</option>
-                      <option value="observer"> ناظر</option> */}
                       <option value="other">سایر</option>
                     </select>
 

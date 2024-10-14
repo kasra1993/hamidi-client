@@ -89,7 +89,7 @@ const RegularUserMenu = ({ user, isBlackIconPage, isProfilePage }) => {
               navigate("/user-profile");
             }}
           >
-            تنظیمات
+            صفحه کاربری
           </button>
           <a
             className="block w-full text-right px-4 py-4 text-sm text-gray-700 hover:bg-gray-100 border border-slate-200 rounded-3xl my-3"

@@ -118,7 +118,7 @@ const UserUpload = () => {
         <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-6 relative">
           <div className="flex items-center pb-3 border-b border-gray-200">
             <div className="flex-1">
-              <h3 className="text-gray-800 text-3xl">بارگزاری</h3>
+              <h3 className="text-gray-800 text-3xl">بارگذاری</h3>
             </div>
           </div>
 
@@ -150,7 +150,7 @@ const UserUpload = () => {
                 >
                   انتخاب فایل
                 </label>{" "}
-                برای بارگزاری
+                برای بارگذاری
               </h4>
               <input
                 {...getInputProps()}
@@ -224,7 +224,7 @@ const UserUpload = () => {
       {uploadedFiles.length > 0 ? (
         <div className="max-w-4xl mx-auto  px-4 border border-slate-300 rounded-2xl p-10">
           <h2 className="text-2xl  text-center text-gray-800 mb-6">
-            فایل های بارگزاری شده شما
+            فایل های بارگذاری شده شما
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-5 mt-20">
@@ -295,7 +295,7 @@ const UserUpload = () => {
       ) : (
         <div className="max-w-4xl mx-auto  px-4 border border-slate-300 rounded-2xl p-10">
           <h2 className="text-xl  text-center text-red-800 mb-6">
-            هیچ فایلی از سمت شما بارگزاری نشده است
+            هیچ فایلی از سمت شما بارگذاری نشده است
           </h2>
         </div>
       )}

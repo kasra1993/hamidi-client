@@ -1,33 +1,66 @@
-// slices/ticketSlice.js
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axiosInstance from "../../utils/axiosConfig";
 
-const initialState = {
-  tickets: [],
-};
+// Async action to create a ticket
+export const createTicket = createAsyncThunk(
+  "tickets/createTicket",
+  async (ticketData, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post("createTicket", ticketData);
+      console.log("response", response);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+// Async action to fetch tickets for a user
+export const fetchTickets = createAsyncThunk(
+  "tickets/fetchTickets",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get(`tickets/${userId}`);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
 const ticketSlice = createSlice({
   name: "tickets",
-  initialState,
-  reducers: {
-    addTicket: (state, action) => {
-      const { subject, description } = action.payload;
-      const newTicket = {
-        id: state.tickets.length + 1, // Simple ID generator
-        subject,
-        description,
-        status: "Waiting for response", // Initial status
-      };
-      state.tickets.push(newTicket);
-    },
-    updateTicketStatus: (state, action) => {
-      const { id, status } = action.payload;
-      const ticket = state.tickets.find((ticket) => ticket.id === id);
-      if (ticket) {
-        ticket.status = status;
-      }
-    },
+  initialState: {
+    tickets: [],
+    loading: false,
+    error: null,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(createTicket.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createTicket.fulfilled, (state, action) => {
+        state.loading = false;
+        state.tickets.push(action.payload);
+      })
+      .addCase(createTicket.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchTickets.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchTickets.fulfilled, (state, action) => {
+        state.loading = false;
+        state.tickets = action.payload;
+      })
+      .addCase(fetchTickets.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 
-export const { addTicket, updateTicketStatus } = ticketSlice.actions;
 export default ticketSlice.reducer;
