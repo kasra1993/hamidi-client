@@ -44,13 +44,13 @@ const UserForgotPassword = () => {
   }, []);
   return (
     <div
-      className="flex justify-center items-center h-screen"
-      style={{
-        backgroundImage: `url(${userBg})`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
+      className="flex justify-center items-center h-screen bg-gray-100"
+      // style={{
+      //   backgroundImage: `url(${userBg})`,
+      //   backgroundRepeat: "no-repeat",
+      //   backgroundSize: "cover",
+      //   backgroundPosition: "center",
+      // }}
     >
       {forgotPassLoading && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-[200]">

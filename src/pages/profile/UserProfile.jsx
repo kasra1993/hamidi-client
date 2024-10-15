@@ -44,8 +44,8 @@ const UserProfile = () => {
         return <UserUpload />;
       case "Settings":
         return <UserSettings />;
-      case "Messages":
-        return <UserMessages />;
+      // case "Messages":
+      //   return <UserMessages />;
       case "Tickets":
         return <UserTickets />;
       case "Password":
