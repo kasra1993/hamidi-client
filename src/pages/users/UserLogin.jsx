@@ -141,7 +141,7 @@ const UserLogin = () => {
 
                 <div className="text-sm">
                   <a
-                    href="/user-forgot-password"
+                    href="/forgot-password"
                     className="text-blue-600 hover:underline font-semibold"
                   >
                     رمز عبور خود را فراموش کردم

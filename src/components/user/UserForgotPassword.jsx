@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userBg } from "../../images";
-import { userForgotPassword } from "../../redux/slices/userSlice";
-import { useDispatch } from "react-redux";
+import {
+  userForgotPassword,
+  clearForgotResetPass,
+} from "../../redux/slices/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import Loading from "../Loading";
+import { showToast } from "../../redux/slices/toastSlice";
 
 const UserForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const { forgotPassLoading, forgotPassError } = useSelector(
+    (state) => state.user
+  );
 
   const dispatch = useDispatch(); // Initialize dispatch
 
@@ -16,12 +24,24 @@ const UserForgotPassword = () => {
     dispatch(userForgotPassword(email))
       .unwrap()
       .then((response) => {
-        setMessage(response.message);
+        dispatch(
+          showToast({
+            message: response.message,
+            type: "success",
+          })
+        );
+        navigate("/");
       })
       .catch((error) => {
-        setMessage(error || "Failed to send password reset email");
+        setMessage(
+          forgotPassError || error || "Failed to send password reset email"
+        );
       });
   };
+
+  useEffect(() => {
+    dispatch(clearForgotResetPass());
+  }, []);
   return (
     <div
       className="flex justify-center items-center h-screen"
@@ -32,12 +52,17 @@ const UserForgotPassword = () => {
         backgroundPosition: "center",
       }}
     >
-      <button
+      {forgotPassLoading && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-[200]">
+          <Loading />
+        </div>
+      )}
+      {/* <button
         onClick={() => navigate(-1)}
         className="absolute border top-2 left-2 z-50 bg-white hover:bg-black hover:text-white text-black font-bold py-2 px-4 rounded"
       >
         بازگشت
-      </button>
+      </button> */}
       <form
         onSubmit={handleSubmit}
         className="bg-white p-20 shadow-md w-full max-w-lg rounded-3xl"
@@ -49,7 +74,7 @@ const UserForgotPassword = () => {
             className="block text-gray-700 text-sm font-bold mb-2 text-right"
             htmlFor="email"
           >
-            نام کاربری خود را وارد کنید
+            ایمیل کاربری خود را وارد کنید
           </label>
           <input
             type="email"
@@ -66,9 +91,9 @@ const UserForgotPassword = () => {
         >
           ارسال لینک
         </button>
-        <p class="mt-3 flex justify-center items-center text-center divide-x divide-gray-300 dark:divide-gray-700 pt-5">
+        <p className="mt-3 flex justify-center items-center text-center divide-x divide-gray-300 dark:divide-gray-700 pt-5">
           <a
-            class="pl-3 inline-flex items-center gap-x-2 text-sm text-gray-600 decoration-2 hover:underline hover:text-blue-600 dark:text-gray-500 dark:hover:text-gray-200"
+            className="pl-3 inline-flex items-center gap-x-2 text-sm text-gray-600 decoration-2 hover:underline hover:text-blue-600 dark:text-gray-500 dark:hover:text-gray-200"
             href="/about"
           >
             ارتباط با ما

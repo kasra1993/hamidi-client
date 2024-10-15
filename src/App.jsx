@@ -114,14 +114,12 @@ function App() {
 
             {/* Authentication & Password Reset Routes */}
 
+            <Route path="/forgot-password" element={<UserForgotPassword />} />
             <Route
-              path="/user-forgot-password"
-              element={<UserForgotPassword />}
-            />
-            <Route
-              path="/user-reset-password"
+              path="/reset-password/:token"
               element={<UserResetPassword />}
             />
+
             <Route
               path="/provider-forgot-password"
               element={<ProviderForgotPassword />}

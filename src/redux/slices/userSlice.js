@@ -205,6 +205,10 @@ const userSlice = createSlice({
     uploadSuccess: false,
     refetchLoading: false,
     refetchError: null,
+    forgotPassLoading: false,
+    forgotPassError: null,
+    resetPassLoading: false,
+    resetPassError: null,
   },
   reducers: {
     logout: (state) => {
@@ -226,6 +230,12 @@ const userSlice = createSlice({
       state.uploading = false;
       state.uploadError = null;
       state.uploadSuccess = false;
+    },
+    clearForgotResetPass: (state) => {
+      state.forgotPassLoading = false;
+      state.forgotPassError = null;
+      state.resetPassLoading = false;
+      state.resetPassError = null;
     },
   },
   extraReducers: (builder) => {
@@ -291,6 +301,20 @@ const userSlice = createSlice({
       .addCase(refetchUser.rejected, (state, action) => {
         state.refetchLoading = false;
         state.refetchError = action.payload;
+      })
+      .addCase(userForgotPassword.pending, (state) => {
+        state.forgotPassLoading = true;
+      })
+      .addCase(userForgotPassword.rejected, (state, action) => {
+        state.forgotPassLoading = false;
+        state.forgotPassError = action.payload;
+      })
+      .addCase(userPasswordReset.pending, (state) => {
+        state.resetPassLoading = true;
+      })
+      .addCase(userPasswordReset.rejected, (state, action) => {
+        state.resetPassLoading = false;
+        state.resetPassError = action.payload;
       });
   },
 });
@@ -301,5 +325,6 @@ export const {
   toggleSidebar,
   setSidebarExpanded,
   clearUploadStatus,
+  clearForgotResetPass,
 } = userSlice.actions;
 export default userSlice.reducer;

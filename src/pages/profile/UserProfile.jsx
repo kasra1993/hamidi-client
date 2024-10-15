@@ -18,6 +18,8 @@ import UserUpload from "./UserUpload";
 import { useNavigate } from "react-router-dom";
 import { showToast } from "../../redux/slices/toastSlice";
 import UserTickets from "./UserTicket";
+import { GiSecurityGate } from "react-icons/gi";
+import UserForgotPassword from "../../components/user/UserForgotPassword";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -46,6 +48,8 @@ const UserProfile = () => {
         return <UserMessages />;
       case "Tickets":
         return <UserTickets />;
+      case "Password":
+        return <UserForgotPassword />;
       default:
         return <UserSettings />;
     }
@@ -86,6 +90,11 @@ const UserProfile = () => {
             icon={<Settings size={20} />}
             text="تنظیمات"
             onClick={() => setSelectedMenu("Seetings")}
+          />
+          <SidebarItem
+            icon={<GiSecurityGate size={20} />}
+            text=" رمز عبور"
+            onClick={() => setSelectedMenu("Password")}
           />
           <SidebarItem
             icon={<LogOutIcon size={20} />}
